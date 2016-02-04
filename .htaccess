@@ -1,4 +1,4 @@
 Options +FollowSymLinks
 RewriteEngine On
 RewriteRule ^(.*)\.html$ $1.php [nc]
-DirectoryIndex login.html
+DirectoryIndex login.php
