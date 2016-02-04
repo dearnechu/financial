@@ -7,6 +7,11 @@ $SECURE_SECRET = "154E0E8E5C53404CDB5CF31C7EA9BD1D";//Add your secure secret
 $vpc_Txn_Secure_Hash = $_GET["vpc_SecureHash"];
 unset($_GET["vpc_SecureHash"]); 
 
+$payment_array = $_SESSION['payment'];
+$payment_array["paymentStatus"] = "Failed";
+$payment_array["paidAmount"] = 0;
+$payment_array["transactionNumber"] = date("YmdHis");
+
 if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["vpc_TxnResponseCode"] != "No Value Returned") {
     $SHA256HashData = $SECURE_SECRET;
     ksort ($_GET);
@@ -17,30 +22,17 @@ if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["
     }
     if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(hash("sha256",$SHA256HashData,false))) {
         $_SESSION['status'] = true;
+        $payment_array["paymentStatus"] = "Success";
+        $payment_array["paidAmount"] = null2unknown($_GET["auth_amount"]);
+        $payment_array["transactionNumber"] = date("YmdHis");
     } 
 } 
 
+$jsondata = json_encode($payment_array);
+unset($_SESSION['payment']);
 
 $ch = curl_init();
 $accesstoken = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
-
-
-$jsondata = '{
-   "loanId": "ead70454-620b-4186-9190-ba8ca266bd8b",
-  "branchId": "FD1CBA65-1B68-449F-8E6D-A652137466D4",
-  "companyId": "918FCC58-499E-4757-912A-295DC19BE564",
-  "date": "2016-02-01T08:51:55.494Z",
-  "loanInterest": 3018,
-  "loanAmount": 30000,
-  "totalAmount": 33018, 
-  "isCompletelyPaid": true,
-  "isMinimumLoanAmountPaid": false,
-  "isGlClose": true,
-  "transactionDate": "2016-02-01T08:51:55.494Z",
-  "financialYearId": "36B2EEA0-89E2-4B2F-B767-E8F04203E4A4",
-  "journalDate": "2016-02-01T08:51:55.494Z",
-  "paymentStatus": "Success"
-}';
 
 curl_setopt($ch, CURLOPT_URL,"https://muthootlive.azure-mobile.net/api/PgCustomGoldLoan/CloseGoldLoan");curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>MuthootOne | Log in</title>
+    <title>MuthootOne | Registeration</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -27,40 +27,32 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="#"><b>Muthoot</b>One</a>
+        <a href="index2.html"><b>Muthoot</b>One</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
+        <p class="login-box-msg">Provide your Email address</p>
         <form action="home.html" method="post" id="HomeForm">
           <div class="form-group has-feedback mail-group">            
             <input id="email" type="email" class="form-control" placeholder="Email" autocomplete="off">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             <label class="control-label email-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide your email</label>
           </div>
-          <div class="form-group has-feedback password-group">
-            <input id="password" type="password" class="form-control" placeholder="Password">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-            <label class="control-label password-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide your password</label>
-          </div>
-          <p class="login-box-msg text-red error-message" style="display:none">Unauthorized Access</p>
+          <p class="login-box-msg text-red error-message" style="display:none">Email not exist</p>
+          <p class="login-box-msg text-green success-message" style="display:none"></p>
           <div class="row">
             <div class="col-xs-8">
-              <div class="checkbox icheck">
-                <label>
-                  <input type="checkbox" id="RemeberMe"> Remember Me
-                </label>
-              </div>
+              
             </div><!-- /.col -->
             <div class="col-xs-4">
-              <button type="button" id="SignIn" class="btn btn-primary btn-block btn-flat">Sign In 
+              <button type="button" id="SignIn" class="btn btn-primary btn-block btn-flat">Submit 
                 <i class="fa fa-spinner fa-spin loader" style="display:none"></i>
               </button>
             </div><!-- /.col -->
           </div>
         </form>
 
-        <a href="forgot.html">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="register.html">Register a new membership</a><br>
+        <a href="login.html" class="text-center">I already have a account</a>
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
@@ -78,23 +70,6 @@
     
     <script>
       $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
-        });
-        
-        if(localStorage.getItem("rememberme") == 'true'){    
-            $("#email").val(localStorage.getItem("email"));
-            $("#password").val(localStorage.getItem("password"));
-            $("#RemeberMe").iCheck('check');
-        }
-        else{
-            $("#email").val('');
-            $("#password").val('');
-            $("#RemeberMe").attr('checked', false);
-        }
-
         $( "#SignIn" ).click(function() {            
             if($.trim($("#email").val()) == ""){
                 $(".mail-group").addClass("has-error");
@@ -102,29 +77,12 @@
                 $("#email").focus();
                 return false;;
             }            
-            if($.trim($("#password").val()) == ""){
-                $(".password-group").addClass("has-error");
-                $(".password-error").show();
-                $("#password").focus();
-                return false;;
-            }
             $(".loader").show();
-            if($("#RemeberMe:checked").length == 1){
-                localStorage.setItem("email", $.trim($("#email").val()));
-                localStorage.setItem("password", $("#password").val());
-                localStorage.setItem("rememberme", true);
-            }
-            else{
-                localStorage.removeItem("email");
-                localStorage.removeItem("password");
-                localStorage.removeItem("rememberme");
-            }
             var person = {
                 UserName: $.trim($("#email").val()),
-                Password: $.md5($("#password").val())
             }
             jQuery.ajax({
-                url: SERVICE_URL + 'GlCustomCustomer/GetCustomerDetails',
+                url: SERVICE_URL + 'GlCustomCustomer/GetCustomerDetailsByEmail',
                 method: "POST",    
                 contentType: 'application/json',   
                 data: JSON.stringify(person),                    
@@ -138,15 +96,24 @@
                 },
                 success: function(data) {
                    if(data['status'] == "1"){
-                      localStorage.setItem("email", $.trim($("#email").val()));
-                      localStorage.setItem("customerName", data['data']['customerName']);
-                      localStorage.setItem("customerId", data['data']['id']);
-                      location.href = "home.html";
+                      var message = "An email has been sent to " + $.trim($("#email").val()) + ". You should recieve it shortly in 10-15 mins. Sometimes email go to promotions/spam folders.";
+                      $(".success-message").html(message);
+                      $(".success-message").show();
+                      
+                      // Email API
+                      data['data']['email'] = $.trim($("#email").val());
+                      jQuery.ajax({
+                          url: MAIL_SERVICE_URL + 'mail.php',
+                          method: "POST",    
+                          contentType: 'application/json',   
+                          data: JSON.stringify(data['data'])
+                      });
+
                    }
                    else{
                       $(".error-message").show();
-                      $(".loader").hide();
                    }
+                   $(".loader").hide();
                 }
            });
 
@@ -156,14 +123,13 @@
             $(".mail-group").removeClass("has-error");
             $(".email-error").hide();
         });
-
-        $('#password').on('keyup blur change', function(e) {
-            $(".password-group").removeClass("has-error");
-            $(".password-error").hide();
-        });
-
       });            
     </script>
 
   </body>
 </html>
+<!--
+https://mandrillapp.com/api/docs/messages.JSON.html#method=send
+
+https://www.ventureharbour.com/transactional-email-service-best-mandrill-vs-sendgrid-vs-mailjet/
+-->

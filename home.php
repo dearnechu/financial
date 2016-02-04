@@ -31,7 +31,7 @@
     <![endif]-->
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper" style="background-color: #ecf0f5">
+    <div class="wrapper">
 
       <header class="main-header">
         <!-- Logo -->
@@ -334,7 +334,15 @@
           </div><!-- /.row -->
 
         </section><!-- /.content -->
-      </div>
+      </div><!-- /.content-wrapper -->
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.1.0
+        </div>
+        <strong>Copyright &copy; 2010 <a target="_blank" href="http://www.muthootenterprises.com/">Muthoot Mercantile Limited</a>. Powered by <a target="_blank" href="http://www.experionglobal.com/">Experion Technologies</a></strong>.
+      </footer>
+
       
        <!-- Add the sidebar's background. This div must be placed
            immediately after the control sidebar -->
@@ -494,7 +502,7 @@
                 }
             
             jQuery.ajax({
-                    url: SERVICE_URL + 'GlCustomLoan/GetGoldLoanDetailsWeb',
+                    url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
                     method: "POST",    
                     contentType: 'application/json',   
                     data: JSON.stringify(data),                    
@@ -522,6 +530,7 @@
                         $("#minimum_interest_amount").html(minimumInterestToBePaid.format(2, 3));  
                         $("#total_payable_amount").html(total.format(2,3));  
                         $('.spinner-search, .fullpayment, .partpayment').hide();
+                        storesession("payment", data['data']);
                       }
                     }
               });
@@ -618,6 +627,26 @@
                     }
               });
 
+        }
+
+        function storesession(tag, data) {
+          var session_data = {
+                    tag: tag,
+                    data: data
+              }
+          
+          jQuery.ajax({
+                    url: 'storesession.php',
+                    method: "POST",    
+                    contentType: 'application/json',   
+                    data: JSON.stringify(session_data),                    
+                    error: function(xhr, status, error) {
+                        return false;
+                    },
+                    success: function(data) {
+                      return true;
+                    }
+          });
         }
     </script>
   </body>

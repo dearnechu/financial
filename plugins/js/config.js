@@ -54,7 +54,7 @@ function PrintElem(elem)
 }
 
     $(function() {
-        if(localStorage.getItem("customerName") == null && location.href.indexOf("login") < 0){
+        if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") < 0){
             location.href = "login.html";
         }
         

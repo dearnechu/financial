@@ -28,7 +28,7 @@
     <![endif]-->
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper" style="background-color: #ecf0f5">
+    <div class="wrapper">
 
       <header class="main-header">
         <!-- Logo -->
@@ -521,6 +521,13 @@
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.1.0
+        </div>
+        <strong>Copyright &copy; 2010 <a target="_blank" href="http://www.muthootenterprises.com/">Muthoot Mercantile Limited</a>. Powered by <a target="_blank" href="http://www.experionglobal.com/">Experion Technologies</a></strong>.
+      </footer>
 
       
     </div><!-- ./wrapper -->
