@@ -54,7 +54,7 @@ function PrintElem(elem)
 }
 
     $(function() {
-        if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") < 0){
+        if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") == null){
             location.href = "login.html";
         }
         
@@ -101,6 +101,14 @@ function PrintElem(elem)
 
     SSH: ssh azureuser@muthootone.cloudapp.net
     Pass: @Muthoot123
+
+    TEST admin
+    URL: 
+
+    http://xpresssms.in/
+    muthootmercantile
+    muthootmercantile
+    http://sms.xpresssms.in/api/api.php?ver=1&mode=1&action=push_sms&type=1&route=2&login_name=muthootmercantile&api_password=37d5822068b86f5c7316&message=Test%20Message&number=9895933511&sender=mthoot
 
 
 */

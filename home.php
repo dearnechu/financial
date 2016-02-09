@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="plugins/iCheck/all.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -275,6 +277,19 @@
                           <td id="interest"></td>
                         </tr>
                         <tr>
+                          <td>Payment Type</td>
+                          <td>
+                          <div class="form-group">
+                            <div class="col-md-6">
+                              <input type="radio" name="ptype" class="flat-red" checked> Debit Card
+                            </div>
+                            <div class="col-md-6">
+                              <input type="radio" name="ptype" class="flat-red"> Net Banking
+                            </div>
+                          </td>
+                          </div>
+                        </tr>
+                        <tr>
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
@@ -379,6 +394,8 @@
     <script src="plugins/js/config.js"></script>
     <!-- Formatting Date -->
     <script src="plugins/dateformat/format.js"></script>
+     <!-- iCheck 1.0.1 -->
+    <script src="plugins/iCheck/icheck.min.js"></script>
     
 
 
@@ -397,6 +414,11 @@
                 //userId: "9E3A0B3B-8ABB-4C64-A13A-A7AAF30472EC"
             }
             $("#PartAmount").val('');
+
+            //Flat red color scheme for iCheck
+            $('input[type="radio"].flat-red').iCheck({
+              radioClass: 'iradio_flat-green'
+            });
 
             jQuery.ajax({
                 url: SERVICE_URL + 'PgCustomGoldLoan/GetLoansByCustomerId',
@@ -455,6 +477,8 @@
             $( "#FullPayment" ).click(function() { 
                 $(".fullpayment").show();
                 $("#vpc_MerchTxnRef").val("MGLFULL" + "-" + new Date().format("YmdHis") );
+                storesession("service_charge", $("#service_charge").html());
+                storesession("payment_type", "FULL");
                 $("#PG").submit();
             });
 
@@ -474,6 +498,8 @@
                 $(".partpayment").show();
                 $("#vpc_Amount").val(part_total.toFixed(2) * 100);
                 $("#vpc_MerchTxnRef").val("MGLPART" + "-" + new Date().format("YmdHis") );
+                storesession("service_charge", $("#part_service_charge").html());
+                storesession("payment_type", "PART");
                 $("#PG").submit();
             });
 
@@ -518,12 +544,18 @@
                       if(data['status'] == "1"){
                         $("#loan_number").html(loanNo);
                         $("#principle_amount").html(data['data']['goldLoanAmountRemaining'].format(2, 3));
-                        $("#interest").html(data['data']['goldLoanInterestDue'].format(2, 3));  
-                        var service_charge = getServiceCharge(data['data']['goldLoanAmountRemaining'] + data['data']['goldLoanInterestDue']);
+                        var goldLoanInterestDue = 0;
+                        if(data['data'].hasOwnProperty('goldLoanInterestDue')){
+                            goldLoanInterestDue = data['data']['goldLoanInterestDue'];
+                        }
+
+                        $("#interest").html(goldLoanInterestDue.format(2, 3));  
+                        var service_charge = getServiceCharge(data['data']['goldLoanAmountRemaining'] + goldLoanInterestDue);
                         $("#service_charge").html(service_charge.format(2, 3));  
-                        total = data['data']['goldLoanAmountRemaining'] + data['data']['goldLoanInterestDue'] + service_charge;
+                        total = data['data']['goldLoanAmountRemaining'] + goldLoanInterestDue + service_charge;
                         $("#vpc_Amount").val(total.toFixed(2) * 100);
                         $("#total").html("<b>" + total.format(2, 3) + "</b>");  
+                        minimumInterestToBePaid = 0;
                         if(data['data'].hasOwnProperty('minimumInterestToBePaid')){
                             minimumInterestToBePaid = data['data']['minimumInterestToBePaid'];
                         }
@@ -587,7 +619,7 @@
                                   '<td></td>' +
                                   '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
                                   '</tr>');
-                          var Description = "INTEREST TILL DATE - " + new Date().format("d-M-Y"); 
+                          var Description = "INTEREST ADDED"; 
                           $('#StatementTable tr:last').after('<tr class="appneded">' +
                                   '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
                                   '<td>' + Description + '</td>' +

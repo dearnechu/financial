@@ -136,13 +136,94 @@
                         <th>Loan No</th>
                         <th>Amount Paid</th>
                         <th>Payment Date</th>
-                        <th>Payment Status</th>
+                        <th>Status</th>
+                        <th>Statement</th>
                       </tr>
                     </thead>
                    </table>
                 </div><!-- /.box-body -->
                 <div class="overlay spinner-search"><i class="fa fa-spinner fa-spin"></i></div>
               </div><!-- /.box -->       
+
+
+             <!-- Statement of Account box -->
+              <div class="box loanStatements" style="display:none">
+                <div class="box-header" align="center">
+                  <h3 class="box-title removeHeader">Statement of Account</h3>             
+                  <div class="box-tools pull-right removeHeader">
+                    <button class="btn btn-box-tool" title="Print" onclick="PrintElem('.loanStatements')"><i class="fa fa-print"></i></button>
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                  </div>
+                  <div class="box-header" align="center">
+                    <h3 class="box-title">Muthoot Mercantile Limited</h3> <br/>
+                    <h3 class="box-title">Branch Name : <span id="branch_name"></span> , Branch Code : <span id="branch_code"></span></h3>
+                  </div>
+                </div>
+                
+                <div class="col-lg-12 col-xs-12">
+                  <div class="box">
+                    <div class="box-body no-padding">
+                      <table class="table table-condensed">
+                        <tr>
+                          <td style="width: 12%"><b>Name</b></td>
+                          <td style="width: 55%" id="name"></td>
+                          <td style="width: 15%"><b>Pledge No</b></td>
+                          <td style="width: 15%" id="pledge_no"></td>
+                        </tr>
+                        <tr>
+                          <td><b>Address</b></td>
+                          <td id="address"></td>
+                          <td><b>Pledge Date</b></td>
+                          <td id="pledge_date"></td>
+                        </tr>
+                        <tr>
+                          <td><b>Locality</b></td>
+                          <td id="locality"></td>
+                          <td><b>Pledge Value</b></td>
+                          <td id="pledge_value"></td>
+                        </tr>
+                        <tr>
+                          <td><b>Scheme Name</b></td>
+                          <td id="scheme_name"></td>
+                          <td><b>Net Weight</b></td>
+                          <td id="net_weight"></td>
+                        </tr>
+                      </table>
+                    </div><!-- /.box-body -->
+                  </div><!-- /.box -->
+                </div><!-- ./col -->
+
+                <div class="col-lg-12 col-xs-12">
+                  <div class="box" style="border-top:none">
+                    <div class="box-header" align="center">
+                     <h3 class="box-title pull-center">Statement of Account</h3>
+                      <div class="box-tools pull-right">
+                          <h4 class="box-title" id="current_date"></h4>
+                      </div>                  
+                    </div>
+
+                    <table id="StatementTable" class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Description</th>
+                          <th>Debit</th>
+                          <th>Credit</th>
+                          <th>Balance</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="box-footer clearfix">
+                  
+                </div>
+
+              </div><!-- /.Statement of Account box -->
+
+
+
           </div><!-- /.row -->
 
         </section><!-- /.content -->
@@ -240,10 +321,11 @@
                         data['data']['glPaymentHistoryDto'][index]['loanNumber'],
                         Amount.format(2, 3),
                         new Date(data['data']['glPaymentHistoryDto'][index]['transationDate']).format("d-M-Y"), 
-                        "Success"
+                        "Success",
+                        "<a href='javascript:showLoanStatements(\""+ data['data']['glPaymentHistoryDto'][index]['loanid'] +"\")'> View </a>"
                     ]);
                 }
-                pageCount = 10;
+                pageCount = 5;
                 
                 //$("#LoanTable_wrapper .row .col-sm-6:first-child").append("<label> Payment History </label>");
                 
@@ -294,6 +376,100 @@
        });
       
     }; 
+
+        function showLoanStatements(loanId){ 
+            $('.spinner-search').show();
+            var data = {
+                    loanId: loanId,
+                    //loanId: "3e32a621-183c-45f8-bc7c-f43f144cb181",
+                }
+            
+            jQuery.ajax({
+                    url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
+                    method: "POST",    
+                    contentType: 'application/json',   
+                    data: JSON.stringify(data),                    
+                    beforeSend: function (xhr) {
+                       xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+                    },
+                    error: function(xhr, status, error) {
+                        return false;
+                    },
+                    success: function(data) {
+                      $('.appneded').remove();
+                      $('.loanStatements').show('slow');     
+                      
+                       $(".mainBox").after($('.loanStatements'));
+
+                      if(data['status'] == "1"){
+                          $("#name").html(data['data']['glCustomerDto']['firstName']); 
+                          if(data['data']['glCustomerDto'].hasOwnProperty('lastName')){
+                              $("#name").html($("#name").html() + ' ' +  data['data']['glCustomerDto']['lastName']);
+                          }
+                          $("#address").html(data['data']['glCustomerDto']['addressOne']); 
+                          $("#locality").html(data['data']['glCustomerDto']['locality']); 
+                          $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName']); 
+
+                          $("#pledge_no").html(data['data']['glLoanDto']['loanNumber']); 
+                          $("#pledge_date").html(new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y")); 
+                          $("#pledge_value").html(data['data']['glLoanDto']['loanAmount'].format(2, 3)); 
+                          $("#net_weight").html(data['data']['glLoanDto']['netWeight']); 
+
+                          $("#branch_name").html(data['data']['glLoanDto']['branch']['name']); 
+                          $("#branch_code").html(data['data']['glLoanDto']['branch']['code']); 
+
+                          $("#current_date").html(new Date().format("d-M-Y h:i A"));
+
+                          var Description = "AMOUNT PAID"; 
+                          $('#StatementTable tr:last').after('<tr class="appneded">' +
+                                  '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
+                                  '<td>' + Description + '</td>' +
+                                  '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
+                                  '<td></td>' +
+                                  '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
+                                  '</tr>');
+                          var Description = "INTEREST ADDED"; 
+                          $('#StatementTable tr:last').after('<tr class="appneded">' +
+                                  '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
+                                  '<td>' + Description + '</td>' +
+                                  '<td>' + data['data']['glLoanDto']['interestTillDate'].format(2, 3) + '</td>' +
+                                  '<td></td>' +
+                                  '<td>' + (data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate']).format(2, 3) + '</td>' +
+                                  '</tr>');
+                          var balanceAmount = data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate'];
+                          for(var index in data['data']['glPaymentHistoryDto']) { 
+
+                                var loanAmount = 0;
+                                if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanAmount')){
+                                  loanAmount = data['data']['glPaymentHistoryDto'][index]['loanAmount'];
+                                }
+
+                                balanceAmount -= (loanAmount + data['data']['glPaymentHistoryDto'][index]['loanInterest']);
+
+                                Description = "CASH RCVD - " + data['data']['glPaymentHistoryDto'][index]['id'];
+
+                                /*
+                                var balanceAmount = 0;
+                                if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('balanceAmount')){
+                                  balanceAmount = data['data']['glPaymentHistoryDto'][index]['balanceAmount'];
+                                }
+                                */
+                                $('#StatementTable tr:last').after('<tr class="appneded">' +
+                                  '<td>' + new Date(data['data']['glPaymentHistoryDto'][index]['transationDate']).format("d-M-Y") + '</td>' +
+                                  '<td>' + Description + '</td>' +
+                                  '<td></td>' +
+                                  '<td>' + (loanAmount + data['data']['glPaymentHistoryDto'][index]['loanInterest']).format(2, 3) + '</td>' +
+                                  '<td>' + balanceAmount.format(2, 3) + '</td>' +
+                                  '</tr>');
+                            
+                          }
+                      }
+                      $('.spinner-search').hide();
+                    }
+              });
+
+        }
+
     </script>
   </body>
 </html>

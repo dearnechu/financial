@@ -11,6 +11,7 @@ $payment_array = $_SESSION['payment'];
 $payment_array["paymentStatus"] = "Failed";
 $payment_array["paidAmount"] = 0;
 $payment_array["transactionNumber"] = date("YmdHis");
+$payment_array['OnlineServiceCharge'] = 0;
 
 if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["vpc_TxnResponseCode"] != "No Value Returned") {
     $SHA256HashData = $SECURE_SECRET;
@@ -22,38 +23,39 @@ if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["
     }
     if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(hash("sha256",$SHA256HashData,false))) {
         $_SESSION['status'] = true;
+
+        $url = "https://muthootlive.azure-mobile.net/api/PgCustomGoldLoan/AddPartPayment";
+        if($_SESSION['payment_type'] == "FULL"){
+            $url = "https://muthootlive.azure-mobile.net/api/PgCustomGoldLoan/CloseGoldLoan";
+        }
+        
         $payment_array["paymentStatus"] = "Success";
-        $payment_array["paidAmount"] = null2unknown($_GET["auth_amount"]);
+        $payment_array["paidAmount"] = $_GET["auth_amount"] - $_SESSION['service_charge'];
+        $payment_array["OnlineServiceCharge"] = $_SESSION['service_charge'];
         $payment_array["transactionNumber"] = date("YmdHis");
     } 
 } 
 
 $jsondata = json_encode($payment_array);
 unset($_SESSION['payment']);
+unset($_SESSION['service_charge']);
+unset($_SESSION['payment_type']);
 
 $ch = curl_init();
 $accesstoken = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
 
-curl_setopt($ch, CURLOPT_URL,"https://muthootlive.azure-mobile.net/api/PgCustomGoldLoan/CloseGoldLoan");curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
 curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
 curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 curl_setopt($ch, CURLOPT_USERPWD, ":$accesstoken");
 curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS,"postvar1=$postvar");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata ); 
 curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json')); 
-
 
 $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $server_output = curl_exec ($ch);
-//print_r($server_output);
-$output = json_decode($server_output);
-
-
-// further processing ....
-if ($server_output == "OK") { echo "Ok"; } else { print_r($output->message);  }
-
 curl_close ($ch);
 
 header("Location: home.html");
