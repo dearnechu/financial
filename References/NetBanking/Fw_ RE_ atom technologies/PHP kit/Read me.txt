@@ -1,0 +1,11 @@
+While moving to Production, kindly do the following changes:
+
+In config.php file, please change the merchant Login,Password
+
+and provide the below URL:
+https://payment.atomtech.in/paynetz/epi/fts
+
+Port no in payment.php to 443 instead of 80
+
+In Index.php, please configure the product id(which would be static for all the transactions)
+

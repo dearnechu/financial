@@ -1,8 +1,10 @@
 <?php
 error_reporting(0);
 session_start();
+
+include "config.php";
+
 $_SESSION['status'] = false;
-$SECURE_SECRET = "154E0E8E5C53404CDB5CF31C7EA9BD1D";//Add your secure secret 
 
 $vpc_Txn_Secure_Hash = $_GET["vpc_SecureHash"];
 unset($_GET["vpc_SecureHash"]); 
@@ -24,9 +26,9 @@ if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["
     if (strtoupper($vpc_Txn_Secure_Hash) == strtoupper(hash("sha256",$SHA256HashData,false))) {
         $_SESSION['status'] = true;
 
-        $url = "https://muthootlive.azure-mobile.net/api/PgCustomGoldLoan/AddPartPayment";
+        $url = $API_URL . "PgCustomGoldLoan/AddPartPayment";
         if($_SESSION['payment_type'] == "FULL"){
-            $url = "https://muthootlive.azure-mobile.net/api/PgCustomGoldLoan/CloseGoldLoan";
+            $url = $API_URL . "PgCustomGoldLoan/CloseGoldLoan";
         }
         
         $payment_array["paymentStatus"] = "Success";
@@ -42,7 +44,6 @@ unset($_SESSION['service_charge']);
 unset($_SESSION['payment_type']);
 
 $ch = curl_init();
-$accesstoken = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
 
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
@@ -60,11 +61,4 @@ curl_close ($ch);
 
 header("Location: home.html");
 
-function null2unknown($data) {
-    if ($data == "") {
-        return "No Value Returned";
-    } else {
-        return $data;
-    }
-} 
 ?>

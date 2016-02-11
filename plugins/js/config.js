@@ -12,6 +12,11 @@ var MAIL_SERVICE_URL = "http://staging.experionglobal.com/Muthoot/Mail/";
 
 var PROCESSING_FEE = 10;
 
+function isValidEmailAddress(emailAddress) {
+    var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    return pattern.test(emailAddress);
+}
+
 function makeBaseAuth(user, pswd){ 
     var token = user + ':' + pswd;
     var hash = "";
@@ -52,6 +57,106 @@ function PrintElem(elem)
 
     setTimeout(function(){ w.print(); w.close() }, 1000);
 }
+
+
+function showLoanStatements(loanId){ 
+    $('.spinner-search').show();
+    var data = {
+            loanId: loanId,
+            //loanId: "3e32a621-183c-45f8-bc7c-f43f144cb181",
+        }
+    
+        jQuery.ajax({
+            url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
+            method: "POST",    
+            contentType: 'application/json',   
+            data: JSON.stringify(data),                    
+            beforeSend: function (xhr) {
+               xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+            },
+            error: function(xhr, status, error) {
+                return false;
+            },
+            success: function(data) {
+              $('.appneded').remove();
+              $('.loanStatements').show('slow');     
+              
+               $(".mainBox").after($('.loanStatements'));
+
+                if(data['status'] == "1"){
+                    $("#name").html(data['data']['glCustomerDto']['firstName']); 
+                    if(data['data']['glCustomerDto'].hasOwnProperty('lastName')){
+                        $("#name").html($("#name").html() + ' ' +  data['data']['glCustomerDto']['lastName']);
+                    }
+                    $("#address").html(data['data']['glCustomerDto']['addressOne']); 
+                    $("#locality").html(data['data']['glCustomerDto']['locality']); 
+                    $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName']); 
+
+                    $("#pledge_no").html(data['data']['glLoanDto']['loanNumber']); 
+                    $("#pledge_date").html(new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y")); 
+                    $("#pledge_value").html(data['data']['glLoanDto']['loanAmount'].format(2, 3)); 
+                    $("#net_weight").html(data['data']['glLoanDto']['netWeight']); 
+
+                    $("#branch_name").html(data['data']['glLoanDto']['branch']['name']); 
+                    $("#branch_code").html(data['data']['glLoanDto']['branch']['code']); 
+
+                    $("#current_date").html(new Date().format("d-M-Y h:i A"));
+
+                    var Description = "AMOUNT PAID"; 
+                    $('#StatementTable tr:last').after('<tr class="appneded">' +
+                          '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
+                          '<td>' + Description + '</td>' +
+                          '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
+                          '<td></td>' +
+                          '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
+                          '</tr>');
+
+                    var Description = "INTEREST ADDED"; 
+                    $('#StatementTable tr:last').after('<tr class="appneded">' +
+                          '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
+                          '<td>' + Description + '</td>' +
+                          '<td>' + data['data']['glLoanDto']['interestTillDate'].format(2, 3) + '</td>' +
+                          '<td></td>' +
+                          '<td>' + (data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate']).format(2, 3) + '</td>' +
+                          '</tr>');
+                    var balanceAmount = data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate'];
+                    for(var index in data['data']['glPaymentHistoryDto']) { 
+
+                        var loanAmount = 0;
+                        if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanAmount')){
+                          loanAmount = data['data']['glPaymentHistoryDto'][index]['loanAmount'];
+                        }
+
+                        var loanInterest = 0;
+                        if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanInterest')){
+                          loanInterest = data['data']['glPaymentHistoryDto'][index]['loanInterest'];
+                        }
+
+                        balanceAmount -= (loanAmount + loanInterest);
+
+                        Description = "CASH RCVD - " + data['data']['glPaymentHistoryDto'][index]['id'];
+
+                        /*
+                        var balanceAmount = 0;
+                        if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('balanceAmount')){
+                          balanceAmount = data['data']['glPaymentHistoryDto'][index]['balanceAmount'];
+                        }
+                        */
+                        $('#StatementTable tr:last').after('<tr class="appneded">' +
+                          '<td>' + new Date(data['data']['glPaymentHistoryDto'][index]['transationDate']).format("d-M-Y") + '</td>' +
+                          '<td>' + Description + '</td>' +
+                          '<td></td>' +
+                          '<td>' + (loanAmount + loanInterest).format(2, 3) + '</td>' +
+                          '<td>' + balanceAmount.format(2, 3) + '</td>' +
+                          '</tr>');
+                    }
+                }
+                $('.spinner-search').hide();
+            }
+    });
+}
+
+
 
     $(function() {
         if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") == null){

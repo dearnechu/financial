@@ -16,6 +16,15 @@
     <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <!-- iCheck -->
     <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+    <style type="text/css">
+      input[type=number]::-webkit-inner-spin-button, 
+      input[type=number]::-webkit-outer-spin-button { 
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          margin: 0; 
+      }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,10 +38,22 @@
       <div class="login-logo">
         <a href="index2.html"><b>Muthoot</b>One</a>
       </div><!-- /.login-logo -->
-      <div class="login-box-body">
-        <p class="login-box-msg">Register a new membership</p>
+      <div class="login-box-body box">
+        <p class="login-box-msg">Register your account</p>
         <form action="home.html" method="post" id="HomeForm">
+          <label>Select your Branch</label>
           <div class="form-group has-feedback mail-group">            
+            <select class="form-control" id="branch">
+            </select>   
+          </div>
+          <div class="form-group has-feedback mobile-group">    
+            <label>Mobile No</label> &nbsp; (10 digits)        
+            <input id="mobile" type="number" class="form-control" placeholder="Mobile" autocomplete="off">
+            <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+            <label class="control-label mobile-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide 10 digit mobile no</label>
+          </div>
+          <div class="form-group has-feedback mail-group">    
+            <label>Email</label>        
             <input id="email" type="email" class="form-control" placeholder="Email" autocomplete="off">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             <label class="control-label email-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide your email</label>
@@ -43,13 +64,12 @@
             <div class="col-xs-8">
               <div class="checkbox icheck">
                 <label>
-                  <input type="checkbox" id="terms" checked="checked"> I agree to the <a href="#"> terms </a>
+                  <input type="checkbox" id="terms" checked="checked"> I agree to the <a href="terms.pdf" target="_blank"> terms </a>
                 </label>
               </div>
             </div><!-- /.col -->
             <div class="col-xs-4">
               <button type="button" id="SignIn" class="btn btn-primary btn-block btn-flat">Sign Up 
-                <i class="fa fa-spinner fa-spin loader" style="display:none"></i>
               </button>
             </div><!-- /.col -->
           </div>
@@ -57,7 +77,7 @@
 
         <a href="forgot.html">I forgot my password</a><br>
         <a href="login.html" class="text-center">I already have a account</a>
-
+        <div class="overlay"><i class="fa fa-spinner fa-spin"></i></div>
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
 
@@ -71,84 +91,12 @@
     <script src="plugins/md5/jquery.md5.js"></script>
     <!-- Config and Common -->
     <script src="plugins/js/config.js"></script>
+    <!-- Register -->
+    <script src="plugins/js/register.js"></script>
     
-    <script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' // optional
-        });
-
-        $( "#terms" ).on("ifClicked", function() {
-            if($('#terms').prop('checked')){
-                $('#SignIn').prop('disabled', true);
-            }
-            else{
-                $('#SignIn').prop('disabled', false);
-            }
-        });
-
-        $( "#SignIn" ).click(function() {            
-            if($.trim($("#email").val()) == ""){
-                $(".mail-group").addClass("has-error");
-                $(".email-error").show();
-                $("#email").focus();
-                return false;;
-            }            
-            $(".loader").show();
-            var person = {
-                UserName: $.trim($("#email").val()),
-            }
-            jQuery.ajax({
-                url: SERVICE_URL + 'GlCustomCustomer/GetCustomerDetailsByEmail',
-                method: "POST",    
-                contentType: 'application/json',   
-                data: JSON.stringify(person),                    
-                beforeSend: function (xhr) {
-                   xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
-                },
-                error: function(xhr, status, error) {
-                    $(".error-message").html("Sorry, could not able to connect the server. Please try again later");
-                    $(".error-message").show();
-                    $(".loader").hide();
-                },
-                success: function(data) {
-                   if(data['status'] == "1"){
-                      var message = "An email has been sent to " + $.trim($("#email").val()) + ". You should recieve it shortly in 10-15 mins. Sometimes email go to promotions/spam folders.";
-                      $(".success-message").html(message);
-                      $(".success-message").show();
-                      
-                      // Email API
-                      data['data']['email'] = $.trim($("#email").val());
-                      jQuery.ajax({
-                          url: MAIL_SERVICE_URL + 'mail.php',
-                          method: "POST",    
-                          contentType: 'application/json',   
-                          data: JSON.stringify(data['data'])
-                      });
-
-                   }
-                   else{
-                      $(".error-message").show();
-                   }
-                   $(".loader").hide();
-                }
-           });
-
-        });
-
-        $('#email').on('keyup blur change', function(e) {
-            $(".mail-group").removeClass("has-error");
-            $(".email-error").hide();
-        });
-      });            
-    </script>
 
   </body>
 </html>
 <!--
 https://mandrillapp.com/api/docs/messages.JSON.html#method=send
-
-https://www.ventureharbour.com/transactional-email-service-best-mandrill-vs-sendgrid-vs-mailjet/
 -->

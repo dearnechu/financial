@@ -314,7 +314,13 @@
                     if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanAmount')){
                         Amount = data['data']['glPaymentHistoryDto'][index]['loanAmount'];
                     }
-                    Amount += data['data']['glPaymentHistoryDto'][index]['loanInterest'];
+
+                    var loanInterest = 0;
+                    if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanInterest')){
+                        loanInterest = data['data']['glPaymentHistoryDto'][index]['loanInterest'];
+                    }
+                    
+                    Amount += loanInterest;
 
                     dataSet.push([
                         data['data']['glPaymentHistoryDto'][index]['id'], 
@@ -376,100 +382,6 @@
        });
       
     }; 
-
-        function showLoanStatements(loanId){ 
-            $('.spinner-search').show();
-            var data = {
-                    loanId: loanId,
-                    //loanId: "3e32a621-183c-45f8-bc7c-f43f144cb181",
-                }
-            
-            jQuery.ajax({
-                    url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
-                    method: "POST",    
-                    contentType: 'application/json',   
-                    data: JSON.stringify(data),                    
-                    beforeSend: function (xhr) {
-                       xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
-                    },
-                    error: function(xhr, status, error) {
-                        return false;
-                    },
-                    success: function(data) {
-                      $('.appneded').remove();
-                      $('.loanStatements').show('slow');     
-                      
-                       $(".mainBox").after($('.loanStatements'));
-
-                      if(data['status'] == "1"){
-                          $("#name").html(data['data']['glCustomerDto']['firstName']); 
-                          if(data['data']['glCustomerDto'].hasOwnProperty('lastName')){
-                              $("#name").html($("#name").html() + ' ' +  data['data']['glCustomerDto']['lastName']);
-                          }
-                          $("#address").html(data['data']['glCustomerDto']['addressOne']); 
-                          $("#locality").html(data['data']['glCustomerDto']['locality']); 
-                          $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName']); 
-
-                          $("#pledge_no").html(data['data']['glLoanDto']['loanNumber']); 
-                          $("#pledge_date").html(new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y")); 
-                          $("#pledge_value").html(data['data']['glLoanDto']['loanAmount'].format(2, 3)); 
-                          $("#net_weight").html(data['data']['glLoanDto']['netWeight']); 
-
-                          $("#branch_name").html(data['data']['glLoanDto']['branch']['name']); 
-                          $("#branch_code").html(data['data']['glLoanDto']['branch']['code']); 
-
-                          $("#current_date").html(new Date().format("d-M-Y h:i A"));
-
-                          var Description = "AMOUNT PAID"; 
-                          $('#StatementTable tr:last').after('<tr class="appneded">' +
-                                  '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
-                                  '<td>' + Description + '</td>' +
-                                  '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
-                                  '<td></td>' +
-                                  '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
-                                  '</tr>');
-                          var Description = "INTEREST ADDED"; 
-                          $('#StatementTable tr:last').after('<tr class="appneded">' +
-                                  '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
-                                  '<td>' + Description + '</td>' +
-                                  '<td>' + data['data']['glLoanDto']['interestTillDate'].format(2, 3) + '</td>' +
-                                  '<td></td>' +
-                                  '<td>' + (data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate']).format(2, 3) + '</td>' +
-                                  '</tr>');
-                          var balanceAmount = data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate'];
-                          for(var index in data['data']['glPaymentHistoryDto']) { 
-
-                                var loanAmount = 0;
-                                if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanAmount')){
-                                  loanAmount = data['data']['glPaymentHistoryDto'][index]['loanAmount'];
-                                }
-
-                                balanceAmount -= (loanAmount + data['data']['glPaymentHistoryDto'][index]['loanInterest']);
-
-                                Description = "CASH RCVD - " + data['data']['glPaymentHistoryDto'][index]['id'];
-
-                                /*
-                                var balanceAmount = 0;
-                                if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('balanceAmount')){
-                                  balanceAmount = data['data']['glPaymentHistoryDto'][index]['balanceAmount'];
-                                }
-                                */
-                                $('#StatementTable tr:last').after('<tr class="appneded">' +
-                                  '<td>' + new Date(data['data']['glPaymentHistoryDto'][index]['transationDate']).format("d-M-Y") + '</td>' +
-                                  '<td>' + Description + '</td>' +
-                                  '<td></td>' +
-                                  '<td>' + (loanAmount + data['data']['glPaymentHistoryDto'][index]['loanInterest']).format(2, 3) + '</td>' +
-                                  '<td>' + balanceAmount.format(2, 3) + '</td>' +
-                                  '</tr>');
-                            
-                          }
-                      }
-                      $('.spinner-search').hide();
-                    }
-              });
-
-        }
-
     </script>
   </body>
 </html>

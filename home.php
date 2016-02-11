@@ -281,21 +281,29 @@
                           <td>
                           <div class="form-group">
                             <div class="col-md-6">
-                              <input type="radio" name="ptype" class="flat-red" checked> Debit Card
+                              <input type="radio" name="ftype" class="flat-red FullPType" value="PG" checked> Debit Card
                             </div>
                             <div class="col-md-6">
-                              <input type="radio" name="ptype" class="flat-red"> Net Banking
+                              <input type="radio" name="ftype" class="flat-red FullPType" value="NB"> Net Banking
                             </div>
                           </td>
                           </div>
                         </tr>
-                        <tr>
+                        <tr class="FPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
-                        <tr>
+                        <tr class="FNBSCharge" style="display:none">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
+                          <td>Depends on the Bank you Selected</td>
+                        </tr>
+                        <tr class="FPGTotal">
                           <td><b>Total</b></td>
-                          <td id="total"><b></b></td>
+                          <td id="pgtotal"><b></b></td>
+                        </tr>
+                        <tr class="FNBTotal" style="display:none">
+                          <td><b>Total</b></td>
+                          <td id="nbtotal"><b></b></td>
                         </tr>
                       </table>
                     </div><!-- /.box-body -->
@@ -323,12 +331,33 @@
                           </td>
                         </tr>
                         <tr>
+                          <td>Payment Type</td>
+                          <td>
+                          <div class="form-group">
+                            <div class="col-md-6">
+                              <input type="radio" name="ptype" class="flat-red PartPType" value="PG" checked> Debit Card
+                            </div>
+                            <div class="col-md-6">
+                              <input type="radio" name="ptype" class="flat-red PartPType" value="NB"> Net Banking
+                            </div>
+                          </td>
+                          </div>
+                        </tr>
+                        <tr class="PPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
-                        <tr>
+                        <tr class="PNBSCharge" style="display:none">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
+                          <td> Depends on the Bank you Selected</td>
+                        </tr>
+                        <tr class="PPGTotal">
                           <td><b>Total</b></td>
-                          <td id="part_total"><b>0.00</b></td>
+                          <td id="PG_part_total"><b>0.00</b></td>
+                        </tr>
+                        <tr class="PNBTotal" style="display:none">
+                          <td><b>Total</b></td>
+                          <td id="NB_part_total"><b>0.00</b></td>
                         </tr>
                       </table>
                     </div><!-- /.box-body -->
@@ -373,6 +402,20 @@
       <input type="hidden" name="vpc_MerchTxnRef" id="vpc_MerchTxnRef">
       <input type="hidden" name="vpc_Amount" id="vpc_Amount">
       <input type="hidden" name="vpc_ReturnURL" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/return.html'; ?>">
+    </form>
+
+    <form id="NB" method="post" action="PG/Atom/submit.php">
+      <input type="hidden" name="product" value="NSE">
+      <input type="hidden" name="TType" value="NBFundTransfer">
+      <input type="hidden" name="clientcode" value="007">
+      <input type="hidden" name="AccountNo" value="1234567890">
+      <input type="hidden" name="ru" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/response.html'; ?>">
+      <input type="hidden" name="bookingid" value="100001">
+      <input type="hidden" name="udf1" value="Test"> <!-- Customer Name -->
+      <input type="hidden" name="udf2" value="test@test.com"> <!-- Email -->
+      <input type="hidden" name="udf3" value="9895933511"> <!-- Mobile -->
+      <input type="hidden" name="udf4" value="Trivandrum"> <!-- Billing Address -->
+      <input type="hidden" name="amount" id="amount">
     </form>
 
     <!-- jQuery 2.1.4 -->
@@ -477,13 +520,39 @@
             $( "#FullPayment" ).click(function() { 
                 $(".fullpayment").show();
                 $("#vpc_MerchTxnRef").val("MGLFULL" + "-" + new Date().format("YmdHis") );
-                storesession("service_charge", $("#service_charge").html());
+                
                 storesession("payment_type", "FULL");
-                $("#PG").submit();
+                
+                var form = "#";
+                if($('.FullPType').prop('checked')) { 
+                    form += "PG";
+                    storesession("service_charge", $("#service_charge").html());
+                } else { 
+                    form += "NB"; 
+                    storesession("service_charge", 0);
+                }
+                
+                $(form).submit();
+            });
+
+            $('.FullPType').on('ifChecked', function(event){
+                if($(this).val() == "NB"){
+                    $(".FPGSCharge, .FPGTotal").hide();
+                    $(".FNBSCharge, .FNBTotal").show();
+                }
+                else{
+                    $(".FPGSCharge, .FPGTotal").show();
+                    $(".FNBSCharge, .FNBTotal").hide();                 
+                }
             });
 
             var part_total = 0;
             $( "#PartPayment" ).click(function() { 
+                if($.trim($("#PartAmount").val()) < 1){
+                    $("#PartAmount").focus();
+                    $(".part-payment-error").show();
+                    return false;;
+                }   
                 if($.trim($("#PartAmount").val()) < minimumInterestToBePaid){
                     $("#PartAmount").focus();
                     $(".part-payment-error").show();
@@ -497,10 +566,32 @@
                 $(".part-payment-error").hide();
                 $(".partpayment").show();
                 $("#vpc_Amount").val(part_total.toFixed(2) * 100);
+                $("#amount").val($("#NB_part_total").html());
                 $("#vpc_MerchTxnRef").val("MGLPART" + "-" + new Date().format("YmdHis") );
-                storesession("service_charge", $("#part_service_charge").html());
+                
                 storesession("payment_type", "PART");
-                $("#PG").submit();
+                
+                var form = "#";
+                if($('.PartPType').prop('checked')) { 
+                    form += "PG";
+                    storesession("service_charge", $("#part_service_charge").html());
+                } else { 
+                    form += "NB";
+                    storesession("service_charge", 0); 
+                }
+                
+                $(form).submit();
+            });
+
+            $('.PartPType').on('ifChecked', function(event){
+                if($(this).val() == "NB"){
+                    $(".PPGSCharge, .PPGTotal").hide();
+                    $(".PNBSCharge, .PNBTotal").show();
+                }
+                else{
+                    $(".PPGSCharge, .PPGTotal").show();
+                    $(".PNBSCharge, .PNBTotal").hide();                 
+                }
             });
 
             $(".close").click(function() {
@@ -511,7 +602,8 @@
                 var service_charge = getServiceCharge($(this).val());
                 $("#part_service_charge").html(service_charge.format(2,3));
                 part_total = ($(this).val() * 1) + service_charge;
-                $("#part_total").html(part_total.format(2,3));
+                $("#PG_part_total").html(part_total.format(2,3));
+                $("#NB_part_total").html(($(this).val() * 1).toFixed(2));
                 $(".part-payment-error").hide();
             });
 
@@ -543,18 +635,29 @@
                       $('.loanDetails').show('slow');                    
                       if(data['status'] == "1"){
                         $("#loan_number").html(loanNo);
-                        $("#principle_amount").html(data['data']['goldLoanAmountRemaining'].format(2, 3));
+
+                        var goldLoanAmountRemaining = 0;
+                        if(data['data'].hasOwnProperty('goldLoanAmountRemaining')){
+                            goldLoanAmountRemaining = data['data']['goldLoanAmountRemaining'];
+                        }
+                        $("#principle_amount").html(goldLoanAmountRemaining.format(2, 3));
+                        
                         var goldLoanInterestDue = 0;
                         if(data['data'].hasOwnProperty('goldLoanInterestDue')){
                             goldLoanInterestDue = data['data']['goldLoanInterestDue'];
                         }
 
                         $("#interest").html(goldLoanInterestDue.format(2, 3));  
-                        var service_charge = getServiceCharge(data['data']['goldLoanAmountRemaining'] + goldLoanInterestDue);
+                        var service_charge = getServiceCharge(goldLoanAmountRemaining + goldLoanInterestDue);
                         $("#service_charge").html(service_charge.format(2, 3));  
-                        total = data['data']['goldLoanAmountRemaining'] + goldLoanInterestDue + service_charge;
+                        
+                        nbtotal = goldLoanAmountRemaining + goldLoanInterestDue;
+                        total = nbtotal + service_charge;
+
                         $("#vpc_Amount").val(total.toFixed(2) * 100);
-                        $("#total").html("<b>" + total.format(2, 3) + "</b>");  
+                        $("#amount").val((goldLoanAmountRemaining + goldLoanInterestDue).toFixed(2));
+                        $("#pgtotal").html("<b>" + total.format(2, 3) + "</b>");  
+                        $("#nbtotal").html("<b>" + nbtotal.format(2, 3) + "</b>");  
                         minimumInterestToBePaid = 0;
                         if(data['data'].hasOwnProperty('minimumInterestToBePaid')){
                             minimumInterestToBePaid = data['data']['minimumInterestToBePaid'];
@@ -566,99 +669,6 @@
                       }
                     }
               });
-        }
-
-        function showLoanStatements(loanId){ 
-            $('.spinner-search').show();
-            var data = {
-                    loanId: loanId,
-                    //loanId: "3e32a621-183c-45f8-bc7c-f43f144cb181",
-                }
-            
-            jQuery.ajax({
-                    url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
-                    method: "POST",    
-                    contentType: 'application/json',   
-                    data: JSON.stringify(data),                    
-                    beforeSend: function (xhr) {
-                       xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
-                    },
-                    error: function(xhr, status, error) {
-                        return false;
-                    },
-                    success: function(data) {
-                      $('.appneded').remove();
-                      $('.loanStatements').show('slow');     
-                      
-                       $(".mainBox").after($('.loanStatements'));
-
-                      if(data['status'] == "1"){
-                          $("#name").html(data['data']['glCustomerDto']['firstName']); 
-                          if(data['data']['glCustomerDto'].hasOwnProperty('lastName')){
-                              $("#name").html($("#name").html() + ' ' +  data['data']['glCustomerDto']['lastName']);
-                          }
-                          $("#address").html(data['data']['glCustomerDto']['addressOne']); 
-                          $("#locality").html(data['data']['glCustomerDto']['locality']); 
-                          $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName']); 
-
-                          $("#pledge_no").html(data['data']['glLoanDto']['loanNumber']); 
-                          $("#pledge_date").html(new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y")); 
-                          $("#pledge_value").html(data['data']['glLoanDto']['loanAmount'].format(2, 3)); 
-                          $("#net_weight").html(data['data']['glLoanDto']['netWeight']); 
-
-                          $("#branch_name").html(data['data']['glLoanDto']['branch']['name']); 
-                          $("#branch_code").html(data['data']['glLoanDto']['branch']['code']); 
-
-                          $("#current_date").html(new Date().format("d-M-Y h:i A"));
-
-                          var Description = "AMOUNT PAID"; 
-                          $('#StatementTable tr:last').after('<tr class="appneded">' +
-                                  '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
-                                  '<td>' + Description + '</td>' +
-                                  '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
-                                  '<td></td>' +
-                                  '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
-                                  '</tr>');
-                          var Description = "INTEREST ADDED"; 
-                          $('#StatementTable tr:last').after('<tr class="appneded">' +
-                                  '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
-                                  '<td>' + Description + '</td>' +
-                                  '<td>' + data['data']['glLoanDto']['interestTillDate'].format(2, 3) + '</td>' +
-                                  '<td></td>' +
-                                  '<td>' + (data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate']).format(2, 3) + '</td>' +
-                                  '</tr>');
-                          var balanceAmount = data['data']['glLoanDto']['loanAmount'] + data['data']['glLoanDto']['interestTillDate'];
-                          for(var index in data['data']['glPaymentHistoryDto']) { 
-
-                                var loanAmount = 0;
-                                if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('loanAmount')){
-                                  loanAmount = data['data']['glPaymentHistoryDto'][index]['loanAmount'];
-                                }
-
-                                balanceAmount -= (loanAmount + data['data']['glPaymentHistoryDto'][index]['loanInterest']);
-
-                                Description = "CASH RCVD - " + data['data']['glPaymentHistoryDto'][index]['id'];
-
-                                /*
-                                var balanceAmount = 0;
-                                if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('balanceAmount')){
-                                  balanceAmount = data['data']['glPaymentHistoryDto'][index]['balanceAmount'];
-                                }
-                                */
-                                $('#StatementTable tr:last').after('<tr class="appneded">' +
-                                  '<td>' + new Date(data['data']['glPaymentHistoryDto'][index]['transationDate']).format("d-M-Y") + '</td>' +
-                                  '<td>' + Description + '</td>' +
-                                  '<td></td>' +
-                                  '<td>' + (loanAmount + data['data']['glPaymentHistoryDto'][index]['loanInterest']).format(2, 3) + '</td>' +
-                                  '<td>' + balanceAmount.format(2, 3) + '</td>' +
-                                  '</tr>');
-                            
-                          }
-                      }
-                      $('.spinner-search').hide();
-                    }
-              });
-
         }
 
         function storesession(tag, data) {
