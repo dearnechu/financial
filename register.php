@@ -36,7 +36,7 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-        <a href="index2.html"><b>Muthoot</b>One</a>
+        <a href="#"><b>Muthoot</b>One</a>
       </div><!-- /.login-logo -->
       <div class="login-box-body box">
         <p class="login-box-msg">Register your account</p>

@@ -1,3 +1,6 @@
+var customerId;
+var invalidMobile = true;
+
 $(function () {
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue',
@@ -34,9 +37,6 @@ $(function () {
             $('#SignIn').prop('disabled', false);
         }
     });
-
-    var customerId;
-    var invalidMobile = true;
 
     $( "#SignIn" ).click(function() {            
         if(invalidMobile){
@@ -156,6 +156,7 @@ function mobileCheck(){
                     }
                     customerId = data['data']['id'];
                     invalidMobile = false;
+                    alert(invalidMobile);
                     $("#email").focus();
                     $(".error-message").hide();
                 }
