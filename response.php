@@ -23,7 +23,8 @@
         $payment_array["paymentStatus"] = "Success";
         $payment_array["paidAmount"] = $_POST["amt"];
         $payment_array["OnlineServiceCharge"] = 0;
-        $payment_array["transactionNumber"] = date("YmdHis");
+        $payment_array["transactionNumber"] = $_POST['mer_txn']; 
+        $payment_array["PaymentProcessType"] = $_POST['bank_name'];
 
   	} 
 

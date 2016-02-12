@@ -34,7 +34,9 @@ if (strlen($SECURE_SECRET) > 0 && $_GET["vpc_TxnResponseCode"] != "7" && $_GET["
         $payment_array["paymentStatus"] = "Success";
         $payment_array["paidAmount"] = $_GET["auth_amount"] - $_SESSION['service_charge'];
         $payment_array["OnlineServiceCharge"] = $_SESSION['service_charge'];
-        $payment_array["transactionNumber"] = date("YmdHis");
+        $payment_array["transactionNumber"] = $_GET["auth_trans_ref_no"];
+        $payment_array["PaymentProcessType"] = "Debit Card";
+        
     } 
 } 
 

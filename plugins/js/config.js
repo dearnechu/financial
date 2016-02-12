@@ -8,7 +8,8 @@ var AUTHENTICATION_PASSWORD = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
 var SERVICE_URL = "https://muthootlive.azure-mobile.net/api/";
 var AUTHENTICATION_PASSWORD = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
 
-var MAIL_SERVICE_URL = "http://staging.experionglobal.com/Muthoot/Mail/";
+var DOMAIN_URL = "http://staging.experionglobal.com/Muthoot/";
+var MAIL_SERVICE_URL = DOMAIN_URL + "Mail/";
 
 var PROCESSING_FEE = 10;
 
@@ -46,12 +47,12 @@ function getUrlVars() {
 function PrintElem(elem)
 {
     w=window.open(null, 'MuthootOne', '');  
-    var x = '<link rel="stylesheet" href="http://staging.experionglobal.com/Muthoot/bootstrap/css/bootstrap.min.css">' +
+    var x = '<link rel="stylesheet" href="'+ DOMAIN_URL +'bootstrap/css/bootstrap.min.css">' +
     '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">' +
     '<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">' +
-    '<link rel="stylesheet" href="http://staging.experionglobal.com/Muthoot/plugins/datatables/dataTables.bootstrap.css">' +
-    '<link rel="stylesheet" href="http://staging.experionglobal.com/Muthoot/dist/css/AdminLTE.min.css">' +
-    '<link rel="stylesheet" href="http://staging.experionglobal.com/Muthoot/dist/css/skins/_all-skins.min.css">' +
+    '<link rel="stylesheet" href="'+ DOMAIN_URL +'plugins/datatables/dataTables.bootstrap.css">' +
+    '<link rel="stylesheet" href="'+ DOMAIN_URL +'dist/css/AdminLTE.min.css">' +
+    '<link rel="stylesheet" href="'+ DOMAIN_URL +'dist/css/skins/_all-skins.min.css">' +
     '<style type="text/css">table, .box-title {font-size: .8em !important;} .box-title {font-weight: bold} .removeHeader {display:none} </style>';
     w.document.write( x + $(elem).html() );
 
