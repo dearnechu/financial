@@ -62,7 +62,7 @@ $(function () {
                if(data['status'] == "1"){
                     localStorage.setItem("email", $.trim($("#email").val()));
                     localStorage.setItem("mobile", 9895933522); // need to change
-                    localStorage.setItem("location", "Trivandrum"); // need to change
+                    localStorage.setItem("location", data['data']['branchName']); 
                     localStorage.setItem("customerName", data['data']['customerName']);
                     localStorage.setItem("customerId", data['data']['id']);
                     location.href = "home.html";
