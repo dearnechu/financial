@@ -215,8 +215,8 @@
                           <td id="pledge_date"></td>
                         </tr>
                         <tr>
-                          <td><b>Description</b></td>
-                          <td id="description"></td>
+                          <td><b>Locality</b></td>
+                          <td id="locality"></td>
                           <td><b>Pledge Value</b></td>
                           <td id="pledge_value"></td>
                         </tr>
@@ -270,13 +270,14 @@
                   </div>
                 </div>
                 
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="box">
-                    <div class="box-header">
-                      <h4 class="box-title">Full Settlement</h4>
-                    </div><!-- /.box-header -->
                     <div class="box-body no-padding">
                       <table class="table table-condensed">
+                         <tr>
+                          <td>Payment Type</td>
+                          <td> <select><option>Full Payment</option><option>Part Payment</option></select></td>
+                        </tr>
                          <tr>
                           <td>Principle Amount</td>
                           <td id="principle_amount"></td>
@@ -314,32 +315,20 @@
                           <td><b>Total</b></td>
                           <td id="nbtotal"><b></b></td>
                         </tr>
-                      </table>
-                    </div><!-- /.box-body -->
-                    <div class="overlay fullpayment"><i class="fa fa-spinner fa-spin"></i></div>
-                    <div class="box-footer">
-                      <button class="btn btn-success pull-right" id="FullPayment"><i class="fa fa-credit-card"></i> Full Payment</button>
-                    </div><!-- /.box-footer -->
-                  </div><!-- /.box -->
-                </div><!-- ./col -->
-
-                <div class="col-md-6">
-                  <div class="box">
-                    <div class="box-header">
-                      <h4 class="box-title">Part Payment</h4>  
-                      <i>(amount between <b> <span id="minimum_interest_amount"> </span> - <span id="total_payable_amount" > </span></b>)</i>
-                    </div><!-- /.box-header -->
-                    <div class="box-body no-padding">
-                      <table class="table table-condensed">
-                        <tr>
+                        <tr style="display:none">
                           <td>Enter Amount</td>
                           <td>
-                            <input type="number" id="PartAmount" class="form-control input-sm"/>
-                            <label style="margin-bottom: 0px;">&nbsp;</label>
-                            <label class="text-red part-payment-error" style="display:none; margin-bottom:0px"> Invalid amount </label>
+                            <div class="col-md-3">
+                                <input type="number" id="PartAmount" class="form-control input-sm"/>
+                                <label style="margin-bottom: 0px;">&nbsp;</label>
+                                <label class="text-red part-payment-error" style="display:none; margin-bottom:0px"> Invalid amount </label>
+                            </div>
+                            <div class="col-md-9">
+                                <i>(amount between <b> <span id="minimum_interest_amount"> </span> - <span id="total_payable_amount" > </span></b>)</i>
+                            </div>
                           </td>
                         </tr>
-                        <tr>
+                        <tr style="display:none">
                           <td>Payment Type</td>
                           <td>
                           <div class="form-group">
@@ -352,7 +341,7 @@
                           </td>
                           </div>
                         </tr>
-                        <tr class="PPGSCharge">
+                        <tr class="PPGSCharge" style="display:none">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
@@ -360,7 +349,7 @@
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
                           <td> Depends on the Bank you Selected</td>
                         </tr>
-                        <tr class="PPGTotal">
+                        <tr class="PPGTotal" style="display:none">
                           <td><b>Total</b></td>
                           <td id="PG_part_total"><b>0.00</b></td>
                         </tr>
@@ -370,9 +359,10 @@
                         </tr>
                       </table>
                     </div><!-- /.box-body -->
-                    <div class="overlay partpayment"><i class="fa fa-spinner fa-spin"></i></div>
+                    <div class="overlay fullpayment"><i class="fa fa-spinner fa-spin"></i></div>
                     <div class="box-footer">
-                      <button class="btn btn-success pull-right" id="PartPayment"><i class="fa fa-credit-card"></i> Part Payment</button>
+                      <button class="btn btn-success pull-right" id="FullPayment"><i class="fa fa-credit-card"></i> Payment</button>
+                      <button class="btn btn-success pull-right" id="PartPayment" style="display:none"><i class="fa fa-credit-card"></i> Payment</button>
                     </div><!-- /.box-footer -->
                   </div><!-- /.box -->
                 </div><!-- ./col -->
@@ -420,10 +410,10 @@
       <input type="hidden" name="AccountNo" value="1234567890">
       <input type="hidden" name="ru" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/response.html'; ?>">
       <input type="hidden" name="bookingid" value="100001">
-      <input type="hidden" name="udf1" id="udf1" value=""> <!-- Customer Name -->
-      <input type="hidden" name="udf2" id="udf2" value=""> <!-- Email -->
-      <input type="hidden" name="udf3" id="udf3" value=""> <!-- Mobile -->
-      <input type="hidden" name="udf4" id="udf4" value=""> <!-- Billing Address -->
+      <input type="hidden" name="udf1" value="Test"> <!-- Customer Name -->
+      <input type="hidden" name="udf2" value="test@test.com"> <!-- Email -->
+      <input type="hidden" name="udf3" value="9895933511"> <!-- Mobile -->
+      <input type="hidden" name="udf4" value="Trivandrum"> <!-- Billing Address -->
       <input type="hidden" name="amount" id="amount">
     </form>
 

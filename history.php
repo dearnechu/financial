@@ -134,9 +134,9 @@
                       <tr>
                         <th>Transaction No</th>   
                         <th>Loan No</th>
-                        <th>Amount Paid</th>
+                        <th>Amount</th>
                         <th>Payment Date</th>
-                        <th>Status</th>
+                        <th>Payment Type</th>
                         <th>Statement</th>
                       </tr>
                     </thead>
@@ -177,8 +177,8 @@
                           <td id="pledge_date"></td>
                         </tr>
                         <tr>
-                          <td><b>Locality</b></td>
-                          <td id="locality"></td>
+                          <td><b>Description</b></td>
+                          <td id="description"></td>
                           <td><b>Pledge Value</b></td>
                           <td id="pledge_value"></td>
                         </tr>

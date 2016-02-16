@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^(.*)\.html$ $1.html [nc]
+DirectoryIndex home.php

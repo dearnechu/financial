@@ -26,6 +26,10 @@ class ProcessPayment {
 		$postFields .= "&date=".$modifiedDate;
 		$postFields .= "&custacc=".$_POST['AccountNo'];
 		$postFields .= "&ru=".$_POST['ru'];
+		$postFields .= "&udf1=". str_replace(" ", "%20", $_POST['udf1']);
+		$postFields .= "&udf2=".$_POST['udf2'];
+		$postFields .= "&udf3=".$_POST['udf3'];
+		$postFields .= "&udf4=".$_POST['udf4'];
 		// Not required for merchant
 		//$postFields .= "&bankid=".$_POST['bankid'];
 

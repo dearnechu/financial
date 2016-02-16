@@ -89,9 +89,15 @@ function showLoanStatements(loanId){
                     if(data['data']['glCustomerDto'].hasOwnProperty('lastName')){
                         $("#name").html($("#name").html() + ' ' +  data['data']['glCustomerDto']['lastName']);
                     }
-                    $("#address").html(data['data']['glCustomerDto']['addressOne']); 
-                    $("#locality").html(data['data']['glCustomerDto']['locality']); 
-                    $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName']); 
+                    $("#address").html(data['data']['glCustomerDto']['addressOne']);
+
+                    var itemName = ""; 
+                    for(i=0; i<data['data']['glLoanDto']['glLoanDetail'].length; i++){
+                        itemName += data['data']['glLoanDto']['glLoanDetail'][i]['glItem']['itemName'] + ", ";
+                    }
+
+                    $("#description").html(itemName.slice(0, -2)); 
+                    $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName'].toUpperCase()); 
 
                     $("#pledge_no").html(data['data']['glLoanDto']['loanNumber']); 
                     $("#pledge_date").html(new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y")); 
@@ -135,8 +141,27 @@ function showLoanStatements(loanId){
 
                         balanceAmount -= (loanAmount + loanInterest);
 
-                        Description = "CASH RCVD - " + data['data']['glPaymentHistoryDto'][index]['id'];
+                        var isPaidOnline = false;
+                        if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('isPaidOnline')){
+                            isPaidOnline = data['data']['glPaymentHistoryDto'][index]['isPaidOnline'];
+                        }
 
+                        if(isPaidOnline){
+                            var paymentProcessType = "Online";
+                            if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('paymentProcessType')){
+                                paymentProcessType = data['data']['glPaymentHistoryDto'][index]['paymentProcessType'];
+                            }
+                            Description = paymentProcessType;
+                        }else {
+                            Description = "CASH RCVD";
+                        }
+
+                        var transactionNumber = data['data']['glPaymentHistoryDto'][index]['transactionNumber'];
+                        if(transactionNumber == 0){
+                            transactionNumber = data['data']['glPaymentHistoryDto'][index]['id'];
+                        }
+
+                        Description += " - " + transactionNumber
                         /*
                         var balanceAmount = 0;
                         if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('balanceAmount')){
@@ -166,6 +191,8 @@ function showLoanStatements(loanId){
         
         $(".logout").click(function(){
             localStorage.removeItem("customerName");
+            localStorage.removeItem("mobile");
+            localStorage.removeItem("customerId");
             location.href = "login.html";
         });
 

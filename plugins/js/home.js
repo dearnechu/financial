@@ -37,7 +37,7 @@ $(function() {
                     new Date(data['data'][index]['startDate']).format("d-M-Y"), 
                     data['data'][index]['loanAmount'].format(2, 3), 
                     new Date(data['data'][index]['revisedDate']).format("d-M-Y"), 
-                    data['data'][index]['glScheme']['schemeName'],
+                    data['data'][index]['glScheme']['schemeName'].toUpperCase(),
                     "<a href='javascript:showLoanStatements(\""+ data['data'][index]['id'] +"\")'> View </a>"
                 ]);
             }
@@ -71,6 +71,12 @@ $(function() {
             });            
         }
     });
+
+    $("#udf1").val(localStorage.getItem("customerName"));
+    $("#udf2").val(localStorage.getItem("email"));
+    $("#udf3").val(localStorage.getItem("mobile"));
+    $("#udf4").val(localStorage.getItem("location"));
+
     
     $( "#FullPayment" ).click(function() { 
         $(".fullpayment").show();

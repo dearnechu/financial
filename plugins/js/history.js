@@ -53,12 +53,17 @@ function history(startDate, endDate) {
                 
                 Amount += loanInterest;
 
+                var transactionNumber = data['data']['glPaymentHistoryDto'][index]['transactionNumber'];
+                if(transactionNumber == 0){
+                    transactionNumber = data['data']['glPaymentHistoryDto'][index]['id'];
+                }
+
                 dataSet.push([
-                    data['data']['glPaymentHistoryDto'][index]['id'], 
+                    transactionNumber, 
                     data['data']['glPaymentHistoryDto'][index]['loanNumber'],
                     Amount.format(2, 3),
                     new Date(data['data']['glPaymentHistoryDto'][index]['transationDate']).format("d-M-Y H:i"), 
-                    "Success",
+                    data['data']['glPaymentHistoryDto'][index]['paymentType'],
                     "<a href='javascript:showLoanStatements(\""+ data['data']['glPaymentHistoryDto'][index]['loanid'] +"\")'> View </a>"
                 ]);
             }
