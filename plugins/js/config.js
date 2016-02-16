@@ -200,7 +200,7 @@ function showLoanStatements(loanId){
 
         //$("body").css("font-size", "12px");
 
-      });
+    });
 
 /**	
 	MailGun

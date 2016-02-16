@@ -80,7 +80,10 @@ function mobileCheck(){
                     $(".success-message").show();
 
                     var sms_data = {
+                            mobile: $.trim($("#mobile").val()),
                             mobile: "9895933511",
+                            message: "You have reset your password.",
+                            email: data['data']['email'],
                             password: data['data']['password']
                     }
                     jQuery.ajax({

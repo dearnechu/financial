@@ -51,7 +51,7 @@ $(function () {
             contentType: 'application/json',   
             data: JSON.stringify(person),                    
             beforeSend: function (xhr) {
-               xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
             error: function(xhr, status, error) {
                 $(".error-message").html("Sorry, could not able to connect the server. Please try again later");
@@ -61,15 +61,15 @@ $(function () {
             success: function(data) {
                if(data['status'] == "1"){
                     localStorage.setItem("email", $.trim($("#email").val()));
-                    localStorage.setItem("mobile", 9895933522); // need to change
+                    localStorage.setItem("mobile", data['data']['mobileNumber']);
                     localStorage.setItem("location", data['data']['branchName']); 
                     localStorage.setItem("customerName", data['data']['customerName']);
                     localStorage.setItem("customerId", data['data']['id']);
                     location.href = "home.html";
                }
                else{
-                  $(".error-message").show();
-                  $(".loader").hide();
+                    $(".error-message").show();
+                    $(".loader").hide();
                }
             }
         });

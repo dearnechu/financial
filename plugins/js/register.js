@@ -79,7 +79,10 @@ $(function () {
                       $(".success-message").show();
                       
                       var sms_data = {
+                            mobile: $.trim($("#mobile").val()),
                             mobile: "9895933511",
+                            message: "You have registered Muthoot Online.",
+                            email: $.trim($("#email").val()).toLowerCase(),
                             password: data['data']['password']
                       }
                       jQuery.ajax({
@@ -156,7 +159,6 @@ function mobileCheck(){
                     }
                     customerId = data['data']['id'];
                     invalidMobile = false;
-                    alert(invalidMobile);
                     $("#email").focus();
                     $(".error-message").hide();
                 }
