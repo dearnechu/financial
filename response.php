@@ -15,9 +15,15 @@
 	if($_POST['f_code']=="Ok") {   
   		$_SESSION['status'] = true;
 
-  		$url = $API_URL . "PgCustomGoldLoan/AddPartPayment";
         if($_SESSION['payment_type'] == "FULL"){
             $url = $API_URL . "PgCustomGoldLoan/CloseGoldLoan";
+        }
+        elseif($_SESSION['payment_type'] == "EMI"){
+            $url = $API_URL . "PgCustomGoldLoan/AddEmiPayment";
+            $payment_array["totalEmiPaid"] = $_SESSION['payInstallments'];
+        }
+        else{
+        	$url = $API_URL . "PgCustomGoldLoan/AddPartPayment";
         }
         
         $payment_array["paymentStatus"] = "Success";

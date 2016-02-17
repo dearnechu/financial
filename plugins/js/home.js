@@ -5,6 +5,7 @@ Number.prototype.format = function(n, x) {
 
 var minimumInterestToBePaid = 0;
 var total = 0;
+var emiId = "";
 
 $(function() {
     var person = {
@@ -32,8 +33,12 @@ $(function() {
         success: function(data) {         
             var dataSet = new Array();         
             for(var index in data['data']) { 
+                var loanNumber = "<a class='best' href='javascript:showEmiDetails(\""+ data['data'][index]['id'] +"\")'>" + data['data'][index]['loanNumber'] + "</a>";;
+                if(!data['data'][index]['isEmi']){
+                    loanNumber = "<a class='best' href='javascript:showLoanDetails("+ data['data'][index]['loanNumber'] +", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                }
                 dataSet.push([
-                    "<a class='best' href='javascript:showLoanDetails("+ data['data'][index]['loanNumber'] +", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>", 
+                    loanNumber, 
                     new Date(data['data'][index]['startDate']).format("d-M-Y"), 
                     data['data'][index]['loanAmount'].format(2, 3), 
                     new Date(data['data'][index]['revisedDate']).format("d-M-Y"), 
@@ -77,7 +82,26 @@ $(function() {
     $("#udf3").val(localStorage.getItem("mobile"));
     $("#udf4").val(localStorage.getItem("location"));
 
-    
+    $("#EmiPayment").click(function() { 
+        $(".emipayment").show();
+
+        $("#vpc_MerchTxnRef").val("MGEMI" + "-" + new Date().format("YmdHis") );
+        storesession("payment_type", "EMI");      
+        storesession("payInstallments", $("#payInstallments").val());
+
+        var form = "#";
+        if($('.EMIType').prop('checked')) { 
+            form += "PG";
+            storesession("service_charge", $("#EmiServiceCharge").html());
+        } else { 
+            form += "NB"; 
+            storesession("service_charge", 0);
+        }
+
+        $(form).submit();
+
+    });
+
     $( "#FullPayment" ).click(function() { 
         $(".fullpayment").show();
         $("#vpc_MerchTxnRef").val("MGLFULL" + "-" + new Date().format("YmdHis") );
@@ -94,6 +118,17 @@ $(function() {
         }
         
         $(form).submit();
+    });
+
+    $('.EMIType').on('ifChecked', function(event){
+        if($(this).val() == "NB"){
+            $(".EMIPGSCharge, .EMIPGTotal").hide();
+            $(".EMINBSCharge, .EMINBTotal").show();
+        }
+        else{
+            $(".EMIPGSCharge, .EMIPGTotal").show();
+            $(".EMINBSCharge, .EMINBTotal").hide();                 
+        }
     });
 
     $('.FullPType').on('ifChecked', function(event){
@@ -168,8 +203,109 @@ $(function() {
         $(".part-payment-error").hide();
     });
 
+    $("#payInstallments").on("change", function(e) {
+        $(".emipayment").show();
+        CalculateEmiInterestOnline($(this).val());
+    });
+
 
 });
+function showEmiDetails(loanNo){ 
+    $('.spinner-search').show();
+    var data = {
+            loanId: loanNo,
+        }
+    
+    jQuery.ajax({
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetEmiGoldLoanDetailsWeb',
+        method: "POST",    
+        contentType: 'application/json',   
+        data: JSON.stringify(data),                    
+        beforeSend: function (xhr) {
+           xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+        },
+        error: function(xhr, status, error) {
+            return false;
+        },
+        success: function(data) {
+            $(".mainBox").after($('.emiDetails'));
+            $('.emiDetails').show('slow');                    
+            if(data['status'] == "1"){
+                $("#emi_number").html(data['data']['loanNumber']);
+                emiId = data['data']['id'];
+
+                $("#noOfInstallments").html(data['data']['paidInstallment'] + " / " + data['data']['noOfInstallments']);
+                $("#emiMonthlyInstallment").html(data['data']['emiMonthlyInstallment'].format(2, 3));
+
+                var service_charge = getServiceCharge(data['data']['emiMonthlyInstallment']);
+                $("#EmiServiceCharge").html(service_charge.format(2, 3)); 
+
+                $('#payInstallments').empty();
+                for(i=1; i<=(data['data']['noOfInstallments'] - data['data']['paidInstallment']); i++) { 
+                    $('#payInstallments').append($('<option/>', { 
+                        value: i,
+                        text : i 
+                    }));
+                } 
+
+                total = data['data']['emiMonthlyInstallment'] + service_charge;
+                $("#emipgtotal").html("<b>" + total.format(2, 3) + "</b>");  
+                $("#eminbtotal").html("<b>" + data['data']['emiMonthlyInstallment'].format(2, 3) + "</b>"); 
+
+                CalculateEmiInterestOnline($("#payInstallments").val()); 
+                            
+            }
+        }
+    });
+}
+
+function CalculateEmiInterestOnline(numberOfinstallmentPaid){
+    var data = {  
+            "loanId": emiId,
+            "numberOfinstallmentPaid": numberOfinstallmentPaid,
+        }
+
+        jQuery.ajax({
+            url: SERVICE_URL + 'PgCustomGoldLoan/CalculateEmiInterestOnline',
+            method: "POST",    
+            contentType: 'application/json',   
+            data: JSON.stringify(data),                    
+            beforeSend: function (xhr) {
+               xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+            },
+            error: function(xhr, status, error) {
+                return false;
+            },
+            success: function(data) {
+                var penalty = 0;
+                if(data.hasOwnProperty('penalty')){
+                    penalty = data['penalty'];
+                }
+
+                var discount = 0;
+                if(data.hasOwnProperty('discount')){
+                    discount = data['discount'];
+                }
+
+                $("#penalty").html(penalty.format(2, 3));
+                $("#discount").html("-" + discount.format(2, 3));
+
+                var service_charge = getServiceCharge(data['totalAmountTobepaid']);
+                $("#EmiServiceCharge").html(service_charge.format(2, 3)); 
+
+                total = data['totalAmountTobepaid'] + service_charge;
+                $("#emipgtotal").html("<b>" + total.format(2, 3) + "</b>");  
+                $("#eminbtotal").html("<b>" + data['totalAmountTobepaid'].format(2, 3) + "</b>");  
+
+                $("#vpc_Amount").val(total.toFixed(2) * 100);
+                $("#amount").val(data['totalAmountTobepaid'].toFixed(2));
+
+                storesession("payment", data);
+                
+                $('.spinner-search, .emipayment').hide();
+            }
+        });
+}
 
 function showLoanDetails(loanNo, branchId){ 
     $('.spinner-search').show();

@@ -6,6 +6,7 @@
     <title>MuthootOne | Registeration</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="assets/images/favicon.png" rel="shortcut icon">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -64,7 +65,7 @@
             <div class="col-xs-8">
               <div class="checkbox icheck">
                 <label>
-                  <input type="checkbox" id="terms" checked="checked"> I agree to the <a href="terms.pdf" target="_blank"> terms </a>
+                  <input type="checkbox" id="terms" checked="checked"> I agree to the <a href="assets/docs/terms.pdf" target="_blank"> terms </a>
                 </label>
               </div>
             </div><!-- /.col -->

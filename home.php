@@ -9,7 +9,7 @@
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link href="/images/branding/product/ico/googleg_lodp.ico" rel="shortcut icon">
+    <link href="assets/images/favicon.png" rel="shortcut icon">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -32,6 +32,9 @@
           -moz-appearance: none;
           appearance: none;
           margin: 0; 
+      }
+      .emiDetails td{
+          vertical-align: middle !important;
       }
     </style>
 
@@ -383,6 +386,83 @@
                 </div>
 
               </div><!-- /.Payment Details box -->
+
+               <!-- EMI Details box -->
+              <div style="display:none" class="box emiDetails">
+                <div class="box-header" align="center">
+                  <h3 class="box-title">EMI Payment of - <span id="emi_number"></span></h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                  <div class="box">
+                    <div class="box-body no-padding">
+                      <table class="table table-condensed">
+                        <tr>
+                          <td>Premium Amount</td>
+                          <td id="emiMonthlyInstallment"></td>
+                        </tr>
+                        <tr>
+                          <td>Paid / Total Installments</td>
+                          <td id="noOfInstallments"></td>
+                        </tr>                       
+                        <tr>
+                          <td>Pay Installments</td>
+                          <td><select class="form-control input-sm" style="width:100px" id="payInstallments"></select></td>
+                        </tr>
+                        <tr>
+                          <td>Penalty</td>
+                          <td id="penalty">0.00</td>
+                        </tr>  
+                        <tr>
+                          <td>Discount</td>
+                          <td id="discount">0.00</td>
+                        </tr>  
+                        <tr>
+                          <td>Payment Type</td>
+                          <td>
+                          <div class="form-group">
+                            <div class="col-md-6">
+                              <input type="radio" name="ftype" class="flat-red EMIType" value="PG" checked> Debit Card
+                            </div>
+                            <div class="col-md-6">
+                              <input type="radio" name="ftype" class="flat-red EMIType" value="NB"> Net Banking
+                            </div>
+                          </td>
+                          </div>
+                        </tr>
+                        <tr class="EMIPGSCharge">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
+                          <td id="EmiServiceCharge"></td>
+                        </tr>
+                        <tr class="EMINBSCharge" style="display:none">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
+                          <td>Depends on the Bank you Selected</td>
+                        </tr>
+                        <tr class="EMIPGTotal">
+                          <td><b>Total</b></td>
+                          <td id="emipgtotal"><b></b></td>
+                        </tr>
+                        <tr class="EMINBTotal" style="display:none">
+                          <td><b>Total</b></td>
+                          <td id="eminbtotal"><b></b></td>
+                        </tr>
+                      </table>
+                    </div><!-- /.box-body -->
+                    <div class="overlay emipayment"><i class="fa fa-spinner fa-spin"></i></div>
+                    <div class="box-footer">
+                      <button class="btn btn-success pull-right" id="EmiPayment"><i class="fa fa-credit-card"></i> Payment</button>
+                    </div><!-- /.box-footer -->
+                  </div><!-- /.box -->
+                </div><!-- ./col -->
+
+                <div class="box-footer clearfix">
+                  
+                </div>
+
+              </div><!-- /.EMI Details box -->
 
 
           </div><!-- /.row -->
