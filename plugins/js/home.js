@@ -223,6 +223,8 @@ $(function() {
 });
 function showEmiDetails(loanNo){ 
     $('.spinner-search').show();
+    $('.emipayment').show();
+    
     var data = {
             loanId: loanNo,
         }

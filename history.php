@@ -23,6 +23,14 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <style type="text/css">
+        .sorting_desc::after{
+            display: none !important;
+        }
+        .sorting_desc{
+            cursor: default !important;
+        }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -133,12 +141,12 @@
                   <table id="LoanTable" class="table table-hover">
                     <thead>
                       <tr>
-                        <th>Transaction No</th>   
-                        <th>Loan No</th>
-                        <th>Amount</th>
-                        <th>Payment Date</th>
-                        <th>Payment Type</th>
-                        <th>Statement</th>
+                        <th class="no-sort">Transaction No</th>   
+                        <th class="no-sort">Loan No</th>
+                        <th class="no-sort">Amount</th>
+                        <th class="no-sort">Payment Date</th>
+                        <th class="no-sort">Payment Type</th>
+                        <th class="no-sort">Statement</th>
                       </tr>
                     </thead>
                    </table>
