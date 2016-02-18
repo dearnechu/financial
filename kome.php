@@ -9,6 +9,7 @@
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="assets/images/favicon.png" rel="shortcut icon">
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -32,7 +33,7 @@
           appearance: none;
           margin: 0; 
       }
-      .loanDetails td{
+      .emiDetails td, .loanDetails td{
           vertical-align: middle !important;
       }
     </style>
@@ -218,8 +219,8 @@
                           <td id="pledge_date"></td>
                         </tr>
                         <tr>
-                          <td><b>Locality</b></td>
-                          <td id="locality"></td>
+                          <td><b>Description</b></td>
+                          <td id="description"></td>
                           <td><b>Pledge Value</b></td>
                           <td id="pledge_value"></td>
                         </tr>
@@ -265,7 +266,7 @@
 
               
               <!-- Payment Details box -->
-              <div style="display:none" class="box loanDetails">
+             <div style="display:none" class="box loanDetails">
                 <div class="box-header" align="center">
                   <h3 class="box-title">Payment Details - <span id="loan_number"></span></h3>
                   <div class="box-tools pull-right">
@@ -279,17 +280,22 @@
                       <table class="table table-condensed">
                          <tr>
                           <td class="col-xs-4">Payment Type</td>
-                          <td class="col-xs-8"> <select class="form-control input-sm" style="width:150px"><option>Full Payment</option><option>Part Payment</option></select></td>
+                          <td class="col-xs-8"> 
+                              <select id="PaymentType" class="form-control input-sm" style="width:150px">
+                                  <option value="FP">Full Payment</option>
+                                  <option value="PP">Part Payment</option>
+                              </select>
+                          </td>
                         </tr>
-                         <tr style="display:none">
+                         <tr class="FPElements">
                           <td>Principle Amount</td>
                           <td id="principle_amount"></td>
                         </tr>
-                        <tr style="display:none">
+                        <tr class="FPElements">
                           <td>Interest</td>
                           <td id="interest"></td>
                         </tr>
-                        <tr style="display:none">
+                        <tr class="FPElements">
                           <td>Payment Type</td>
                           <td>
                           <div class="form-group">
@@ -302,7 +308,7 @@
                           </td>
                           </div>
                         </tr>
-                        <tr class="FPGSCharge" style="display:none">
+                        <tr class="FPElements FPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
@@ -310,7 +316,7 @@
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
                           <td>Depends on the Bank you Selected</td>
                         </tr>
-                        <tr class="FPGTotal" style="display:none">
+                        <tr class="FPElements FPGTotal">
                           <td><b>Total</b></td>
                           <td id="pgtotal"><b></b></td>
                         </tr>
@@ -318,7 +324,7 @@
                           <td><b>Total</b></td>
                           <td id="nbtotal"><b></b></td>
                         </tr>
-                        <tr style="">
+                        <tr class="PPElements" style="display:none">
                           <td>
                               Enter Amount 
                               &nbsp;<i style="padding-top:5px">(between <b> <span id="minimum_interest_amount"> </span> - <span id="total_payable_amount" > </span></b>)</i>
@@ -329,7 +335,7 @@
                                 
                           </td>
                         </tr>
-                        <tr style="">
+                        <tr class="PPElements" style="display:none">
                           <td>Payment Type</td>
                           <td>
                           <div class="form-group">
@@ -342,7 +348,7 @@
                           </td>
                           </div>
                         </tr>
-                        <tr class="PPGSCharge" style="">
+                        <tr class="PPElements PPGSCharge" style="display:none">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
@@ -350,7 +356,7 @@
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
                           <td> Depends on the Bank you Selected</td>
                         </tr>
-                        <tr class="PPGTotal" style="">
+                        <tr class="PPElements PPGTotal" style="display:none">
                           <td><b>Total</b></td>
                           <td id="PG_part_total"><b>0.00</b></td>
                         </tr>
@@ -362,8 +368,8 @@
                     </div><!-- /.box-body -->
                     <div class="overlay fullpayment"><i class="fa fa-spinner fa-spin"></i></div>
                     <div class="box-footer">
-                      <button class="btn btn-success pull-right" id="FullPayment"><i class="fa fa-credit-card"></i> Payment</button>
-                      <button class="btn btn-success pull-right" id="PartPayment" style=""><i class="fa fa-credit-card"></i> PPayment</button>
+                      <button class="btn btn-success pull-right FPElements" id="FullPayment"><i class="fa fa-credit-card"></i> Payment</button>
+                      <button class="btn btn-success pull-right PPElements" id="PartPayment" style="display:none"><i class="fa fa-credit-card"></i> Payment</button>
                     </div><!-- /.box-footer -->
                   </div><!-- /.box -->
                 </div><!-- ./col -->
@@ -373,6 +379,83 @@
                 </div>
 
               </div><!-- /.Payment Details box -->
+
+               <!-- EMI Details box -->
+              <div style="display:none" class="box emiDetails">
+                <div class="box-header" align="center">
+                  <h3 class="box-title">EMI Payment of - <span id="emi_number"></span></h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                  <div class="box">
+                    <div class="box-body no-padding">
+                      <table class="table table-condensed">
+                        <tr>
+                          <td>Premium Amount</td>
+                          <td id="emiMonthlyInstallment"></td>
+                        </tr>
+                        <tr>
+                          <td>Paid / Total Installments</td>
+                          <td id="noOfInstallments"></td>
+                        </tr>                       
+                        <tr>
+                          <td>Pay Installments</td>
+                          <td><select class="form-control input-sm" style="width:100px" id="payInstallments"></select></td>
+                        </tr>
+                        <tr>
+                          <td>Penalty</td>
+                          <td id="penalty">0.00</td>
+                        </tr>  
+                        <tr>
+                          <td>Discount</td>
+                          <td id="discount">0.00</td>
+                        </tr>  
+                        <tr>
+                          <td>Payment Type</td>
+                          <td>
+                          <div class="form-group">
+                            <div class="col-md-6">
+                              <input type="radio" name="etype" class="flat-red EMIType" value="PG" checked> Debit Card
+                            </div>
+                            <div class="col-md-6">
+                              <input type="radio" name="etype" class="flat-red EMIType" value="NB"> Net Banking
+                            </div>
+                          </td>
+                          </div>
+                        </tr>
+                        <tr class="EMIPGSCharge">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
+                          <td id="EmiServiceCharge"></td>
+                        </tr>
+                        <tr class="EMINBSCharge" style="display:none">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
+                          <td>Depends on the Bank you Selected</td>
+                        </tr>
+                        <tr class="EMIPGTotal">
+                          <td><b>Total</b></td>
+                          <td id="emipgtotal"><b></b></td>
+                        </tr>
+                        <tr class="EMINBTotal" style="display:none">
+                          <td><b>Total</b></td>
+                          <td id="eminbtotal"><b></b></td>
+                        </tr>
+                      </table>
+                    </div><!-- /.box-body -->
+                    <div class="overlay emipayment"><i class="fa fa-spinner fa-spin"></i></div>
+                    <div class="box-footer">
+                      <button class="btn btn-success pull-right" id="EmiPayment"><i class="fa fa-credit-card"></i> Payment</button>
+                    </div><!-- /.box-footer -->
+                  </div><!-- /.box -->
+                </div><!-- ./col -->
+
+                <div class="box-footer clearfix">
+                  
+                </div>
+
+              </div><!-- /.EMI Details box -->
 
 
           </div><!-- /.row -->
@@ -401,7 +484,7 @@
       <input type="hidden" name="vpc_OrderInfo" value="GOLD LOAN">    
       <input type="hidden" name="vpc_MerchTxnRef" id="vpc_MerchTxnRef">
       <input type="hidden" name="vpc_Amount" id="vpc_Amount">
-      <input type="hidden" name="vpc_ReturnURL" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/return.html'; ?>">
+      <input type="hidden" name="vpc_ReturnURL" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['PHP_SELF']) != '/' ? dirname($_SERVER['PHP_SELF']) . '/' : '/' ).'return.html'; ?>">
     </form>
 
     <form id="NB" method="post" action="PG/Atom/submit.php">
@@ -409,12 +492,12 @@
       <input type="hidden" name="TType" value="NBFundTransfer">
       <input type="hidden" name="clientcode" value="007">
       <input type="hidden" name="AccountNo" value="1234567890">
-      <input type="hidden" name="ru" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/response.html'; ?>">
+      <input type="hidden" name="ru" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['PHP_SELF']) != '/' ? dirname($_SERVER['PHP_SELF']) . '/' : '/' ).'response.html'; ?>">
       <input type="hidden" name="bookingid" value="100001">
-      <input type="hidden" name="udf1" value="Test"> <!-- Customer Name -->
-      <input type="hidden" name="udf2" value="test@test.com"> <!-- Email -->
-      <input type="hidden" name="udf3" value="9895933511"> <!-- Mobile -->
-      <input type="hidden" name="udf4" value="Trivandrum"> <!-- Billing Address -->
+      <input type="hidden" name="udf1" id="udf1" value=""> <!-- Customer Name -->
+      <input type="hidden" name="udf2" id="udf2" value=""> <!-- Email -->
+      <input type="hidden" name="udf3" id="udf3" value=""> <!-- Mobile -->
+      <input type="hidden" name="udf4" id="udf4" value=""> <!-- Billing Address -->
       <input type="hidden" name="amount" id="amount">
     </form>
 

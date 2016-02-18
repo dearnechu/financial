@@ -120,6 +120,17 @@ $(function() {
         $(form).submit();
     });
 
+    $( "#PaymentType" ).on("change", function() {
+        if($(this).val() == "FP"){
+            $(".FPElements").show();
+            $(".PPElements").hide();
+        }
+        else{
+            $(".FPElements").hide();
+            $(".PPElements").show();
+        }
+    });
+
     $('.EMIType').on('ifChecked', function(event){
         if($(this).val() == "NB"){
             $(".EMIPGSCharge, .EMIPGTotal").hide();

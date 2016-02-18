@@ -425,10 +425,10 @@
                           <td>
                           <div class="form-group">
                             <div class="col-md-6">
-                              <input type="radio" name="ftype" class="flat-red EMIType" value="PG" checked> Debit Card
+                              <input type="radio" name="etype" class="flat-red EMIType" value="PG" checked> Debit Card
                             </div>
                             <div class="col-md-6">
-                              <input type="radio" name="ftype" class="flat-red EMIType" value="NB"> Net Banking
+                              <input type="radio" name="etype" class="flat-red EMIType" value="NB"> Net Banking
                             </div>
                           </td>
                           </div>
