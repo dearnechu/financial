@@ -183,6 +183,127 @@ function showLoanStatements(loanId){
 }
 
 
+function showEmiLoanStatements(loanId){ 
+    $('.spinner-search').show();
+    var data = {
+            loanId: loanId,
+        }
+    
+        jQuery.ajax({
+            url: SERVICE_URL + 'PgCustomGoldLoan/GetEmiPaymentHistoryByLoanId',
+            method: "POST",    
+            contentType: 'application/json',   
+            data: JSON.stringify(data),                    
+            beforeSend: function (xhr) {
+               xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+            },
+            error: function(xhr, status, error) {
+                return false;
+            },
+            success: function(data) {
+              $('.appneded').remove();
+              $('.loanStatements').show('slow');     
+              
+               $(".mainBox").after($('.loanStatements'));
+
+                if(data['status'] == "1"){
+                    $("#name").html(data['data']['glCustomerDto']['firstName']); 
+                    if(data['data']['glCustomerDto'].hasOwnProperty('lastName')){
+                        $("#name").html($("#name").html() + ' ' +  data['data']['glCustomerDto']['lastName']);
+                    }
+                    $("#address").html(data['data']['glCustomerDto']['addressOne']);
+
+                    var itemName = ""; 
+                    for(i=0; i<data['data']['glLoanDto']['glLoanDetail'].length; i++){
+                        itemName += data['data']['glLoanDto']['glLoanDetail'][i]['glItem']['itemName'] + ", ";
+                    }
+
+                    $("#description").html(itemName.slice(0, -2)); 
+                    $("#scheme_name").html(data['data']['glLoanDto']['glScheme']['schemeName'].toUpperCase()); 
+
+                    $("#pledge_no").html(data['data']['glLoanDto']['loanNumber']); 
+                    $("#pledge_date").html(new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y")); 
+                    $("#pledge_value").html(data['data']['glLoanDto']['loanAmount'].format(2, 3)); 
+                    $("#net_weight").html(data['data']['glLoanDto']['netWeight']); 
+
+                    $("#branch_name").html(data['data']['glLoanDto']['branch']['name']); 
+                    $("#branch_code").html(data['data']['glLoanDto']['branch']['code']); 
+
+                    $("#current_date").html(new Date().format("d-M-Y h:i A"));
+
+                    var Description = "AMOUNT PAID"; 
+                    $('#StatementTable tr:last').after('<tr class="appneded">' +
+                          '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
+                          '<td>' + Description + '</td>' +
+                          '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
+                          '<td></td>' +
+                          '<td>' + data['data']['glLoanDto']['glScheme']['totalEmi'] + ' EMI' + '</td>' +
+                          '</tr>');
+
+                    var balance = data['data']['glLoanDto']['glScheme']['totalEmi'];
+                    
+                    for(var index in data['data']['emiPaymentDto']) { 
+
+                        var isPaidOnline = false;
+                        if(data['data']['emiPaymentDto'][index].hasOwnProperty('isPaidOnline')){
+                            isPaidOnline = data['data']['emiPaymentDto'][index]['isPaidOnline'];
+                        }
+
+                        if(isPaidOnline){
+                            var paymentProcessType = "Online";
+                            if(data['data']['emiPaymentDto'][index].hasOwnProperty('paymentProcessType')){
+                                paymentProcessType = data['data']['emiPaymentDto'][index]['paymentProcessType'];
+                            }
+                            Description = paymentProcessType;
+                        }else {
+                            Description = "CASH RCVD";
+                        }
+
+                        var transactionNumber = 0;
+                        if(data['data']['emiPaymentDto'][index].hasOwnProperty('transactionNumber')){
+                            var transactionNumber = data['data']['emiPaymentDto'][index]['transactionNumber'];
+                        }                        
+                        if(transactionNumber == 0){
+                            transactionNumber = data['data']['emiPaymentDto'][index]['id'];
+                        }
+
+                        Description += " - " + transactionNumber;
+
+                        var numberOfEmiPaid = 1;
+                        if(data['data']['emiPaymentDto'][index].hasOwnProperty('numberOfEmiPaid')){
+                            numberOfEmiPaid = data['data']['emiPaymentDto'][index]['numberOfEmiPaid']
+                        }
+                        balance -= numberOfEmiPaid;
+
+                        paidAmount = data['data']['emiPaymentDto'][index]['paidAmount'];
+
+                        var penaltyAmount = 0;
+                        if(data['data']['emiPaymentDto'][index].hasOwnProperty('penaltyAmount')){
+                            var penaltyAmount = data['data']['emiPaymentDto'][index]['penaltyAmount'];
+                        }   
+                        paidAmount += penaltyAmount;
+
+                        var discountAmount = 0;
+                        if(data['data']['emiPaymentDto'][index].hasOwnProperty('discountAmount')){
+                            var discountAmount = data['data']['emiPaymentDto'][index]['discountAmount'];
+                        }   
+                        paidAmount -= discountAmount;
+
+
+                        $('#StatementTable tr:last').after('<tr class="appneded">' +
+                          '<td>' + new Date(data['data']['emiPaymentDto'][index]['date']).format("d-M-Y") + '</td>' +
+                          '<td>' + Description + '</td>' +
+                          '<td></td>' +
+                          '<td>' + paidAmount.format(2,3) + '</td>' +
+                          '<td>' + balance + ' EMI</td>' +
+                          '</tr>');
+                    }
+                }
+                $('.spinner-search').hide();
+            }
+    });
+}
+
 
     $(function() {
         if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") == null){

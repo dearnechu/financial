@@ -279,12 +279,16 @@
                     <div class="box-body no-padding">
                       <table class="table table-condensed">
                          <tr>
-                          <td class="col-xs-4">Payment Type</td>
+                          <td class="col-xs-4">Payment Mode</td>
                           <td class="col-xs-8"> 
-                              <select id="PaymentType" class="form-control input-sm" style="width:150px">
-                                  <option value="FP">Full Payment</option>
-                                  <option value="PP">Part Payment</option>
-                              </select>
+                          <div class="form-group">
+                            <div class="col-md-6">
+                              <input type="radio" name="pmode" class="flat-red PaymentType" value="FP" checked> Full Payment
+                            </div>
+                            <div class="col-md-6">
+                              <input type="radio" name="pmode" class="flat-red PaymentType" value="PP"> Part Payment
+                            </div>
+                          </div>
                           </td>
                         </tr>
                          <tr class="FPElements">
@@ -305,8 +309,8 @@
                             <div class="col-md-6">
                               <input type="radio" name="ftype" class="flat-red FullPType" value="NB"> Net Banking
                             </div>
-                          </td>
                           </div>
+                          </td>
                         </tr>
                         <tr class="FPElements FPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
@@ -345,8 +349,8 @@
                             <div class="col-md-6">
                               <input type="radio" name="ptype" class="flat-red PartPType" value="NB"> Net Banking
                             </div>
-                          </td>
                           </div>
+                          </td>
                         </tr>
                         <tr class="PPElements PPGSCharge" style="display:none">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
@@ -423,8 +427,8 @@
                             <div class="col-md-6">
                               <input type="radio" name="etype" class="flat-red EMIType" value="NB"> Net Banking
                             </div>
-                          </td>
                           </div>
+                          </td>
                         </tr>
                         <tr class="EMIPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>

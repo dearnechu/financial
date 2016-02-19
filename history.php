@@ -28,7 +28,7 @@
             display: none !important;
         }
         .sorting_desc{
-            cursor: default !important;
+            cursor: text !important;
         }
     </style>
 

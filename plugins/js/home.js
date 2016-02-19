@@ -33,9 +33,13 @@ $(function() {
         success: function(data) {         
             var dataSet = new Array();         
             for(var index in data['data']) { 
-                var loanNumber = "<a class='best' href='javascript:showEmiDetails(\""+ data['data'][index]['id'] +"\")'>" + data['data'][index]['loanNumber'] + "</a>";;
+               
+                var loanNumber = "<a class='best' href='javascript:showEmiDetails(\""+ data['data'][index]['id'] +"\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                var loanStatements = "<a href='javascript:showEmiLoanStatements(\""+ data['data'][index]['id'] +"\")'> View </a>";
+
                 if(!data['data'][index]['isEmi']){
                     loanNumber = "<a class='best' href='javascript:showLoanDetails("+ data['data'][index]['loanNumber'] +", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                    loanStatements = "<a href='javascript:showLoanStatements(\""+ data['data'][index]['id'] +"\")'> View </a>";
                 }
                 dataSet.push([
                     loanNumber, 
@@ -43,7 +47,8 @@ $(function() {
                     data['data'][index]['loanAmount'].format(2, 3), 
                     new Date(data['data'][index]['revisedDate']).format("d-M-Y"), 
                     data['data'][index]['glScheme']['schemeName'].toUpperCase(),
-                    "<a href='javascript:showLoanStatements(\""+ data['data'][index]['id'] +"\")'> View </a>"
+                    loanStatements
+                    
                 ]);
             }
             pageCount = 3;
@@ -120,21 +125,32 @@ $(function() {
         $(form).submit();
     });
 
-    $( "#PaymentType" ).on("change", function() {
+    $( ".PaymentType" ).on("ifChecked", function() {
         if($(this).val() == "FP"){
             $(".FPElements").show();
             $(".PPElements").hide();
+            /*
+            if($(".FullPType").prop("checked") == false){ 
+                $(".FPGSCharge, .FPGTotal").hide();
+                $(".FNBSCharge, .FNBTotal").show();
+            }
+            else{
+                $(".FPGSCharge, .FPGTotal").show();
+                $(".FNBSCharge, .FNBTotal").hide();                 
+            } */
         }
         else{
             $(".FPElements").hide();
             $(".PPElements").show();
         }
+        
     });
 
     $('.EMIType').on('ifChecked', function(event){
         if($(this).val() == "NB"){
             $(".EMIPGSCharge, .EMIPGTotal").hide();
             $(".EMINBSCharge, .EMINBTotal").show();
+            $('.FullPType').prop('disabled', false);
         }
         else{
             $(".EMIPGSCharge, .EMIPGTotal").show();

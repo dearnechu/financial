@@ -97,7 +97,7 @@ function history(startDate, endDate) {
                             Amount.format(2, 3),
                             new Date(data['data']['emiPaymentDto'][index]['date']).format("d-M-Y H:i"), 
                             data['data']['emiPaymentDto'][index]['paymentType'],
-                            "<a href='javascript:showLoanStatements(\""+ data['data']['emiPaymentDto'][index]['loanid'] +"\")'> View </a>"
+                            "<a href='javascript:showEmiLoanStatements(\""+ data['data']['emiPaymentDto'][index]['loanId'] +"\")'> View </a>"
                         ]);
                     }
 
