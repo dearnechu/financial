@@ -1,9 +1,9 @@
 <?php
 class payment_config{
-	var $Url = "https://paynetzuat.atomtech.in/paynetz/epi/fts";
-	var $Login="160";
-	var $Password="Test@123";
-	var $MerchantName="ATOM";
+	var $Url = "https://payment.atomtech.in/paynetz/epi/fts";
+	var $Login="17807";
+	var $Password="MUTHOOT@123";
+	var $MerchantName="MUTHOOT";
 	var $TxnCurr="INR";
 	var $TxnScAmt="0";
 }

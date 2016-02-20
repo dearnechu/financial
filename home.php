@@ -495,7 +495,7 @@
     </form>
 
     <form id="NB" method="post" action="PG/Atom/submit.php">
-      <input type="hidden" name="product" value="NSE">
+      <input type="hidden" name="product" value="MUTHOOT">
       <input type="hidden" name="TType" value="NBFundTransfer">
       <input type="hidden" name="clientcode" value="007">
       <input type="hidden" name="AccountNo" value="1234567890">
