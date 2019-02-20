@@ -5,8 +5,8 @@
 var SERVICE_URL = "http://192.100.100.60/api/";
 var AUTHENTICATION_PASSWORD = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
 
-var SERVICE_URL = "https://muthootlive.azure-mobile.net/api/";
-var AUTHENTICATION_PASSWORD = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
+var SERVICE_URL = "https://muthootdev.azure-mobile.net/api/";
+var AUTHENTICATION_PASSWORD = "JODKFspBxMyxtIrHIqVSEExBzKfGlR50";
 
 var DOMAIN_URL = "http://staging.experionglobal.com/Muthoot/";
 var MAIL_SERVICE_URL = DOMAIN_URL + "Mail/";
