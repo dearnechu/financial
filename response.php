@@ -38,11 +38,7 @@
 			$payment_array["PaymentProcessType"] = $_POST['bank_name'];
 
 		} 
-		echo "<pre>";
-		print_r($_POST);
-		print_r($_SESSION);
-		echo $jsondata = json_encode($payment_array);
-		echo "<br>".$url;
+		$jsondata = json_encode($payment_array);
 
 		unset($_SESSION['payment']);
 		unset($_SESSION['service_charge']);
@@ -62,10 +58,8 @@
 		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$server_output = curl_exec ($ch);
-		print_r($server_output);
 		curl_close ($ch);
 
-		// header("Location: home.html");
-
+		header("Location: home.html");
 	}
  ?>
