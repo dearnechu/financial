@@ -32,7 +32,7 @@
 			}
 			
 			$payment_array["paymentStatus"] = "Success";
-			$payment_array["paidAmount"] = $_POST["amt"];
+			$payment_array["paidAmount"] = $_POST["amt"] - (double)$_SESSION['service_charge'];
 			$payment_array["OnlineServiceCharge"] = (double)$_SESSION['service_charge'];
 			$payment_array["transactionNumber"] = $_POST['mer_txn']; 
 			$payment_array["PaymentProcessType"] = $_POST['bank_name'];
