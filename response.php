@@ -61,6 +61,7 @@
 		$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$server_output = curl_exec ($ch);
+		print_r($server_output);
 		curl_close ($ch);
 
 		// header("Location: home.html");
