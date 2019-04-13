@@ -17,7 +17,7 @@ $transactionRequest->setProductId("NSE");
 $transactionRequest->setAmount($_POST['vpc_Amount']);
 $transactionRequest->setTransactionCurrency("INR");
 $transactionRequest->setTransactionAmount($_POST['vpc_Amount']);
-$transactionRequest->setReturnUrl("http://muthootone.cloudapp.net//response.php");
+$transactionRequest->setReturnUrl("http://muthootone.cloudapp.net/response.php");
 $transactionRequest->setClientCode(123);
 $transactionRequest->setTransactionId($transactionId);
 $transactionRequest->setTransactionDate($transactionDate);
