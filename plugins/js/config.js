@@ -28,8 +28,12 @@ function makeBaseAuth(user, pswd){
 }
 
 function getServiceCharge(amount){
-    if(amount < 2000) return (amount * 0.75 / 100);
+    if(amount < 2000) return (amount * 0 / 100);
     return (amount * 1 / 100);
+}
+
+function getNetBankingServiceCharge(amount){
+    return (amount * 1.65 / 100);
 }
 
 function getUrlVars() {

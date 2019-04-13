@@ -303,12 +303,12 @@
                           </div>
                         </tr>
                         <tr class="FPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 1%"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
                         <tr class="FNBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
-                          <td>Depends on the Bank you Selected</td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="1.65% for Net Banking"></i></a></td>
+                          <td id="net_service_charge"></td>
                         </tr>
                         <tr class="FPGTotal">
                           <td><b>Total</b></td>
@@ -357,12 +357,12 @@
                           </div>
                         </tr>
                         <tr class="PPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 1%"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
                         <tr class="PNBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
-                          <td> Depends on the Bank you Selected</td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="1.65% for Net Banking"></i></a></td>
+                          <td id="part_net_service_charge"></td>
                         </tr>
                         <tr class="PPGTotal">
                           <td><b>Total</b></td>
@@ -482,7 +482,7 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    <form id="PG" method="post" action="PG/PHP-cybs/2.5Party/EMA_php_serverhost_do_2.5.php">
+    <form id="PG" method="post" action="PG/Atompay/sample.php">
       <input type="hidden" name="vpc_URL" value="https://uat-geniusepay.in/VisaEMA/Visa/merchant.action">
       <input type="hidden" name="vpc_Version" value="1">
       <input type="hidden" name="vpc_Command" value="pay">
@@ -494,7 +494,7 @@
       <input type="hidden" name="vpc_ReturnURL" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['PHP_SELF']) != '/' ? dirname($_SERVER['PHP_SELF']) . '/' : '/' ).'return.html'; ?>">
     </form>
 
-    <form id="NB" method="post" action="PG/Atom/submit.php">
+    <form id="NB" method="post" action="PG/Atompay/sample.php">
       <input type="hidden" name="product" value="MUTHOOT">
       <input type="hidden" name="TType" value="NBFundTransfer">
       <input type="hidden" name="clientcode" value="007">

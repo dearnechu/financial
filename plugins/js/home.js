@@ -119,7 +119,7 @@ $(function() {
             storesession("service_charge", $("#service_charge").html());
         } else { 
             form += "NB"; 
-            storesession("service_charge", 0);
+            storesession("service_charge", $("#net_service_charge").html());
         }
         
         $(form).submit();
@@ -188,7 +188,7 @@ $(function() {
         }   
         $(".part-payment-error").hide();
         $(".partpayment").show();
-        $("#vpc_Amount").val(part_total.toFixed(2) * 100);
+        $("#vpc_Amount").val(part_total.toFixed(2));
         $("#amount").val($("#NB_part_total").html());
         $("#vpc_MerchTxnRef").val("MGLPART" + "-" + new Date().format("YmdHis") );
         
@@ -200,7 +200,7 @@ $(function() {
             storesession("service_charge", $("#part_service_charge").html());
         } else { 
             form += "NB";
-            storesession("service_charge", 0); 
+            storesession("service_charge", $("#part_net_service_charge").html()); 
         }
         
         $(form).submit();
@@ -224,9 +224,14 @@ $(function() {
     $('#PartAmount').on('keyup blur change', function(e) {
         var service_charge = getServiceCharge($(this).val());
         $("#part_service_charge").html(service_charge.format(2,3));
+        
+        var net_service_charge = getNetBankingServiceCharge($(this).val());
+        $("#part_net_service_charge").html(net_service_charge.format(2,3));
+
         part_total = ($(this).val() * 1) + service_charge;
+        net_part_total = ($(this).val() * 1) + net_service_charge;
         $("#PG_part_total").html(part_total.format(2,3));
-        $("#NB_part_total").html(($(this).val() * 1).toFixed(2));
+        $("#NB_part_total").html(net_part_total.format(2,3));
         $(".part-payment-error").hide();
     });
 
@@ -326,7 +331,7 @@ function CalculateEmiInterestOnline(numberOfinstallmentPaid){
                 $("#emipgtotal").html("<b>" + total.format(2, 3) + "</b>");  
                 $("#eminbtotal").html("<b>" + data['totalAmountTobepaid'].format(2, 3) + "</b>");  
 
-                $("#vpc_Amount").val(total.toFixed(2) * 100);
+                $("#vpc_Amount").val(total.toFixed(2));
                 $("#amount").val(data['totalAmountTobepaid'].toFixed(2));
 
                 storesession("payment", data);
@@ -376,11 +381,14 @@ function showLoanDetails(loanNo, branchId){
                 $("#interest").html(goldLoanInterestDue.format(2, 3));  
                 var service_charge = getServiceCharge(goldLoanAmountRemaining + goldLoanInterestDue);
                 $("#service_charge").html(service_charge.format(2, 3));  
-                
-                nbtotal = goldLoanAmountRemaining + goldLoanInterestDue;
-                total = nbtotal + service_charge;
 
-                $("#vpc_Amount").val(total.toFixed(2) * 100);
+                var net_service_charge = getNetBankingServiceCharge(goldLoanAmountRemaining + goldLoanInterestDue);
+                $("#net_service_charge").html(net_service_charge.format(2, 3));  
+                
+                nbtotal = goldLoanAmountRemaining + goldLoanInterestDue + net_service_charge;
+                total = goldLoanAmountRemaining + goldLoanInterestDue + service_charge;
+
+                $("#vpc_Amount").val(total.toFixed(2));
                 $("#amount").val((goldLoanAmountRemaining + goldLoanInterestDue).toFixed(2));
                 $("#pgtotal").html("<b>" + total.format(2, 3) + "</b>");  
                 $("#nbtotal").html("<b>" + nbtotal.format(2, 3) + "</b>");  
