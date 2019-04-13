@@ -5,6 +5,7 @@ Number.prototype.format = function(n, x) {
 
 var minimumInterestToBePaid = 0;
 var total = 0;
+var nbtotal = 0;
 var emiId = "";
 
 $(function() {
@@ -110,41 +111,33 @@ $(function() {
     $( "#FullPayment" ).click(function() { 
         $(".fullpayment").show();
         $("#vpc_MerchTxnRef").val("MGLFULL" + "-" + new Date().format("YmdHis") );
-        
+
         storesession("payment_type", "FULL");
         
-        var form = "#";
         if($('.FullPType').prop('checked')) { 
-            form += "PG";
             storesession("service_charge", $("#service_charge").html());
+            $("#vpc_Amount").val(total.toFixed(2));
+            $("#vpc_mdd").val("DC");
+            
         } else { 
-            form += "NB"; 
             storesession("service_charge", $("#net_service_charge").html());
+            $("#vpc_Amount").val(nbtotal.toFixed(2));
+            $("#vpc_mdd").val("NB");
         }
         
-        $(form).submit();
+        $("#PG").submit();
     });
 
-    $( ".PaymentType" ).on("ifChecked", function() {
+    /*  $( ".PaymentType" ).on("ifChecked", function() {
         if($(this).val() == "FP"){
             $(".FPElements").show();
             $(".PPElements").hide();
-            /*
-            if($(".FullPType").prop("checked") == false){ 
-                $(".FPGSCharge, .FPGTotal").hide();
-                $(".FNBSCharge, .FNBTotal").show();
-            }
-            else{
-                $(".FPGSCharge, .FPGTotal").show();
-                $(".FNBSCharge, .FNBTotal").hide();                 
-            } */
         }
         else{
             $(".FPElements").hide();
             $(".PPElements").show();
         }
-        
-    });
+    }); */
 
     $('.EMIType').on('ifChecked', function(event){
         if($(this).val() == "NB"){
@@ -165,7 +158,7 @@ $(function() {
         }
         else{
             $(".FPGSCharge, .FPGTotal").show();
-            $(".FNBSCharge, .FNBTotal").hide();                 
+            $(".FNBSCharge, .FNBTotal").hide();
         }
     });
 
@@ -188,22 +181,22 @@ $(function() {
         }   
         $(".part-payment-error").hide();
         $(".partpayment").show();
-        $("#vpc_Amount").val(part_total.toFixed(2));
         $("#amount").val($("#NB_part_total").html());
         $("#vpc_MerchTxnRef").val("MGLPART" + "-" + new Date().format("YmdHis") );
         
         storesession("payment_type", "PART");
         
-        var form = "#";
         if($('.PartPType').prop('checked')) { 
-            form += "PG";
             storesession("service_charge", $("#part_service_charge").html());
+            $("#vpc_mdd").val("DC");
+            $("#vpc_Amount").val(part_total.toFixed(2));
         } else { 
-            form += "NB";
             storesession("service_charge", $("#part_net_service_charge").html()); 
+            $("#vpc_mdd").val("NB");
+            $("#vpc_Amount").val(net_part_total.toFixed(2));
         }
         
-        $(form).submit();
+        $("#PG").submit();
     });
 
     $('.PartPType').on('ifChecked', function(event){

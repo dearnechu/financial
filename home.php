@@ -491,21 +491,8 @@
       <input type="hidden" name="vpc_OrderInfo" value="GOLD LOAN">    
       <input type="hidden" name="vpc_MerchTxnRef" id="vpc_MerchTxnRef">
       <input type="hidden" name="vpc_Amount" id="vpc_Amount">
+      <input type="hidden" name="vpc_mdd" value="DC" id="vpc_mdd">
       <input type="hidden" name="vpc_ReturnURL" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['PHP_SELF']) != '/' ? dirname($_SERVER['PHP_SELF']) . '/' : '/' ).'return.html'; ?>">
-    </form>
-
-    <form id="NB" method="post" action="PG/Atompay/sample.php">
-      <input type="hidden" name="product" value="MUTHOOT">
-      <input type="hidden" name="TType" value="NBFundTransfer">
-      <input type="hidden" name="clientcode" value="007">
-      <input type="hidden" name="AccountNo" value="1234567890">
-      <input type="hidden" name="ru" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['PHP_SELF']) != '/' ? dirname($_SERVER['PHP_SELF']) . '/' : '/' ).'response.html'; ?>">
-      <input type="hidden" name="bookingid" value="100001">
-      <input type="hidden" name="udf1" id="udf1" value=""> <!-- Customer Name -->
-      <input type="hidden" name="udf2" id="udf2" value=""> <!-- Email -->
-      <input type="hidden" name="udf3" id="udf3" value=""> <!-- Mobile -->
-      <input type="hidden" name="udf4" id="udf4" value=""> <!-- Billing Address -->
-      <input type="hidden" name="amount" id="amount">
     </form>
 
     <!-- jQuery 2.1.4 -->
