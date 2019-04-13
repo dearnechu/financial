@@ -38,7 +38,8 @@
 			$payment_array["PaymentProcessType"] = $_POST['bank_name'];
 
 		} 
-
+		echo "<pre>";
+		print_r($_POST);
 		echo $jsondata = json_encode($payment_array);
 		echo "<br>".$url;
 
