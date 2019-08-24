@@ -303,7 +303,7 @@
                           </div>
                         </tr>
                         <tr class="FPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 1%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
                         <tr class="FNBSCharge" style="display:none">
@@ -357,7 +357,7 @@
                           </div>
                         </tr>
                         <tr class="PPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 1%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
                         <tr class="PNBSCharge" style="display:none">
@@ -434,7 +434,7 @@
                           </div>
                         </tr>
                         <tr class="EMIPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0.75% for below 2000, otherwise 1%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="EmiServiceCharge"></td>
                         </tr>
                         <tr class="EMINBSCharge" style="display:none">
@@ -482,17 +482,12 @@
            immediately after the control sidebar -->
       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
-    <form id="PG" method="post" action="PG/Atompay/sample.php">
-      <input type="hidden" name="vpc_URL" value="https://uat-geniusepay.in/VisaEMA/Visa/merchant.action">
-      <input type="hidden" name="vpc_Version" value="1">
-      <input type="hidden" name="vpc_Command" value="pay">
-      <input type="hidden" name="vpc_AccessCode" value="MYZY7094">
-      <input type="hidden" name="vpc_MerchantId" value="TESTCAMUTHOOMER">
-      <input type="hidden" name="vpc_OrderInfo" value="GOLD LOAN">    
-      <input type="hidden" name="vpc_MerchTxnRef" id="vpc_MerchTxnRef">
-      <input type="hidden" name="vpc_Amount" id="vpc_Amount">
-      <input type="hidden" name="vpc_mdd" value="DC" id="vpc_mdd">
-      <input type="hidden" name="vpc_ReturnURL" value="<?php echo 'http://'.$_SERVER['HTTP_HOST'].(dirname($_SERVER['PHP_SELF']) != '/' ? dirname($_SERVER['PHP_SELF']) . '/' : '/' ).'return.html'; ?>">
+    <form id="PG" method="post" action="PG/PHP/payment_process_test.php">
+      <input type="hidden" name="amount" id="vpc_Amount">
+      <!-- 
+        <form id="PG" method="post" action="PG/Axis/PHP_VPC_3Party_Order_DO.php">
+        <input type="hidden" name="vpc_ReturnURL" value="http://localhost/PG/Axis/PHP_VPC_3Party_Order_DR.php">
+      -->
     </form>
 
     <!-- jQuery 2.1.4 -->
