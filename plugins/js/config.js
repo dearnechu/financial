@@ -29,7 +29,7 @@ function makeBaseAuth(user, pswd){
 
 function getServiceCharge(amount){
     if(amount < 2000) return (amount * 0 / 100);
-    return (amount * 1 / 100);
+    return (amount * 0.8 / 100);
 }
 
 function getNetBankingServiceCharge(amount){
