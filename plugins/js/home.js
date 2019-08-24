@@ -84,8 +84,9 @@ $(function() {
     });
 
     $("#udf1").val(localStorage.getItem("customerName"));
-    $("#udf2").val(localStorage.getItem("email"));
-    $("#udf3").val(localStorage.getItem("mobile"));
+    $("#customer_email").val(localStorage.getItem("email"));
+    $("#customer_phone").val(localStorage.getItem("mobile"));
+    $("#customerId").val(localStorage.getItem("customerId"));
     $("#udf4").val(localStorage.getItem("location"));
 
     $("#EmiPayment").click(function() { 

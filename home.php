@@ -484,6 +484,10 @@
     </div><!-- ./wrapper -->
     <form id="PG" method="post" action="PG/PHP/payment_process_test.php">
       <input type="hidden" name="amount" id="vpc_Amount">
+      <input type="hidden" name="customer_phone" id="customer_phone">
+      <input type="hidden" name="customer_email" id="customer_email">
+      <input type="hidden" name="customerId" id="customerId">
+      <input type="hidden" name="description" id="vpc_MerchTxnRef">
       <!-- 
         <form id="PG" method="post" action="PG/Axis/PHP_VPC_3Party_Order_DO.php">
         <input type="hidden" name="vpc_ReturnURL" value="http://localhost/PG/Axis/PHP_VPC_3Party_Order_DR.php">

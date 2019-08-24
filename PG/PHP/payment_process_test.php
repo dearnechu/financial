@@ -43,10 +43,11 @@ function curl_post($params,$method)
 $params['order_id'] = $stamp = date("Ymdhis");
 $params['amount']= $_POST['amount'];
 $params['billing_address_last_name'] = $billing_address_last_name;
-$params['customer_phone'] = $customer_phone;
-$params['customer_email'] = $customer_email;
-$params['return_url'] = "http://muthootone.cloudapp.net/PG/PHP/handleResponse.php";
-$params['description'] = "Sample description";
+$params['customer_phone'] = $_POST['customer_phone'];
+$params['customer_email'] = $_POST['customer_email'];
+$params['customer_id'] = $_POST['customerId'];
+$params['return_url'] = "http://muthootone.cloudapp.net/response.php";
+$params['description'] =  $_POST['description'];
 $params['billing_address_first_name'] = $billing_address_first_name;
 $params['payment_method_type'] = 'CARD`';
 
