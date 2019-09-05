@@ -105,7 +105,7 @@ $(function() {
             storesession("service_charge", 0);
         }
 
-        $(form).submit();
+        $("#PG").submit();
 
     });
 

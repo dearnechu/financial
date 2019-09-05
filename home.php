@@ -289,7 +289,7 @@
                           <td>Interest</td>
                           <td id="interest"></td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <td>Payment Type</td>
                           <td>
                           <div class="form-group">
@@ -301,13 +301,13 @@
                             </div>
                           </td>
                           </div>
-                        </tr>
+                        </tr> -->
                         <tr class="FPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
                         <tr class="FNBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="1.65% for Net Banking"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="net_service_charge"></td>
                         </tr>
                         <tr class="FPGTotal">
@@ -343,7 +343,7 @@
                             <label class="text-red part-payment-error" style="display:none; margin-bottom:0px"> Invalid amount </label>
                           </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                           <td>Payment Type</td>
                           <td>
                           <div class="form-group">
@@ -355,13 +355,13 @@
                             </div>
                           </td>
                           </div>
-                        </tr>
+                        </tr> -->
                         <tr class="PPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
                         <tr class="PNBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="1.65% for Net Banking"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="part_net_service_charge"></td>
                         </tr>
                         <tr class="PPGTotal">
@@ -420,7 +420,7 @@
                           <td>Discount</td>
                           <td id="discount">0.00</td>
                         </tr>  
-                        <tr>
+                        <!-- <tr>
                           <td>Payment Type</td>
                           <td>
                           <div class="form-group">
@@ -432,14 +432,14 @@
                             </div>
                           </td>
                           </div>
-                        </tr>
+                        </tr> -->
                         <tr class="EMIPGSCharge">
                           <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
                           <td id="EmiServiceCharge"></td>
                         </tr>
                         <tr class="EMINBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="Fixed charges"></i></a></td>
-                          <td>Depends on the Bank you Selected</td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td id="EmiServiceCharge"></td>
                         </tr>
                         <tr class="EMIPGTotal">
                           <td><b>Total</b></td>

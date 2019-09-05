@@ -33,7 +33,8 @@ function getServiceCharge(amount){
 }
 
 function getNetBankingServiceCharge(amount){
-    return (amount * 1.65 / 100);
+    if(amount < 2000) return (amount * 0 / 100);
+    return (amount * 0.8 / 100);
 }
 
 function getUrlVars() {
