@@ -39,7 +39,7 @@ $(function() {
                 var loanStatements = "<a href='javascript:showEmiLoanStatements(\""+ data['data'][index]['id'] +"\")'> View </a>";
 
                 if(!data['data'][index]['isEmi']){
-                    loanNumber = "<a class='best' href='javascript:showLoanDetails("+ data['data'][index]['loanNumber'] +", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                    loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['branchId'] + "\", \"" + data['data'][index]['companyId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
                     loanStatements = "<a href='javascript:showLoanStatements(\""+ data['data'][index]['id'] +"\")'> View </a>";
                 }
                 dataSet.push([
@@ -263,7 +263,7 @@ function showEmiDetails(loanNo){
                 emiId = data['data']['id'];
 
                 $("#noOfInstallments").html(data['data']['paidInstallment'] + " / " + data['data']['noOfInstallments']);
-                $("#emiMonthlyInstallment").html(data['data']['emiMonthlyInstallment'].format(2, 3));
+                $("#emiMonthlyInstallment").html(Math.round(data['data']['emiMonthlyInstallment']).format(2, 3));
 
                 var service_charge = getServiceCharge(data['data']['emiMonthlyInstallment']);
                 $("#EmiServiceCharge").html(service_charge.format(2, 3)); 
@@ -307,12 +307,12 @@ function CalculateEmiInterestOnline(numberOfinstallmentPaid){
             success: function(data) {
                 var penalty = 0;
                 if(data.hasOwnProperty('penalty')){
-                    penalty = data['penalty'];
+                    penalty = Math.round(data['penalty']);
                 }
 
                 var discount = 0;
                 if(data.hasOwnProperty('discount')){
-                    discount = data['discount'];
+                    discount = Math.round(data['discount']);
                 }
 
                 $("#penalty").html(penalty.format(2, 3));
@@ -321,9 +321,9 @@ function CalculateEmiInterestOnline(numberOfinstallmentPaid){
                 var service_charge = getServiceCharge(data['totalAmountTobepaid']);
                 $("#EmiServiceCharge").html(service_charge.format(2, 3)); 
 
-                total = data['totalAmountTobepaid'] + service_charge;
+                total = Math.round(data['totalAmountTobepaid']) + service_charge;
                 $("#emipgtotal").html("<b>" + total.format(2, 3) + "</b>");  
-                $("#eminbtotal").html("<b>" + data['totalAmountTobepaid'].format(2, 3) + "</b>");  
+                $("#eminbtotal").html("<b>" + Math.round(data['totalAmountTobepaid']).format(2, 3) + "</b>");  
 
                 $("#vpc_Amount").val(total.toFixed(2));
                 $("#amount").val(data['totalAmountTobepaid'].toFixed(2));
@@ -335,11 +335,12 @@ function CalculateEmiInterestOnline(numberOfinstallmentPaid){
         });
 }
 
-function showLoanDetails(loanNo, branchId){ 
+function showLoanDetails(loanNo, branchId, companyId){ 
     $('.spinner-search').show();
     var data = {
             loanNumber: loanNo,
             branchId : branchId,
+            companyId: companyId,
             customerId: localStorage.getItem("customerId"),
             logindate : new Date().toISOString()
         }
