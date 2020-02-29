@@ -72,7 +72,10 @@ $params['payment_method_type'] = 'CARD`';
 // $params['shipping_address_phone'] = "986743210";
 $params['shipping_address_country_code_iso'] = "IND";
 $params['shipping_address_country'] = "India";
-$mg_api='218E2D2311A445EA5380C6787035FE';
+$mg_api='218E2D2311A445EA5380C6787035FE'; // for MMLT Account
+if ($_SESSION['payment']['companyId'] === '918FCC58-499E-4757-912A-295DC19BE564') {
+	$mg_api='51D764F4E42474E831E778DB82AC8F'; // for MSNL Account
+}
 $curl_post_url = "https://axisbank.juspay.in/orders";
 $ch = curl_init();
 curl_setopt ($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
