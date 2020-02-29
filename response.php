@@ -5,6 +5,7 @@
 
 	$orderId = $_GET["order_id"];
 	$merchantId = "MMLT";
+	$payment_array = $_SESSION['payment'];
 
 	$ch = curl_init('https://axisbank.juspay.in/order_status');
 
@@ -12,7 +13,11 @@
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-	curl_setopt($ch, CURLOPT_USERPWD, '218E2D2311A445EA5380C6787035FE');
+	if ($payment_array['companyId'] === '918FCC58-499E-4757-912A-295DC19BE564') {
+		curl_setopt($ch, CURLOPT_USERPWD, '51D764F4E42474E831E778DB82AC8F'); // MSNL
+	} else {
+		curl_setopt($ch, CURLOPT_USERPWD, '218E2D2311A445EA5380C6787035FE'); // MML
+	}
 
 	$jsonResponse =  json_decode( curl_exec($ch) ); 
 
@@ -20,7 +25,6 @@
 	$amount = $jsonResponse->{'amount'};
 	$txnId = $jsonResponse->{'txnId'};
 
-	$payment_array = $_SESSION['payment'];
 	$payment_array["paymentStatus"] = "Failed";
 	$payment_array["paidAmount"] = 0;
 	$payment_array["transactionNumber"] = date("YmdHis");
