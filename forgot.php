@@ -66,7 +66,7 @@
           </div>
         </form>
 
-        <a href="register.html">Register a new membership</a><br>
+        <a href="register.html">New user</a><br>
         <a href="login.html" class="text-center">I already have a account</a>
         <div class="overlay"><i class="fa fa-spinner fa-spin"></i></div>
 
