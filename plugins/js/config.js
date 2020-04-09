@@ -359,14 +359,14 @@ function showEmiLoanStatements(loanId){
 	language JS
 
     SSH: ssh azureuser@muthootone.cloudapp.net
-    Pass: @Muthoot123
+    Pass: @Magento123456789
 
     TEST admin
     URL: 
 
     http://xpresssms.in/
     muthootmercantile
-    muthootmercantile
+    muthootmercantile@123
     http://sms.xpresssms.in/api/api.php?ver=1&mode=1&action=push_sms&type=1&route=2&login_name=muthootmercantile&api_password=37d5822068b86f5c7316&message=Test%20Message&number=9895933511&sender=mthoot
 
 
