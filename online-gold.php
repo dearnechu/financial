@@ -8,18 +8,16 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link href="assets/images/favicon.png" rel="shortcut icon">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -65,8 +63,7 @@
           </div>
         </nav>
       </header>
-
-            <!-- Left side column. contains the logo and sidebar -->
+      <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
@@ -75,7 +72,7 @@
             <li class="header">GOLD LOAN</li>
             <li class="treeview">
               <a href="home.html">
-                <i class="fa fa-credit-card"></i> <span>Online Payment</span><i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-credit-card"></i> <span>Online Payment</span><i class="fa fa-angle-right pull-right"></i>
               </a>
             </li>
             <li class="treeview">
@@ -83,8 +80,8 @@
                 <i class="fa fa-table"></i> <span>Registration Form</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
-            <li class="treeview">
-              <a href="online-gold.html">
+            <li class="treeview active">
+              <a href="#">
                 <i class="fa fa-sun-o"></i> <span>Online Gold Loan</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
@@ -103,9 +100,9 @@
                 <i class="fa fa-exchange"></i> <span>Change Password</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
-           <li class="treeview active">
-              <a href="#">
-                <i class="fa fa-support"></i> <span>Support</span><i class="fa fa-angle-right pull-right"></i>
+           <li class="treeview">
+              <a href="support.html">
+                <i class="fa fa-support"></i> <span>Support</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
            <li class="treeview">
@@ -119,103 +116,80 @@
         <!-- /.sidebar -->
       </aside>
 
+      <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
+          <h2 class="page-header">Online Gold Loan</h2>
 
-          <!-- Default box -->
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Support</h3>
+          <div id="NoAccountBlock" class="callout callout-warning" style="display:none">
+            <h4>Yo have not registered your bank account.</h4>
+            <p>Please contact your branch for register the bank account.</p>
+          </div>
+
+          <div class="row" id="AccountBlock" style="display:none">
+            <div class="col-lg-12 col-xs-12">
+                  <div class="box">
+                    <div class="box-body no-padding">
+                      <table class="table">
+                        <tr>
+                          <td><b>Available Gold Loan</b></td>
+                          <td id=""><b>10, 000</b></td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-2"><b>Bank Name</b></td>
+                          <td class="col-md-10" id="bankName"></td>
+                        </tr>
+                        <tr>
+                          <td><b>Account Holder Name</b></td>
+                          <td id="accountHolder"></td>
+                        </tr>
+                        <tr>
+                          <td><b>Account Number</b></td>
+                          <td> <span id="accountNumber"></span> <span class="text-muted"><i> (Loan amount will be credited to this account) </i></span></td>
+                          <td> </td>
+                        </tr>
+                        <tr>
+                          <td><b>IFSC Code</b></td>
+                          <td id="ifscCode"></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td><button class="btn btn-success" id="PartPayment"><i class=""></i> Apply for Loan</button></td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
             </div>
-            <div class="box-body">
-
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Online Payment</h3>
-                </div>
-                <div class="box-body">
-                  <ul>
-                    <li> Click on Online Payment link </li>
-                    <li> Select the pledge number to make payment </li>
-                    <li> Select the payment option("Fulle Interest",Full Settlement","Part Payment") and click on pay button </li>
-                    <li> Select the payment method from the given options and then click on the Proceed button </li>
-                    <li> You will be redirected to payment gateway, where you can perform the transaction </li>
-                    <li> After successfull transaction you will be redirected to muthoot, there you can see the transaction details. </li>
-                  </ul>
-                
-               </div> <!-- /.box-body -->
-              </div><!-- /.box -->
-
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Online Gold Loan</h3>
-                </div>
-                <div class="box-body">
-                <ul>
-                  <li> For availing Online gold loan you have to visit our branch and submit the application. </li>
-                  <li> You can avail online gold loan only if you clear all the dues on the inventory </li>
-                  <li> Click on Online Gold Loan link • Select the inventory number to avail loan </li>
-                  <li> Select the desired scheme, enter loan amount and click on proceed button. </li>
-                  <li> On click of Pay button you will get an OTP to your Mobile. </li>
-                  <li> After verifying OTP click on Submit button </li>
-                  <li> You will be redirected to a page where you can see the new loan details. </li>
-                  <li> You will get an email and SMS with new loan details and pawnticket. </li>
-                </ul>
-               </div> <!-- /.box-body -->
-              </div><!-- /.box -->
-
-              <div class="box">
-                <div class="box-header">
-                  <h3 class="box-title">Contact</h3>
-                </div>
-                <div class="box-body">
-                <ul>
-                  <li> Toll free - 1800-000-00-00 (8.30am to 8.30pm on all working days) </li>
-                  <li> Email - support@muthootenterprises.com </li>
-                </ul>
-               </div> <!-- /.box-body -->
-              </div><!-- /.box -->
-
-
-           </div> <!-- /.box-body -->
-          </div><!-- /.box -->
+          </div><!-- /.row -->
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
-
+      
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.1.0
         </div>
         <strong>Copyright &copy; 2010 <a target="_blank" href="http://www.muthootenterprises.com/">Muthoot Mercantile Limited</a>. Powered by <a target="_blank" href="http://www.experionglobal.com/">Experion Technologies</a></strong>.
-      </footer>      
+      </footer>
 
-      
+       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
-    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <!-- DataTables -->
-    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <!-- Slimscroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <script src="../plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="dist/js/app.min.js"></script>
+    <script src="../dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="dist/js/demo.js"></script>
+    <script src="../dist/js/demo.js"></script>
     <!-- Config and Common -->
     <script src="plugins/js/config.js"></script>
-    
-
-
-    <script type="text/javascript">
-        
-    </script>
+    <script src="plugins/js/online-gold.js?rand=1992"></script>
   </body>
 </html>

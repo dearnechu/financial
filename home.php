@@ -91,7 +91,7 @@
           <ul class="sidebar-menu">
             <li class="header">GOLD LOAN</li>
             <li class="treeview active">
-              <a href="#">
+              <a href="home.html">
                 <i class="fa fa-credit-card"></i> <span>Online Payment</span><i class="fa fa-angle-right pull-right"></i>
               </a>
             </li>
@@ -101,7 +101,7 @@
               </a>
             </li>
             <li class="treeview">
-              <a href="#">
+              <a href="online-gold.html">
                 <i class="fa fa-sun-o"></i> <span>Online Gold Loan</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
