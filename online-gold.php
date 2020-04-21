@@ -123,7 +123,7 @@
           <h2 class="page-header">Online Gold Loan</h2>
 
           <div id="NoAccountBlock" class="callout callout-warning" style="display:none">
-            <h4>Yo have not registered your bank account.</h4>
+            <h4>You have not registered your bank account.</h4>
             <p>Please contact your branch for register the bank account.</p>
           </div>
 
