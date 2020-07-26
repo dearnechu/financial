@@ -335,8 +335,6 @@ function showEmiLoanStatements(loanId){
 	User: muthoot.mercantile@gmail.com
 	Pass: @Muthoot123
 
-	TTS: SAM 006 MHT
-
 	http://smshorizon.co.in/api/sendsms.php?user=dearnechu&apikey=IkHvmEoi94uTkG21xcDB&mobile=9895933511&message=Testing&senderid=MYTEXT&type=txt 9182302
 
 	Login URL: http://smshorizon.co.in 

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -133,10 +135,6 @@
                     <div class="box-body no-padding">
                       <table class="table">
                         <tr>
-                          <td><b>Available Gold Loan</b></td>
-                          <td id=""><b>10, 000</b></td>
-                        </tr>
-                        <tr>
                           <td class="col-md-2"><b>Bank Name</b></td>
                           <td class="col-md-10" id="bankName"></td>
                         </tr>
@@ -153,15 +151,34 @@
                           <td><b>IFSC Code</b></td>
                           <td id="ifscCode"></td>
                         </tr>
-                        <tr>
-                          <td></td>
-                          <td><button class="btn btn-success" id="PartPayment"><i class=""></i> Apply for Loan</button></td>
-                        </tr>
                       </table>
                     </div>
                   </div>
             </div>
           </div><!-- /.row -->
+
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box mainBox">
+                <div class="box-body ">
+                  <table id="LoanTable" class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Loan Account No</th>
+                        <th>Disbursement Date</th>
+                        <th>Loan Amount</th>
+                        <th>Available Loan Amount</th>
+                        <th>Last Repayment Date</th>
+                        <th>Scheme Name</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
@@ -176,20 +193,26 @@
        <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
-    <!-- jQuery 2.1.4 -->
-    <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- DataTables -->
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     <!-- Slimscroll -->
-    <script src="../plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <!-- FastClick -->
-    <script src="../plugins/fastclick/fastclick.min.js"></script>
+    <script src="plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="../dist/js/app.min.js"></script>
+    <script src="dist/js/app.min.js"></script>
     <!-- AdminLTE for demo purposes -->
-    <script src="../dist/js/demo.js"></script>
+    <script src="dist/js/demo.js"></script>
     <!-- Config and Common -->
     <script src="plugins/js/config.js"></script>
+    <!-- Formatting Date -->
+    <script src="plugins/dateformat/format.js"></script>
+     <!-- iCheck 1.0.1 -->
+    <script src="plugins/iCheck/icheck.min.js"></script>
     <script src="plugins/js/online-gold.js?rand=1992"></script>
   </body>
 </html>
