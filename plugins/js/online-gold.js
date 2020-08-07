@@ -32,68 +32,71 @@ $(function() {
             $('#accountHolder').html(data['data']['accountHolder']);
             $('#bankName').html(data['data']['bank']['description'] + ', ' + data['data']['address']);
             $('.spinner-search').hide();            
-            jQuery.ajax({
-                url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailableByCustId',
-                contentType: 'application/json',
-                method: "POST",
-                data: JSON.stringify(v2),
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
-                },
-                error: function (xhr, status, error) {
-                    $("#NoAccountBlock").show('slow');
-                    $("#AccountBlock").hide();
-                    return false;
-                },
-                success: function (data) {
-                    console.log(data.data);
+        }
+    });
 
-                    var dataSet = new Array();
-                    for (var index in data['data']) {
+    jQuery.ajax({
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailableByCustId',
+        contentType: 'application/json',
+        method: "POST",
+        data: JSON.stringify(v2),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+        },
+        error: function (xhr, status, error) {
+            $("#NoAccountBlock").show('slow');
+            $("#AccountBlock").hide();
+            return false;
+        },
+        success: function (data) {
+            console.log(data.data);
 
-                        var loanNumber = "<a class='best' href='javascript:showEmiDetails(\"" + data['data'][index]['id'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+            var dataSet = new Array();
+            for (var index in data['data']) {
 
-                        if (!data['data'][index]['isEmi']) {
-                            loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['branchId'] + "\", \"" + data['data'][index]['companyId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
-                        }
+                var loanNumber = "<a class='best' href='javascript:showEmiDetails(\"" + data['data'][index]['id'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
 
-                        dataSet.push([
-                            loanNumber,
-                            new Date(data['data'][index]['startDate']).format("d-M-Y"),
-                            data['data'][index]['loanAmount'].format(2, 3),
-                            data['data'][index]['availLoan'].format(2, 3),
-                            new Date(data['data'][index]['revisedDate']).format("d-M-Y"),
-                            data['data'][index]['glScheme']['schemeName'].toUpperCase(),
-                        ]);
-                    }
-                    pageCount = 3;
-                    if (index > 9) {
-                        pageCount = 5;
-                    }
-                    var table = $('#LoanTable').DataTable({
-                        "pageLength": pageCount,
-                        "data": dataSet,
-                        "paging": dataSet.length > pageCount,
-                        "lengthChange": false,
-                        "searching": true,
-                        "ordering": false,
-                        "info": dataSet.length > pageCount,
-                        "autoWidth": false,
-                    });
-                    $("#LoanTable_wrapper .row .col-sm-6:first-child").append("<label> Online Payment </label><i> (Click over the loan account no for online gold loan) </i>");
-                    $('.spinner-search').hide();
+                if (!data['data'][index]['isEmi']) {
+                    loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['availLoan'] + "\", \"" + data['data'][index]['companyId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                }
 
-                    setTimeout(function () { $(".pg-message").hide("slow"); }, 10000);
+                if (data['data'][index]['availLoan'] && data['data'][index]['availLoan'] >= 1000) {
+                    dataSet.push([
+                        loanNumber,
+                        new Date(data['data'][index]['startDate']).format("d-M-Y"),
+                        data['data'][index]['loanAmount'].format(2, 3),
+                        data['data'][index]['availLoan'].format(2, 3),
+                        new Date(data['data'][index]['revisedDate']).format("d-M-Y"),
+                        data['data'][index]['glScheme']['schemeName'].toUpperCase(),
+                    ]);
+                }
+            }
+            pageCount = 3;
+            if (index > 9) {
+                pageCount = 5;
+            }
+            var table = $('#LoanTable').DataTable({
+                "pageLength": pageCount,
+                "data": dataSet,
+                "paging": dataSet.length > pageCount,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": false,
+                "info": dataSet.length > pageCount,
+                "autoWidth": false,
+            });
+            $("#LoanTable_wrapper .row .col-sm-6:first-child").append("<label> Online Payment </label><i> (Click over the loan account no for online gold loan) </i>");
+            $('.spinner-search').hide();
 
-                    $('#LoanTable tbody').on('click', 'tr', function () {
-                        if ($(this).hasClass('bg-gray')) {
-                            $(this).removeClass('bg-gray');
-                        }
-                        else {
-                            table.$('tr.bg-gray').removeClass('bg-gray');
-                            $(this).addClass('bg-gray');
-                        }
-                    });                        
+            setTimeout(function () { $(".pg-message").hide("slow"); }, 10000);
+
+            $('#LoanTable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('bg-gray')) {
+                    $(this).removeClass('bg-gray');
+                }
+                else {
+                    table.$('tr.bg-gray').removeClass('bg-gray');
+                    $(this).addClass('bg-gray');
                 }
             });
         }
@@ -113,3 +116,14 @@ $(function() {
 
 
 });
+
+function showLoanDetails(loanNo, availLoan, companyId) {
+    $("#loan_number").html(loanNo);
+    $(".mainBox").after($('.loanDetails'));
+    $('.loanDetails').show('slow');
+    var minimumInterestToBePaid = 100;
+    console.log(availLoan);
+    $("#minimum_amount_to_be_apply").html(minimumInterestToBePaid.format(2, 3));
+    $("#total_payable_amount").html(parseInt(availLoan).format(2, 3));
+    $('.spinner-search, .fullpayment, .partpayment').hide();
+}

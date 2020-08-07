@@ -175,6 +175,55 @@
                   </table>
                 </div>
               </div>
+
+              <!-- Payment Details box -->
+              <div style="display:none" class="box loanDetails">
+                <div class="box-header" align="center">
+                  <h3 class="box-title">Apply Gold Loan for - <span id="loan_number"></span></h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                
+                <div class="col-md-12">
+                  <div class="box">
+                    <div class="box-header">
+                      <h4 class="box-title">You can apply for the Gold Loan</h4>  
+                      <i>(amount between <b> <span id="minimum_amount_to_be_apply"> </span> - <span id="total_payable_amount" > </span></b>)</i>
+                    </div><!-- /.box-header -->
+                    <div class="box-body no-padding">
+                      <table class="table table-condensed">
+                        <tr>
+                          <td>Enter Amount</td>
+                          <td>
+                            <input type="number" id="PartAmount" class="form-control input-sm"/>
+                            <label style="margin-bottom: 0px;">&nbsp;</label>
+                            <label class="text-red part-payment-error" style="display:none; margin-bottom:0px"> Invalid amount </label>
+                          </td>
+                        </tr>
+                        <tr class="PPGSCharge">
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="There is NO service charge for now"></i></a></td>
+                          <td id="part_service_charge">0.00</td>
+                        </tr>
+                        <tr class="PPGTotal">
+                          <td><b>Total Amount will Be Credited in Your Account</b></td>
+                          <td id="PG_part_total"><b>0.00</b></td>
+                        </tr>
+                      </table>
+                    </div><!-- /.box-body -->
+                    <div class="overlay partpayment"><i class="fa fa-spinner fa-spin"></i></div>
+                    <div class="box-footer">
+                      <button class="btn btn-success pull-right" id="PartPayment"><i class="fa fa-hand-o-right"></i> Apply </button>
+                    </div><!-- /.box-footer -->
+                  </div><!-- /.box -->
+                </div><!-- ./col -->
+
+                <div class="box-footer clearfix">
+                  
+                </div>
+
+              </div><!-- /.Payment Details box -->
+
             </div>
           </div>
 

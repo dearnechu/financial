@@ -368,4 +368,11 @@ function showEmiLoanStatements(loanId){
     http://sms.xpresssms.in/api/api.php?ver=1&mode=1&action=push_sms&type=1&route=2&login_name=muthootmercantile&api_password=37d5822068b86f5c7316&message=Test%20Message&number=9895933511&sender=mthoot
 
 
+	https://sftp.axisbank.com/MUTHOOTML
+	User id:- corpdemo
+	utibank
+
+	URL : https://qas2axis.axisbank.co.in/irj/portal
+	User_Id: DEMOCORP133_USER1
+	welcome@5
 */
