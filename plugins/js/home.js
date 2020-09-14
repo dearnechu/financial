@@ -370,7 +370,8 @@ function showLoanDetails(loanNo, branchId, companyId){
                 
                 var goldLoanInterestDue = 0;
                 if(data['data'].hasOwnProperty('goldLoanInterestDue')){
-                    goldLoanInterestDue = Math.round(data['data']['goldLoanInterestDue']);
+                    data['data']['goldLoanInterestDue'] = Math.round(data['data']['goldLoanInterestDue']);
+                    goldLoanInterestDue = data['data']['goldLoanInterestDue'];
                     if(goldLoanInterestDue <= 5) {
                         goldLoanInterestDue = 5;
                     }
