@@ -516,7 +516,7 @@
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/home.js?rand=1992"></script>
+    <script src="plugins/js/home.js?rand=2099"></script>
 
   </body>
 </html>
