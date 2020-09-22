@@ -14,10 +14,6 @@ $(function() {
         customerId: localStorage.getItem("customerId"),
     }
 
-    var v2 = {
-        userid: localStorage.getItem("customerId"),
-    }
-
     jQuery.ajax({
         url: SERVICE_URL + 'PgCustomGoldLoan/GetBankDetailsByCustomerId',
         contentType: 'application/json',   
@@ -42,6 +38,93 @@ $(function() {
             // payments();
         }
     });
+
+    getList();
+
+    storesession('customer_email', localStorage.getItem("email"));
+    storesession('customer_phone', localStorage.getItem("mobile"));
+
+    $(".close").click(function() {
+        $(this).parent().parent().hide("slow");
+    });
+
+
+    $("#PartPayment").click(function () {
+        if ($.trim($("#PartAmount").val()) < minimumInterestToBePaid) {
+            $("#PartAmount").focus();
+            $(".part-payment-error").show();
+            return false;;
+        }
+        if (parseInt($.trim($("#PartAmount").val())) > parseInt(AvailLoan)) {
+            $("#PartAmount").focus();
+            $(".part-payment-error").show();
+            return false;;
+        }   
+
+        $(".part-payment-error").hide();
+        $(".partpayment").show();
+
+        var v2 = {
+            loanid: LoanNo,
+            paymentStatus: 'Success',
+            PaymentProcessType: 'Top Up',
+            paidAmount: GoldLoanAmount + GoldLoanInterestDue,
+            goldLoanAmount: GoldLoanAmount,
+            goldLoanAmountRemaining: GoldLoanAmount,
+            goldLoanInterestDue: GoldLoanInterestDue
+        }
+
+        jQuery.ajax({
+            url: SERVICE_URL + 'PgCustomGoldLoan/CloseGoldLoanForNewGL',
+            contentType: 'application/json',
+            method: "POST",
+            data: JSON.stringify(v2),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+            },
+            error: function (xhr, status, error) {
+                return false;
+            },
+            success: function (data) {
+                var v2 = {
+                    glLoanDto: {
+                        id: LoanNo,
+                        startDate: new Date().toISOString(),
+                        loanAmount: $.trim($("#PartAmount").val()),
+                        glCustomer: {
+                            mobile: localStorage.getItem("mobile"),
+                        }
+                    }
+                }
+
+                jQuery.ajax({
+                    url: SERVICE_URL + 'PgCustomGoldLoan/AddGoldLoan',
+                    contentType: 'application/json',
+                    method: "POST",
+                    data: JSON.stringify(v2),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+                    },
+                    error: function (xhr, status, error) {
+                        return false;
+                    },
+                    success: function (data) {
+                        $(".partpayment").hide();
+                        payments();
+                        location.reload();
+                    }
+                });
+
+            }
+        });
+    });
+
+});
+
+function getList() {
+    var v2 = {
+        userid: localStorage.getItem("customerId"),
+    }
 
     jQuery.ajax({
         url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailableByCustId',
@@ -107,88 +190,7 @@ $(function() {
             });
         }
     });
-
-    storesession('customer_email', localStorage.getItem("email"));
-    storesession('customer_phone', localStorage.getItem("mobile"));
-
-    $(".close").click(function() {
-        $(this).parent().parent().hide("slow");
-    });
-
-
-    $("#PartPayment").click(function () {
-        if ($.trim($("#PartAmount").val()) < minimumInterestToBePaid) {
-            $("#PartAmount").focus();
-            $(".part-payment-error").show();
-            return false;;
-        }
-        if (parseInt($.trim($("#PartAmount").val())) > parseInt(AvailLoan)) {
-            $("#PartAmount").focus();
-            $(".part-payment-error").show();
-            return false;;
-        }   
-
-        $(".part-payment-error").hide();
-        $(".partpayment").show();
-
-        var v2 = {
-            loanid: LoanNo,
-            paymentStatus: 'Success',
-            PaymentProcessType: 'Top Up',
-            paidAmount: GoldLoanAmount + GoldLoanInterestDue,
-            goldLoanAmount: GoldLoanAmount,
-            goldLoanAmountRemaining: GoldLoanAmount,
-            goldLoanInterestDue: GoldLoanInterestDue
-        }
-
-        jQuery.ajax({
-            url: SERVICE_URL + 'PgCustomGoldLoan/CloseGoldLoanForNewGL',
-            contentType: 'application/json',
-            method: "POST",
-            data: JSON.stringify(v2),
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
-            },
-            error: function (xhr, status, error) {
-                return false;
-            },
-            success: function (data) {
-                var v2 = {
-                    glLoanDto: {
-                        id: LoanNo,
-                        startDate: new Date().toISOString(),
-                        loanAmount: $.trim($("#PartAmount").val()),
-                        glCustomer: {
-                            mobile: "8129396543",
-                        }
-                    }
-                }
-
-                jQuery.ajax({
-                    url: SERVICE_URL + 'PgCustomGoldLoan/AddGoldLoan',
-                    contentType: 'application/json',
-                    method: "POST",
-                    data: JSON.stringify(v2),
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
-                    },
-                    error: function (xhr, status, error) {
-                        // payments();
-                        return false;
-                    },
-                    success: function (data) {
-                        console.log(data);
-                    }
-                });
-
-            }
-        });
-    });
-
-
-});
-
-
+}
 
 function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     $('.spinner-search').show();
@@ -251,9 +253,8 @@ function storesession(tag, data) {
 function payments() {
     jQuery.ajax({
         url: 'axis-curl.php',
-        method: "POST",
+        method: "GET",
         contentType: 'application/json',
-        data: '',
         error: function (xhr, status, error) {
             return false;
         },
