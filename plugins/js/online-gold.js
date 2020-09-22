@@ -2,7 +2,13 @@ Number.prototype.format = function(n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-
+var minimumInterestToBePaid = 100;
+var AvailLoan = 0;
+var LoanNo = null;
+var CompanyId = null;
+var BranchId = null;
+var GoldLoanAmount = null;
+var GoldLoanInterestDue = null;
 $(function() {
     var v1 = {
         customerId: localStorage.getItem("customerId"),
@@ -44,8 +50,6 @@ $(function() {
             xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
         error: function (xhr, status, error) {
-            $("#NoAccountBlock").show('slow');
-            $("#AccountBlock").hide();
             return false;
         },
         success: function (data) {
@@ -57,7 +61,7 @@ $(function() {
                 var loanNumber = "<a class='best' href='javascript:showEmiDetails(\"" + data['data'][index]['id'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
 
                 if (!data['data'][index]['isEmi']) {
-                    loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['availLoan'] + "\", \"" + data['data'][index]['companyId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                    loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['availLoan'] + "\", \"" + data['data'][index]['id'] + "\", \"" + data['data'][index]['companyId'] + "\", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
                 }
 
                 if (data['data'][index]['availLoan'] && data['data'][index]['availLoan'] >= 1000) {
@@ -115,14 +119,109 @@ $(function() {
     });
 
 
+    $("#PartPayment").click(function () {
+        if ($.trim($("#PartAmount").val()) < minimumInterestToBePaid) {
+            $("#PartAmount").focus();
+            $(".part-payment-error").show();
+            return false;;
+        }
+        if (parseInt($.trim($("#PartAmount").val())) > parseInt(AvailLoan)) {
+            $("#PartAmount").focus();
+            $(".part-payment-error").show();
+            return false;;
+        }   
+
+        $(".part-payment-error").hide();
+        $(".partpayment").show();
+
+        var v2 = {
+            loanid: LoanNo,
+            paymentStatus: 'Success',
+            PaymentProcessType: 'Top Up',
+            paidAmount: GoldLoanAmount + GoldLoanInterestDue,
+            goldLoanAmount: GoldLoanAmount,
+            goldLoanAmountRemaining: GoldLoanAmount,
+            goldLoanInterestDue: GoldLoanInterestDue
+        }
+
+        jQuery.ajax({
+            url: SERVICE_URL + 'PgCustomGoldLoan/CloseGoldLoanForNewGL',
+            contentType: 'application/json',
+            method: "POST",
+            data: JSON.stringify(v2),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+            },
+            error: function (xhr, status, error) {
+                return false;
+            },
+            success: function (data) {
+                var v2 = {
+                    id: LoanNo,
+                    companyId: CompanyId,
+                    branchId: BranchId,
+                    customerId: localStorage.getItem("customerId"),
+                    loanAmount: $.trim($("#PartAmount").val())
+                }
+
+                jQuery.ajax({
+                    url: SERVICE_URL + 'PgCustomGoldLoan/AddGoldLoan',
+                    contentType: 'application/json',
+                    method: "POST",
+                    data: JSON.stringify(v2),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+                    },
+                    error: function (xhr, status, error) {
+                        return false;
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+
+            }
+        });
+    });
+
+
 });
 
-function showLoanDetails(loanNo, availLoan, companyId) {
+
+
+function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
+    $('.spinner-search').show();
+    var data = {
+        loanNumber: loanNo,
+        branchId: branchId,
+        companyId: companyId,
+        customerId: localStorage.getItem("customerId"),
+        logindate: new Date().toISOString()
+    }
+    jQuery.ajax({
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
+        method: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+        },
+        error: function (xhr, status, error) {
+            return false;
+        },
+        success: function (data) {
+            GoldLoanAmount = data['data']['goldLoanAmountRemaining'];
+            GoldLoanInterestDue = Math.round(data['data']['goldLoanInterestDue']);
+        }
+    });
+
+    AvailLoan = availLoan;
+    LoanNo = loanId;
+    CompanyId = companyId;
+    BranchId = branchId;
     $("#loan_number").html(loanNo);
     $(".mainBox").after($('.loanDetails'));
     $('.loanDetails').show('slow');
-    var minimumInterestToBePaid = 100;
-    console.log(availLoan);
     $("#minimum_amount_to_be_apply").html(minimumInterestToBePaid.format(2, 3));
     $("#total_payable_amount").html(parseInt(availLoan).format(2, 3));
     $('.spinner-search, .fullpayment, .partpayment').hide();
