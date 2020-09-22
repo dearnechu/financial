@@ -38,7 +38,7 @@ $(function() {
             $('#accountHolder').html(data['data']['accountHolder']);
             $('#bankName').html(data['data']['bank']['description'] + ', ' + data['data']['address']);
             $('.spinner-search').hide();
-            // storesession('GetBankDetailsByCustomerId', data['data']);
+            storesession('GetBankDetailsByCustomerId', data['data']);
             // payments();
         }
     });
@@ -108,13 +108,8 @@ $(function() {
         }
     });
 
-    $("#udf1").val(localStorage.getItem("customerName"));
-    $("#customer_email").val(localStorage.getItem("email"));
-    $("#customer_phone").val(localStorage.getItem("mobile"));
-    $("#customerId").val(localStorage.getItem("customerId"));
-    $("#udf4").val(localStorage.getItem("location"));
-
-
+    storesession('customer_email', localStorage.getItem("email"));
+    storesession('customer_phone', localStorage.getItem("mobile"));
 
     $(".close").click(function() {
         $(this).parent().parent().hide("slow");
@@ -159,12 +154,14 @@ $(function() {
             },
             success: function (data) {
                 var v2 = {
-                    id: LoanNo,
-                    companyId: CompanyId,
-                    branchId: BranchId,
-                    customerId: localStorage.getItem("customerId"),
-                    loanAmount: $.trim($("#PartAmount").val()),
-                    startDate: new Date().toISOString()
+                    glLoanDto: {
+                        id: LoanNo,
+                        startDate: new Date().toISOString(),
+                        loanAmount: $.trim($("#PartAmount").val()),
+                        glCustomer: {
+                            mobile: "8129396543",
+                        }
+                    }
                 }
 
                 jQuery.ajax({
