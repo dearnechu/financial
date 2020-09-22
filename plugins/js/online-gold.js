@@ -37,7 +37,9 @@ $(function() {
             $('#accountNumber').html(data['data']['accountNumber']);
             $('#accountHolder').html(data['data']['accountHolder']);
             $('#bankName').html(data['data']['bank']['description'] + ', ' + data['data']['address']);
-            $('.spinner-search').hide();            
+            $('.spinner-search').hide();
+            // storesession('GetBankDetailsByCustomerId', data['data']);
+            // payments();
         }
     });
 
@@ -161,7 +163,8 @@ $(function() {
                     companyId: CompanyId,
                     branchId: BranchId,
                     customerId: localStorage.getItem("customerId"),
-                    loanAmount: $.trim($("#PartAmount").val())
+                    loanAmount: $.trim($("#PartAmount").val()),
+                    startDate: new Date().toISOString()
                 }
 
                 jQuery.ajax({
@@ -173,6 +176,7 @@ $(function() {
                         xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                     },
                     error: function (xhr, status, error) {
+                        // payments();
                         return false;
                     },
                     success: function (data) {
@@ -226,3 +230,39 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     $("#total_payable_amount").html(parseInt(availLoan).format(2, 3));
     $('.spinner-search, .fullpayment, .partpayment').hide();
 }
+
+function storesession(tag, data) {
+    var session_data = {
+        tag: tag,
+        data: data
+    }
+
+    jQuery.ajax({
+        url: 'storesession.php',
+        method: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(session_data),
+        error: function (xhr, status, error) {
+            return false;
+        },
+        success: function (data) {
+            return true;
+        }
+    });
+}
+
+function payments() {
+    jQuery.ajax({
+        url: 'axis-curl.php',
+        method: "POST",
+        contentType: 'application/json',
+        data: '',
+        error: function (xhr, status, error) {
+            return false;
+        },
+        success: function (data) {
+            return true;
+        }
+    });
+}
+
