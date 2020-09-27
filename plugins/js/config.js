@@ -123,7 +123,7 @@ function showLoanStatements(loanId){
                           '<td>' + data['data']['glLoanDto']['loanAmount'].format(2, 3) + '</td>' +
                           '</tr>');
 
-                    var Description = "INTEREST ADDED"; 
+                    var Description = "INTEREST ADDED TILL DATE (" + new Date().format("d-M-Y") +")"; 
                     $('#StatementTable tr:last').after('<tr class="appneded">' +
                           '<td>' + new Date(data['data']['glLoanDto']['startDate']).format("d-M-Y") + '</td>' +
                           '<td>' + Description + '</td>' +
@@ -166,7 +166,9 @@ function showLoanStatements(loanId){
                             transactionNumber = data['data']['glPaymentHistoryDto'][index]['id'];
                         }
 
-                        Description += " - " + transactionNumber
+                        if (transactionNumber) {
+                            Description += " -- " + transactionNumber
+                        }
                         /*
                         var balanceAmount = 0;
                         if(data['data']['glPaymentHistoryDto'][index].hasOwnProperty('balanceAmount')){

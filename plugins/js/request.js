@@ -62,7 +62,7 @@ function history(startDate, endDate) {
                 "lengthChange": false,
                 "searching": true,
                 "order": [[3, "desc"]],
-                "ordering": true,
+                "ordering": false,
                 "columnDefs": [{
                     "targets": 'no-sort',
                     "orderable": false,

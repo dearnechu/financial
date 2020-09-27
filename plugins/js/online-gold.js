@@ -2,7 +2,8 @@ Number.prototype.format = function(n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-var minimumInterestToBePaid = 100;
+var minimumInterestToBePaid = 1000;
+var maxTopupAmount = 50000;
 var AvailLoan = 0;
 var LoanNo = null;
 var CompanyId = null;
@@ -35,7 +36,6 @@ $(function() {
             $('#bankName').html(data['data']['bank']['description'] + ', ' + data['data']['address']);
             $('.spinner-search').hide();
             storesession('GetBankDetailsByCustomerId', data['data']);
-            // payments();
         }
     });
 
@@ -64,6 +64,9 @@ $(function() {
         $(".part-payment-error").hide();
         $(".partpayment").show();
 
+        var loanAmount = $.trim($("#PartAmount").val());
+        storesession('loanAmount', loanAmount);
+
         var v2 = {
             loanid: LoanNo,
             paymentStatus: 'Success',
@@ -90,7 +93,7 @@ $(function() {
                     glLoanDto: {
                         id: LoanNo,
                         startDate: new Date().toISOString(),
-                        loanAmount: $.trim($("#PartAmount").val()),
+                        loanAmount: loanAmount,
                         glCustomer: {
                             mobile: localStorage.getItem("mobile"),
                         }
@@ -149,7 +152,7 @@ function getList() {
                     loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['availLoan'] + "\", \"" + data['data'][index]['id'] + "\", \"" + data['data'][index]['companyId'] + "\", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
                 }
 
-                if (data['data'][index]['availLoan'] && data['data'][index]['availLoan'] >= 1000) {
+                if (data['data'][index]['availLoan'] && data['data'][index]['availLoan'] >= minimumInterestToBePaid) {
                     dataSet.push([
                         loanNumber,
                         new Date(data['data'][index]['startDate']).format("d-M-Y"),
@@ -174,7 +177,7 @@ function getList() {
                 "info": dataSet.length > pageCount,
                 "autoWidth": false,
             });
-            $("#LoanTable_wrapper .row .col-sm-6:first-child").append("<label> Online Payment </label><i> (Click over the loan account no for online gold loan) </i>");
+            $("#LoanTable_wrapper .row .col-sm-6:first-child").append("<label> Online Gold Loan </label><i> (Click over the loan account no for online gold loan) </i>");
             $('.spinner-search').hide();
 
             setTimeout(function () { $(".pg-message").hide("slow"); }, 10000);
@@ -215,10 +218,15 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
         success: function (data) {
             GoldLoanAmount = data['data']['goldLoanAmountRemaining'];
             GoldLoanInterestDue = Math.round(data['data']['goldLoanInterestDue']);
+            storesession('GetGoldLoanDetailsWeb', data['data']);
         }
     });
 
     AvailLoan = availLoan;
+    if (parseInt(AvailLoan) > maxTopupAmount) {
+        AvailLoan = maxTopupAmount;
+    }
+    
     LoanNo = loanId;
     CompanyId = companyId;
     BranchId = branchId;
@@ -226,7 +234,7 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     $(".mainBox").after($('.loanDetails'));
     $('.loanDetails').show('slow');
     $("#minimum_amount_to_be_apply").html(minimumInterestToBePaid.format(2, 3));
-    $("#total_payable_amount").html(parseInt(availLoan).format(2, 3));
+    $("#total_payable_amount").html(parseInt(AvailLoan).format(2, 3));
     $('.spinner-search, .fullpayment, .partpayment').hide();
 }
 
@@ -236,7 +244,7 @@ function storesession(tag, data) {
         data: data
     }
 
-    jQuery.ajax({
+    return jQuery.ajax({
         url: 'storesession.php',
         method: "POST",
         contentType: 'application/json',
