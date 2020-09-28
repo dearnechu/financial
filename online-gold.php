@@ -27,6 +27,21 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+      .example-modal .modal {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        left: auto;
+        display: block;
+        z-index: 1;
+      }
+      .example-modal .modal {
+        background: transparent !important;
+      }
+    </style>
+
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -213,7 +228,9 @@
                     </div><!-- /.box-body -->
                     <div class="overlay partpayment"><i class="fa fa-spinner fa-spin"></i></div>
                     <div class="box-footer">
-                      <button class="btn btn-success pull-right" id="PartPayment"><i class="fa fa-hand-o-right"></i> Apply </button>
+                      <button class="btn btn-success pull-right" id="confirm">
+                        <i class="fa fa-hand-o-right"></i> Apply
+                      </button>
                     </div><!-- /.box-footer -->
                   </div><!-- /.box -->
                 </div><!-- ./col -->
@@ -227,7 +244,23 @@
             </div>
           </div>
 
-          
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                  Could you please verify the top-up amount ? top-up amount will be credited to your bank account with in 24 working hours.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary" id="PartPayment">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
 
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->

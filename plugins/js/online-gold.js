@@ -48,8 +48,7 @@ $(function() {
         $(this).parent().parent().hide("slow");
     });
 
-
-    $("#PartPayment").click(function () {
+    $("#confirm").click(function() {
         if ($.trim($("#PartAmount").val()) < minimumInterestToBePaid) {
             $("#PartAmount").focus();
             $(".part-payment-error").show();
@@ -60,7 +59,12 @@ $(function() {
             $(".part-payment-error").show();
             return false;;
         }   
+        $('#myModal').modal('toggle');
+    });
 
+
+    $("#PartPayment").click(function () {
+        $('#myModal').modal('toggle');
         $(".part-payment-error").hide();
         $(".partpayment").show();
 
@@ -120,6 +124,12 @@ $(function() {
 
             }
         });
+    });
+
+    $('#PartAmount').on('keyup blur change', function (e) {
+        part_total = ($(this).val() * 1);
+        $("#PG_part_total").html(part_total.format(2, 3));
+        $(".part-payment-error").hide();
     });
 
 });
