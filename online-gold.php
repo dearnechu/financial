@@ -172,7 +172,7 @@
             </div>
           </div><!-- /.row -->
 
-          <div class="row">
+          <div class="row" id="AccountListBlock" style="display:none">
             <div class="col-xs-12">
               <div class="box mainBox">
                 <div class="box-body ">

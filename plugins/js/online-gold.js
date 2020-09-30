@@ -26,20 +26,21 @@ $(function() {
         error: function(xhr, status, error) {
             $("#NoAccountBlock").show('slow');
             $("#AccountBlock").hide();
+            $("#AccountListBlock").hide();
             return false;
         },
         success: function(data) {    
-            $("#AccountBlock").show('slow');     
+            $("#AccountBlock").show('slow');
+            $("#AccountListBlock").show('slow');
             $('#ifscCode').html(data['data']['ifscCode']);
             $('#accountNumber').html(data['data']['accountNumber']);
             $('#accountHolder').html(data['data']['accountHolder']);
             $('#bankName').html(data['data']['bank']['description'] + ', ' + data['data']['address']);
             $('.spinner-search').hide();
             storesession('GetBankDetailsByCustomerId', data['data']);
+            getList();
         }
     });
-
-    getList();
 
     storesession('customer_email', localStorage.getItem("email"));
     storesession('customer_phone', localStorage.getItem("mobile"));
