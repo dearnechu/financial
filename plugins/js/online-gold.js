@@ -2,7 +2,7 @@ Number.prototype.format = function(n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-var minimumInterestToBePaid = 1000;
+var minimumInterestToBePaid = 1; // 1000
 var maxTopupAmount = 50000;
 var AvailLoan = 0;
 var LoanNo = null;
@@ -35,7 +35,7 @@ $(function() {
             $('#ifscCode').html(data['data']['ifscCode']);
             $('#accountNumber').html(data['data']['accountNumber']);
             $('#accountHolder').html(data['data']['accountHolder']);
-            $('#bankName').html(data['data']['bank']['description'] + ', ' + data['data']['address']);
+            $('#bankName').html(data['data']['bank']['code'] + ', ' + data['data']['branch']);
             $('.spinner-search').hide();
             storesession('GetBankDetailsByCustomerId', data['data']);
             getList();
@@ -141,7 +141,7 @@ function getList() {
     }
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailableByCustId',
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetLoanAvailableByCustId',
         contentType: 'application/json',
         method: "POST",
         data: JSON.stringify(v2),
