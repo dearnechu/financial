@@ -1,14 +1,15 @@
 <?php
   error_reporting(0);
   session_start();
-
+/*
   print_r($_SESSION['GetBankDetailsByCustomerId']);
   print_r($_SESSION['GetGoldLoanDetailsWeb']);
   
   echo "<br>-" . $_SESSION['customer_email'];
   echo "<br>-" .  $_SESSION['customer_phone'];
   echo "<br>-" .  $_SESSION['loanAmount'];
-
+  echo "<br>-";
+*/
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['API_VERSION'] = '1';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_CODE'] = 'MUTHOOTML'; // 'DEMOCORP133';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CMPY_CODE'] = '029010100347068';
@@ -93,7 +94,7 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
 
   $jsondata = json_encode($payment_array);
-  // print_r($jsondata);
+  print_r($jsondata);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
@@ -103,8 +104,8 @@
 
   // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   
-  $server_output = curl_exec ($ch);
-  print_r($server_output);
+  $server_output = curl_exec($ch);
+  // print_r($server_output);
   
   curl_close ($ch);
 
