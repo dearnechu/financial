@@ -8,10 +8,9 @@
   echo "<br>-" . $_SESSION['customer_email'];
   echo "<br>-" .  $_SESSION['customer_phone'];
   echo "<br>-" .  $_SESSION['loanAmount'];
-  echo "<br>-";
 */
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['API_VERSION'] = '1';
-  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_CODE'] = 'MUTHOOTML'; // 'DEMOCORP133';
+  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_CODE'] = 'MUTHOOTML';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CMPY_CODE'] = '029010100347068';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_CRNCY'] = 'INR';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_PAYMODE'] = 'PA';
@@ -19,8 +18,8 @@
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_TYPE'] = 'VEND';
 
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_AMOUNT'] = $_SESSION['loanAmount'];
-  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_ACC_NUM'] = '919020052207397';  // '029010100347068';
-  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_IFSC_CODE'] = 'UTIB0000784'; // 'AXIS789087';
+  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_ACC_NUM'] = '919020052207397';
+  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_IFSC_CODE'] = 'UTIB0000784';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['ORIG_USERID'] = 'DEMOCORP18';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['USER_DEPARTMENT'] = 'PAYMENT';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TRANSMISSION_DATE'] = date('d-m-Y H-i-s'); // '21-09-2020 18-41-09';
@@ -79,16 +78,12 @@
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['CASH_DISCOUNT'] = '0';
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['INVOICE_AMOUNT'] = '10';
 
-  // $ch = curl_init('https://qah2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');  /// UAT
-  $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');  /// PROD
-
+  $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
   curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
   curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-  // curl_setopt($ch, CURLOPT_USERNAME, "corpuser");
-  // curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1!");
   curl_setopt($ch, CURLOPT_USERNAME, "corp_muthootml");
   curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1");
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
@@ -98,16 +93,14 @@
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
-  // curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycHVzZXI6YXhpc2NvcnBjb24xIQ==')); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
     
 
   // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   
-  $server_output = curl_exec($ch);
-  // print_r($server_output);
+  $server_output = curl_exec ($ch);
+  print_r($server_output);
   
   curl_close ($ch);
 
 ?>
-
