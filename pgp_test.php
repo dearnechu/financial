@@ -1,14 +1,11 @@
 <?php
-// init gnupg
-$res = gnupg_init();
+$GnuPG = new gnupg();
 
-echo gnupg_geterror($res);
-// not really needed. Clearsign is default
-gnupg_setsignmode($res,GNUPG_SIG_MODE_CLEAR);
-// add key with passphrase 'test' for signing
-gnupg_addsignkey($res,"8660281B6051D071D94B5B230549F9DC851566DC","test");
+$PublicData = file_get_contents('key/prod.pkr');
+$PrivateData = file_get_contents('key/prod.pkr');
 
-// sign
-$signed = gnupg_sign($res,"just a test");
-echo $signed;
+$PublicKey = $GnuPG->import($PublicData);
+$PrivateKey = $GnuPG->import($PrivateData);
+
+echo 'Public Key : ',$PublicKey['fingerprint'],' & Private Key : ',$PrivateKey['fingerprint'];
 ?>
