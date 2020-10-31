@@ -1,17 +1,11 @@
 <?php
-
-putenv("GNUPGHOME=/home/muthootenterpris/public_html/muthootone/.gnupg");
-
-
-$gpg = new gnupg();
-$info = $gpg -> import($keydata);
-print_r($info);
-
-echo "=====================================================";
-
+// init gnupg
 $res = gnupg_init();
-gnupg_addencryptkey($res,"8660281B6051D071D94B5B230549F9DC851566DC");
-$enc = gnupg_encrypt($res, "just a test");
-echo "Encryption is: ";
-echo $enc;
+// not really needed. Clearsign is default
+gnupg_setsignmode($res,GNUPG_SIG_MODE_CLEAR);
+// add key with passphrase 'test' for signing
+gnupg_addsignkey($res,"8660281B6051D071D94B5B230549F9DC851566DC","test");
+// sign
+$signed = gnupg_sign($res,"just a test");
+echo $signed;
 ?>
