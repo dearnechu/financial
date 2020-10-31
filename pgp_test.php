@@ -1,4 +1,8 @@
 <?php
+
+putenv("GNUPGHOME=/home/muthootenterpris/public_html/muthootone/.gnupg");
+
+
 $gpg = new gnupg();
 $info = $gpg -> import($keydata);
 print_r($info);
