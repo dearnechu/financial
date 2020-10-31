@@ -1,6 +1,12 @@
 <?php
   error_reporting(0);
   session_start();
+
+  $GnuPG = new gnupg();
+  $PublicData = file_get_contents('key/prod.pkr');
+  $PublicKey = $GnuPG->import($PublicData);
+  $GnuPG->addencryptkey($PublicKey['fingerprint']);
+
 /*
   print_r($_SESSION['GetBankDetailsByCustomerId']);
   print_r($_SESSION['GetGoldLoanDetailsWeb']);
@@ -89,9 +95,12 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
 
   $jsondata = json_encode($payment_array);
+  $enc = $GnuPG->encrypt($jsondata);
   print_r($jsondata);
+  echo "\n";
+  echo $enc;
   
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata ); 
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
     
