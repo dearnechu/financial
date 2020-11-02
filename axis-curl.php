@@ -108,10 +108,21 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
      
   $server_output = curl_exec($ch);
-  curl_close ($ch);
+  $errors = curl_error($ch);
+  $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+  curl_close($ch);
 
   echo "<br>";
   echo "End PGP";
   echo "<br>";
   print_r($server_output);
+  echo "<br>";
+  print_r($errors);
+  echo "<br>";
+  print_r($response);
+
+  echo "<br>";
+  echo "End CURL";
+  
 ?>
