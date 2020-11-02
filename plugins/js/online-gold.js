@@ -272,8 +272,6 @@ function storesession(tag, data) {
 function payments() {
     jQuery.ajax({
         url: 'encrypt.php',
-        method: "POST",
-        contentType: 'application/json',
         error: function (xhr, status, error) {
             console.log(error);
         },
