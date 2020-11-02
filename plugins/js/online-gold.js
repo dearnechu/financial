@@ -275,10 +275,28 @@ function payments() {
         method: "GET",
         contentType: 'application/json',
         error: function (xhr, status, error) {
+            console.log(error);
+        },
+        success: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+function axisPost(data) {
+    jQuery.ajax({
+        url: 'https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay',
+        method: "POST",
+        data: data,
+        beforeSend: function (xhr) {
+            // xhr.setRequestHeader('Authorization', 'Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x');
+            xhr.setRequestHeader('Authorization', makeBaseAuth('corp_muthootml', 'axiscorpcon1'));
+        },
+        error: function (xhr, status, error) {
             return false;
         },
         success: function (data) {
-            return true;
+            console.log(data);
         }
     });
 }
