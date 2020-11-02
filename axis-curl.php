@@ -1,4 +1,5 @@
 <?php
+  error_reporting(0);
   session_start();
 
   $GnuPG = new gnupg();
@@ -83,15 +84,15 @@
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['CASH_DISCOUNT'] = '0';
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['INVOICE_AMOUNT'] = '10';
 
-  // $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');
-  // curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
-  // curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-  // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-  // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-  // curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-  // curl_setopt($ch, CURLOPT_USERNAME, "corp_muthootml");
-  // curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1");
-  // curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
+  $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');
+  curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+  curl_setopt($ch, CURLOPT_USERNAME, "corp_muthootml");
+  curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1");
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
 
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encrypt($jsondata);
@@ -99,14 +100,13 @@
   // echo "\n";
   echo $enc;
   
-  // curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
-  // curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
-  // curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
      
-  // $server_output = curl_exec ($ch);
-  // echo "\n";
+  $server_output = curl_exec ($ch);
   // print_r($server_output);
   
-  // curl_close ($ch);
+  curl_close ($ch);
 
 ?>

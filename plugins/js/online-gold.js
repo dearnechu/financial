@@ -271,7 +271,7 @@ function storesession(tag, data) {
 
 function payments() {
     jQuery.ajax({
-        url: 'axis-curl.php',
+        url: 'encrypt.php',
         method: "POST",
         contentType: 'application/json',
         error: function (xhr, status, error) {
