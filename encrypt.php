@@ -2,23 +2,7 @@
   session_start();
   
   $GnuPG = new gnupg();
-  $PublicData = "-----BEGIN PGP PUBLIC KEY BLOCK-----
-Version: BCPG v1.60
-
-mQENBF98CywBCACa9bWCxR3Sx3ZzptX+5HIo/w/apERjqba/JISlMer7Q4jpPEbd
-sU2GekDxBIz6iY2cve2rHMErv5yWIFD4MYiYZJjrB5FrXPvESyTvYy1RF6+02lhn
-M2Cm+I1oQidEHVnszeAeSll0fABpWTI53Q4hiQK5hT6d7y6wXB3RXIEj+0mgYfyc
-XblIdnpr/TUjsxWkbqH6Bv1L4gsqaKLWLaNkkrilGt2YGDpVkHTYEvI+porWojC3
-jZ91Q0Qn+0P0nZduMyr+0ABQV1COIpU4GG/gZ+22LZw5W4DS/3e6D8R8t7Xl3eQy
-6FLCgsfV3oigcG2w1NYZkxFcMDuKwtlUeTxXABEBAAG0CEF4aXNCYW5riQEcBBAB
-AgAGBQJffAssAAoJEPvS+s9E+rVDKukH/2qtRD0YAvWnK2yaAox4AjynzDLtMgNP
-dAK+eMfO2fCAoXgYvsaGMP3MpLqsNquZDn1CG1THUP9ENL4+hrH5V6lpiOOAZwn0
-wPB8lRYYN4fhBGspd7CFiykdZac9ukiyTxnfVVn9YEzkZGjafbShsLHb6wKW1zxm
-jM+ULOAfNW+4ACWMQa3NJ6+lWXOPxtoIJTXrzLTglBaz6KvEunTg4SunkJxvyNti
-nXMwb/7YvWO8VayvS+3nEl8CNeGfRMWZZo0Tk+4joKeAJMZj6R9Glw9kDXJRbxJS
-2dsmJnZOaZ/FYOt4+7QjwgZb7DPaC8ridQRlmEKX7JSiZlfiSiqGLes=
-=L7L0
------END PGP PUBLIC KEY BLOCK-----";
+  $PublicData = file_get_contents('key/prod.pkr');
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
 
