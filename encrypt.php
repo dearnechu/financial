@@ -9,7 +9,7 @@
   $PrivateKey = $GnuPG->import($PublicData);
 
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
-  $GnuPG->addsignkey($PrivateKey['fingerprint'], '@Magento318');
+  // $GnuPG->addsignkey($PrivateKey['fingerprint'], '@Magento318');
 
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['API_VERSION'] = '1';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_CODE'] = 'MUTHOOTML';
