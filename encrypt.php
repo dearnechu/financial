@@ -43,6 +43,12 @@
   
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encrypt($jsondata);
-  echo $enc;
+  // echo $enc;
 
 ?>
+<html> 
+  <form method="post" action="https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay">
+    <input type="text" value="<?php echo $enc ?>">
+    <input type="submit" value="Submit">
+  </form>
+</html>
