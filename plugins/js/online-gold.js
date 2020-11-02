@@ -272,6 +272,7 @@ function storesession(tag, data) {
 function payments() {
     jQuery.ajax({
         url: 'encrypt.php',
+        async: true,
         error: function (xhr, status, error) {
             console.log(error);
         },
