@@ -119,6 +119,7 @@ $(function() {
                     success: function (data) {
                         $(".partpayment").hide();
                         payments();
+                        axisPost();
                         location.reload();
                     }
                 });
@@ -281,10 +282,11 @@ function payments() {
     });
 }
 
-function axisPost(data) {
+function axisPost() {
     jQuery.ajax({
         url: 'https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay',
         method: "POST",
+        contentType: 'text/plain;charset=UTF-8',
         data: '-----BEGIN PGP MESSAGE----- Version: GnuPG v2.0.22 (GNU/Linux) hQEMA/vS+s9E+rVDAQf/TFtlL8Qgrd3PwZHe9lQp8PbydZ6NxqVaETlaRflVNvK+ PqUwJOHyDUDZUhwQ1/D5ypEHOSYz97k7eE/wS49bNU5npXecjOOHCFmZg8/muUfS eQgPaNYDc2dabAFOhJqY/rtkqz631T7KfwgUmxnEzn9xAkUYD0OdAKNUyVPsyLm6 46LzNzwsAW5FTRd+fslZ519H59QrvJjX9F+RGdqMUcL6x+9yhEUXF4Ml4z15x1Oe z9EU7/cNJCrWw5t25zqWtTZGEHiBVuCpQNf+45cwldDOpXmNVbn7s0WL+d+eAcDC xepH4jcNseTwWL79M8/cZs1SCLMeJBF5KJaGZEbClsnBIbbH+r+GpK81VFTpAN6G V+yfLKHq9XuWdkqs3OfgKA3zB2KlKRFZy8lGIm7JT+K5wLwtGuD7Z/JT1cuPueIc 3ByYg0zb1746Lg3exJEtGvvdRZu8/6FZNMMB9RXxaiyzuedcViXqolX+S8deQyDj wCwCpYxdWIpIdLEFBvi1tPUmxkpVKA/S/H0Llclt/wU8/lVj9AKQttkmUYHnMgnl 4w0tcqgQzN/UwcKXGa0Tha+C6Ama5d4ifu3NR/kzO5/Sg6wjP3kn+Ywrrvp8Pcm0 4VynOaFp8PNLbKiDmzNES6O3ZaVVZrvdAVYvmZYWI6JHZIwQZT8Ixgd3uHUjJ+NG 9qN7w1y0CDRtfWfyw2e2h5vqnWRoGRsbks5pn8xkVxmnRgn69+hT+YNz0wqnJ2X0 IkcQ5pvtPptkGUjlY4tdHwJawXypcB4pHurTSUjwGoOMDaQ/AgFNpCCB5rp5rp6f 8XYMQWh85S/jp/H6iUjMquW5sSTnMIhfSEkYPXazT1eglXH6ZIF2QNTb4NkdXOMM Z+6YDHR6PqRLxVs0VwriAlJV9KqOojrVD2F4AsoLmmQiSx2oK2HZSP/Itjltod6e rX/ZT85LCNiyzGgZS2R65IOk0/KvvAu8qb8wH5OlcOuw4vI= =cBhZ -----END PGP MESSAGE-----',
         beforeSend: function (xhr) {
             // xhr.setRequestHeader('Authorization', 'Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x');
