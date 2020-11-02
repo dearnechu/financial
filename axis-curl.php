@@ -96,16 +96,18 @@
 
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encrypt($jsondata);
-  // print_r($jsondata);
-  // echo "\n";
+  print_r($jsondata);
+  
+  echo "\n";
   echo $enc;
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
      
-  $server_output = curl_exec ($ch);
-  // print_r($server_output);
+  $server_output = curl_exec($ch);
+  echo "\n";
+  print_r($server_output);
   
   curl_close ($ch);
 

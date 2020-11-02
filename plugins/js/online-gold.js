@@ -119,7 +119,6 @@ $(function() {
                     success: function (data) {
                         $(".partpayment").hide();
                         payments();
-                        axisPost();
                         location.reload();
                     }
                 });
@@ -272,7 +271,7 @@ function storesession(tag, data) {
 
 function payments() {
     jQuery.ajax({
-        url: 'encrypt.php',
+        url: 'axis-curl.php',
         error: function (xhr, status, error) {
             console.log(error);
         },
