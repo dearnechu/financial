@@ -1,5 +1,4 @@
 <?php
-  error_reporting(0);
   session_start();
 
   $GnuPG = new gnupg();
@@ -96,18 +95,16 @@
 
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encrypt($jsondata);
-  print_r($jsondata);
-  echo "\n";
+  // print_r($jsondata);
+  // echo "\n";
   echo $enc;
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x')); 
-    
-
-  // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  
+     
   $server_output = curl_exec ($ch);
+  echo "\n";
   print_r($server_output);
   
   curl_close ($ch);
