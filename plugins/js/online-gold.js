@@ -272,7 +272,7 @@ function storesession(tag, data) {
 function payments() {
     jQuery.ajax({
         url: 'axis-curl.php',
-        method: "GET",
+        method: "POST",
         contentType: 'application/json',
         error: function (xhr, status, error) {
             console.log(error);
