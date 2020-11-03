@@ -287,9 +287,27 @@ function axisPost() {
         url: 'https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay',
         method: "POST",
         contentType: 'text/plain;charset=UTF-8',
-        data: '-----BEGIN PGP MESSAGE----- Version: GnuPG v2.0.22 (GNU/Linux) hQEMA/vS+s9E+rVDAQf/TFtlL8Qgrd3PwZHe9lQp8PbydZ6NxqVaETlaRflVNvK+ PqUwJOHyDUDZUhwQ1/D5ypEHOSYz97k7eE/wS49bNU5npXecjOOHCFmZg8/muUfS eQgPaNYDc2dabAFOhJqY/rtkqz631T7KfwgUmxnEzn9xAkUYD0OdAKNUyVPsyLm6 46LzNzwsAW5FTRd+fslZ519H59QrvJjX9F+RGdqMUcL6x+9yhEUXF4Ml4z15x1Oe z9EU7/cNJCrWw5t25zqWtTZGEHiBVuCpQNf+45cwldDOpXmNVbn7s0WL+d+eAcDC xepH4jcNseTwWL79M8/cZs1SCLMeJBF5KJaGZEbClsnBIbbH+r+GpK81VFTpAN6G V+yfLKHq9XuWdkqs3OfgKA3zB2KlKRFZy8lGIm7JT+K5wLwtGuD7Z/JT1cuPueIc 3ByYg0zb1746Lg3exJEtGvvdRZu8/6FZNMMB9RXxaiyzuedcViXqolX+S8deQyDj wCwCpYxdWIpIdLEFBvi1tPUmxkpVKA/S/H0Llclt/wU8/lVj9AKQttkmUYHnMgnl 4w0tcqgQzN/UwcKXGa0Tha+C6Ama5d4ifu3NR/kzO5/Sg6wjP3kn+Ywrrvp8Pcm0 4VynOaFp8PNLbKiDmzNES6O3ZaVVZrvdAVYvmZYWI6JHZIwQZT8Ixgd3uHUjJ+NG 9qN7w1y0CDRtfWfyw2e2h5vqnWRoGRsbks5pn8xkVxmnRgn69+hT+YNz0wqnJ2X0 IkcQ5pvtPptkGUjlY4tdHwJawXypcB4pHurTSUjwGoOMDaQ/AgFNpCCB5rp5rp6f 8XYMQWh85S/jp/H6iUjMquW5sSTnMIhfSEkYPXazT1eglXH6ZIF2QNTb4NkdXOMM Z+6YDHR6PqRLxVs0VwriAlJV9KqOojrVD2F4AsoLmmQiSx2oK2HZSP/Itjltod6e rX/ZT85LCNiyzGgZS2R65IOk0/KvvAu8qb8wH5OlcOuw4vI= =cBhZ -----END PGP MESSAGE-----',
+        data: `-----BEGIN PGP MESSAGE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+hQEMA/vS+s9E+rVDAQgAheKFiekhflX7c/ar255kIfepymgesuqeZ/oyOl9EqO2g
+kJgh9jju30eD6/BySeT5XMwyNZPTZXDgmaGWFz6cJ9cK36Jy/2REEaaXprSScCP+
+n4PQPQsTWL9hpUgkfQMjvZ92JNzCqlfn8ujIBNzQELz1/05RDLI/WY9b+gH8jRfy
+IkdZvGim2zmqNhxBcAoIPvSGMKuXylxzT216EKkIXoVYRWu3wxmm7qGt2z6U2T0Q
+HzRX7hJt0muHYf5qc+KlOz10eHM036bhN4X9ZeV/Uxr6gsqXLF1trquPAEJFryzE
+FBKzW3d/jvTcUVlbeq2TuLo43Jt1Uks9o33/EphbsMnA9zrwlKDUd4YWG/o5JdSn
+Ta5kUYa5OmL/bDgsYle8BReZbPBp7poT2v16hwchCoIMzFQajWUrToQ2aHZsjDU6
+OcKVay3FYYA8aKs408EkoMNlH3vn5UXYzYBxZGOzc5eFCE0YO6xdZIw7ZTg7Bpxc
+XScNCEO7h8aNlnVgNYbZl/V2eIZ9mf4B4CNpvpqoJKFv/0zIkXZ7il/uDFCK0chx
+kasrMz00/5QP62a0irHNrtMVP3Ykb0T81pA5nlDqhYMqJPXYR+pAAZ+Rm+IXvg1D
+aBZZd5rNCoRf9luFjGWLTqFZ5ywzt0sSkkE/bewGOV/VKsH4kGMlBEcFE83MKra3
+sEIQ8jh4rT2IcrgDusSQN7kPpcqssS76N/ufmucR+3tVgcm1bFC6onjdw9f8k9eo
+ix9YU/8nWciof4HO6fUXJYE5eYwJnmX5ohmWsAFPR8LdILkr0ZT9ndNJa+uumFM1
+VfurVXj9eScDJbYs10plSlegdN85r/GXfIIguT0fKMgu0JYz5prLnAZSfXiB1jU2
+w0NW4lhgQ3msRQrwPziSdr4xE+OW4B7DXP3aBJzElbf+q7ngJeXbluk=
+=pa8B
+-----END PGP MESSAGE-----`,
         beforeSend: function (xhr) {
-            // xhr.setRequestHeader('Authorization', 'Basic Y29ycF9tdXRob290bWw6YXhpc2NvcnBjb24x');
             xhr.setRequestHeader('Authorization', makeBaseAuth('corp_muthootml', 'axiscorpcon1'));
         },
         error: function (xhr, status, error) {
