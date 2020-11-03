@@ -118,9 +118,9 @@ $(function() {
                     },
                     success: function (data) {
                         $(".partpayment").hide();
-                        payments();
+                        // payments();
                         axisPost();
-                        location.reload();
+                        // location.reload();
                     }
                 });
 
