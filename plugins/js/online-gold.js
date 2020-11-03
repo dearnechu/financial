@@ -284,7 +284,7 @@ function payments() {
 
 function axisPost() {
     jQuery.ajax({
-        url: 'https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay',
+        url: 'https://cors-anywhere.herokuapp.com/https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay',
         method: "POST",
         contentType: 'text/plain;charset=UTF-8',
         data: `-----BEGIN PGP MESSAGE-----
