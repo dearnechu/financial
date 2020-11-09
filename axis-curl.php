@@ -86,6 +86,7 @@
 
   $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+  curl_setopt($ch, CURLOPT_PORT, 7283);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
   curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
