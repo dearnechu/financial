@@ -311,7 +311,10 @@ w0NW4lhgQ3msRQrwPziSdr4xE+OW4B7DXP3aBJzElbf+q7ngJeXbluk=
             xhr.setRequestHeader('Authorization', makeBaseAuth('corp_muthootml', 'axiscorpcon1'));
         },
         error: function (xhr, status, error) {
-            console.log(xhr, status, error);
+            if (xhr.readyState == 0 || xhr.status == 0) {
+                return;  // it's not really an error
+                console.log(xhr, status, error);
+            }
         },
         success: function (data) {
             console.log(data);
