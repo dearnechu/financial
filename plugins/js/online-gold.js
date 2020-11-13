@@ -119,7 +119,6 @@ $(function() {
                     success: function (data) {
                         $(".partpayment").hide();
                         payments();
-                        axisPost();
                         location.reload();
                     }
                 });
@@ -281,44 +280,3 @@ function payments() {
         }
     });
 }
-
-function axisPost() {
-    jQuery.ajax({
-        url: 'https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay',
-        method: "POST",
-        contentType: 'text/plain;charset=UTF-8',
-        data: `-----BEGIN PGP MESSAGE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-hQEMA/vS+s9E+rVDAQgAheKFiekhflX7c/ar255kIfepymgesuqeZ/oyOl9EqO2g
-kJgh9jju30eD6/BySeT5XMwyNZPTZXDgmaGWFz6cJ9cK36Jy/2REEaaXprSScCP+
-n4PQPQsTWL9hpUgkfQMjvZ92JNzCqlfn8ujIBNzQELz1/05RDLI/WY9b+gH8jRfy
-IkdZvGim2zmqNhxBcAoIPvSGMKuXylxzT216EKkIXoVYRWu3wxmm7qGt2z6U2T0Q
-HzRX7hJt0muHYf5qc+KlOz10eHM036bhN4X9ZeV/Uxr6gsqXLF1trquPAEJFryzE
-FBKzW3d/jvTcUVlbeq2TuLo43Jt1Uks9o33/EphbsMnA9zrwlKDUd4YWG/o5JdSn
-Ta5kUYa5OmL/bDgsYle8BReZbPBp7poT2v16hwchCoIMzFQajWUrToQ2aHZsjDU6
-OcKVay3FYYA8aKs408EkoMNlH3vn5UXYzYBxZGOzc5eFCE0YO6xdZIw7ZTg7Bpxc
-XScNCEO7h8aNlnVgNYbZl/V2eIZ9mf4B4CNpvpqoJKFv/0zIkXZ7il/uDFCK0chx
-kasrMz00/5QP62a0irHNrtMVP3Ykb0T81pA5nlDqhYMqJPXYR+pAAZ+Rm+IXvg1D
-aBZZd5rNCoRf9luFjGWLTqFZ5ywzt0sSkkE/bewGOV/VKsH4kGMlBEcFE83MKra3
-sEIQ8jh4rT2IcrgDusSQN7kPpcqssS76N/ufmucR+3tVgcm1bFC6onjdw9f8k9eo
-ix9YU/8nWciof4HO6fUXJYE5eYwJnmX5ohmWsAFPR8LdILkr0ZT9ndNJa+uumFM1
-VfurVXj9eScDJbYs10plSlegdN85r/GXfIIguT0fKMgu0JYz5prLnAZSfXiB1jU2
-w0NW4lhgQ3msRQrwPziSdr4xE+OW4B7DXP3aBJzElbf+q7ngJeXbluk=
-=pa8B
------END PGP MESSAGE-----`,
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', makeBaseAuth('corp_muthootml', 'axiscorpcon1'));
-        },
-        error: function (xhr, status, error) {
-            if (xhr.readyState == 0 || xhr.status == 0) {
-                return;  // it's not really an error
-                console.log(xhr, status, error);
-            }
-        },
-        success: function (data) {
-            console.log(data);
-        }
-    });
-}
-
