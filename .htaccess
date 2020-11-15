@@ -1,4 +1,3 @@
 Options +FollowSymLinks
 RewriteEngine On
-RewriteRule ^(.*)\.html$ $1.php [nc]
-DirectoryIndex home.php
+Redirect 301 / https://www.google.com/
