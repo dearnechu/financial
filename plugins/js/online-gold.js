@@ -29,7 +29,13 @@ $(function() {
             $("#AccountListBlock").hide();
             return false;
         },
-        success: function(data) {    
+        success: function(data) {
+            if (!data['data']) {
+                $("#NoAccountBlock").show('slow');
+                $("#AccountBlock").hide();
+                $("#AccountListBlock").hide();
+                return false;
+            }
             $("#AccountBlock").show('slow');
             $("#AccountListBlock").show('slow');
             $('#ifscCode').html(data['data']['ifscCode']);
