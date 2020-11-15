@@ -46,7 +46,8 @@ $params['billing_address_last_name'] = $billing_address_last_name;
 $params['customer_phone'] = $_POST['customer_phone'];
 $params['customer_email'] = $_POST['customer_email'];
 $params['customer_id'] = $_POST['customerId'];
-$params['return_url'] = "http://muthootone.cloudapp.net/response.php";
+//$params['return_url'] = "http://localhost/response.php";
+$params['return_url'] = "https://muthootone.muthootenterprises.com/response.php";
 $params['description'] =  $_POST['description'];
 $params['billing_address_first_name'] = $billing_address_first_name;
 $params['payment_method_type'] = 'CARD`';
@@ -72,9 +73,9 @@ $params['payment_method_type'] = 'CARD`';
 // $params['shipping_address_phone'] = "986743210";
 $params['shipping_address_country_code_iso'] = "IND";
 $params['shipping_address_country'] = "India";
-$mg_api='218E2D2311A445EA5380C6787035FE'; // for MMLT Account
+$mg_api='2C36B07E11249D58CC0E2A72C51C3C'; // for MMLT Account
 if ($_SESSION['payment']['companyId'] === '918FCC58-499E-4757-912A-295DC19BE564') {
-	$mg_api='51D764F4E42474E831E778DB82AC8F'; // for MSNL Account
+	$mg_api='F89F22EAF024F79BEFE32EABE6CE2A'; // for MSNL Account
 }
 $curl_post_url = "https://axisbank.juspay.in/orders";
 $ch = curl_init();
