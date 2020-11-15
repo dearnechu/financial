@@ -1,3 +1,4 @@
 Options +FollowSymLinks
 RewriteEngine On
-Redirect 301 / http://muthootone.cloudapp.net/
+RewriteRule ^(.*)\.html$ $1.php [nc]
+DirectoryIndex home.php
