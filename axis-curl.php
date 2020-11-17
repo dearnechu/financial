@@ -7,6 +7,12 @@
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
 
+  if (!file_exists('logs/reverse/' . date('Ymd'))) {
+      mkdir('logs/reverse/' . date('Ymd'), 0777, true);
+  }
+  $uneque_refrence_number = date('YmdHis');
+  $fp = fopen('logs/reverse/' . date('Ymd') .'/'. $uneque_refrence_number . '.txt', 'w');
+
 /*
   print_r($_SESSION['GetBankDetailsByCustomerId']);
   print_r($_SESSION['GetGoldLoanDetailsWeb']);
@@ -20,7 +26,7 @@
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CMPY_CODE'] = '029010100347068';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_CRNCY'] = 'INR';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_PAYMODE'] = 'NE'; // PA
-  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CUST_UNIQ_REF'] = date('YmdHis'); // 'SBK0820A0006723';
+  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CUST_UNIQ_REF'] = $uneque_refrence_number; // 'SBK0820A0006723';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_TYPE'] = 'VEND';
 
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['TXN_AMOUNT'] = $_SESSION['loanAmount'];
@@ -43,10 +49,6 @@
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_BANK_NAME'] = $_SESSION['GetBankDetailsByCustomerId']['bank']['code']; // 'SBI';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BASE_CODE'] = 'DEMOCORP';
 
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CHEQUE_NUMBER'] = '0';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CHEQUE_DATE'] = [];
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['PAYABLE_LOCATION'] = '1';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['PRINT_LOCATION'] = '1';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['PRODUCT_CODE'] = 'pa';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BATCH_ID'] = '671c6d56-86b8-4bfd-bb96-1a599caab713';
 
@@ -63,27 +65,6 @@
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_EMAIL_ADDR2'] = 'test@axisbank.com';
   
 
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['ENRICHMENT1'] = 'test1';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['ENRICHMENT2'] = 'test1';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['ENRICHMENT3'] = 'test1';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['ENRICHMENT4'] = 'test1';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['ENRICHMENT5'] = 'test1';    
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['STATUS_ID'] = '1';    
-
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][0]['INVOICE_NUMBER'] = 'INVOICE122';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][0]['INVOICE_DATE'] = '2020-08-04';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][0]['NET_AMOUNT'] = '10';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][0]['TAX'] = '0';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][0]['CASH_DISCOUNT'] = '0';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][0]['INVOICE_AMOUNT'] = '10';
-
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['INVOICE_NUMBER'] = 'INVOICE122';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['INVOICE_DATE'] = '2020-08-04';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['NET_AMOUNT'] = '10';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['TAX'] = '0';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['CASH_DISCOUNT'] = '0';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['INVOICE'][1]['INVOICE_AMOUNT'] = '10';
-
   $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/muthootml/Pay');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
   curl_setopt($ch, CURLOPT_PORT, 443);
@@ -97,12 +78,8 @@
 
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encrypt($jsondata);
-  print_r($jsondata);
-  
-  echo "<br>";
-  echo "End Json";
-  echo "<br>";
-  echo $enc;
+  fwrite($fp, $jsondata);
+  fwrite($fp, PHP_EOL . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
@@ -113,17 +90,8 @@
   $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
   curl_close($ch);
-
-  echo "<br>";
-  echo "End PGP";
-  echo "<br>";
-  print_r($server_output);
-  echo "<br>";
-  print_r($errors);
-  echo "<br>";
-  print_r($response);
-
-  echo "<br>";
-  echo "End CURL";
-  
+  fwrite($fp, PHP_EOL . 'Server Output: ' . $server_output);
+  fwrite($fp, PHP_EOL . 'Errors: ' . $errors);
+  fwrite($fp, PHP_EOL . 'Response: ' . $response);
+  fclose($fp);
 ?>
