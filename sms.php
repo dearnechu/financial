@@ -7,7 +7,7 @@
 		$url .= "message=".str_replace(" ", "%20", $input_array['message']).".%20"; 
 		$url .= "Email:%20".$input_array['email']."%20";
 		$url .= "Password:%20".$input_array['password'];
-		$url .= "&number=".$input_array['mobile']."&sender=mthoot";
+		$url .= "&number=".$input_array['mobile']."&sender=MUTHOT";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		$server_output = curl_exec ($ch);
