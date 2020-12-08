@@ -50,7 +50,7 @@
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BASE_CODE'] = 'DEMOCORP';
 
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['PRODUCT_CODE'] = 'pa';
-  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BATCH_ID'] = '671c6d56-86b8-4bfd-bb96-1a599caab713';
+  $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BATCH_ID'] = 'MUTHOOT_MSNL';
 
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_ADDR_1'] = 'arun nagar,Pimpalgaon,Pimpalgaon Bk.,Jalgaon,Pachora,Maharashtra,424203,';
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_ADDR_2'] = 'test';
