@@ -49,7 +49,7 @@
                   </tr>
                   <tr>
                     <th>Branch:</th>
-                    <td>TestBranch</td>
+                    <td><span class="brancName"></td>
                     <th>Date:</th>
                     <td><span class="startDate"><span></td>
                   </tr>

@@ -110,6 +110,7 @@ function showLoanDetails(loanNo, branchId, companyId){
                 $('#grossWeight').html(data.data.glLoanDetail[0].grossWeight + ' gms');
                 $('#netWeight').html(data.data.glLoanDetail[0].netWeight + ' gms');
                 $('#carat').html(data.data.glLoanDetail[0].carat + ' Ct');
+                $('.brancName').html(localStorage.getItem("location"));
 
                 // $('#print').attr('href', 'pawn-ticket-print.php?branchid=' + branchId + '&companyId=' + companyId + '&startdate=' + new Date().toISOString() + '&loannumber=' + loanNo);
                 localStorage.setItem("GetPawnTicketDetails", JSON.stringify(data.data));
@@ -131,10 +132,12 @@ function addMonths(date, months) {
 
 function getPrintData() {
     data = JSON.parse(localStorage.getItem("GetPawnTicketDetails"));
+    $('.brancName').html(localStorage.getItem("location"));
     $('#pawnTicketNumber').html(data.pawnTicketNumber);
     $('#loanNumber').html(data.loanNumber);
     $('.loanAmount').html(data.loanAmount.format(2, 3));
     $('.startDate').html(new Date(data.revisedDate).format("d-M-Y"));
+
     $('#revisedDate').html(addMonths(new Date(data.revisedDate), 9).format("d-M-Y"));
 
     $('#customerName').html(data.glCustomer.firstName + ' ' + data.glCustomer.lastName);
