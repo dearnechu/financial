@@ -8,18 +8,32 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link href="assets/images/favicon.png" rel="shortcut icon">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="plugins/iCheck/all.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <style type="text/css">
+      input[type=number]::-webkit-inner-spin-button, 
+      input[type=number]::-webkit-outer-spin-button { 
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          margin: 0; 
+      }
+      .emiDetails td{
+          vertical-align: middle !important;
+      }
+    </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,21 +41,6 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-      .example-modal .modal {
-        position: relative;
-        top: auto;
-        bottom: auto;
-        right: auto;
-        left: auto;
-        display: block;
-        z-index: 1;
-      }
-      .example-modal .modal {
-        background: transparent !important;
-      }
-    </style>
-
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -97,13 +96,13 @@
                 <i class="fa fa-table"></i> <span>Registration Form</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
-            <li class="treeview active">
-              <a href="#">
+            <li class="treeview">
+              <a href="online-gold.html">
                 <i class="fa fa-sun-o"></i> <span>Online Gold Loan</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
-            <li class="treeview">
-              <a href="pawn-ticket.html">
+            <li class="treeview active">
+              <a href="#">
                 <i class="fa fa-print"></i> <span>Print Pawn Ticket</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
@@ -135,136 +134,143 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <!-- Main content -->
-        <section class="content">
-          <h2 class="page-header">Online Gold Loan</h2>
+        <!-- Content Header (Page header) -->
 
-          <div id="NoAccountBlock" class="callout callout-warning" style="display:none">
-            <h4>You have not registered your bank account.</h4>
-            <p>Please contact your branch for register the bank account.</p>
+
+        <section class="invoice">
+          <div class="row">
+              <div class="col-xs-12">
+                <div class="box mainBox" style="border-top:none">
+                  <div class="box-body ">
+                    <table id="LoanTable" class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>Loan Account No</th>
+                          <th>Disbursement Date</th>
+                          <th>Loan Amount</th>
+                          <th>Last Repayment Date</th>
+                          <th>Scheme Name</th>
+                        </tr>
+                      </thead>
+                    </table>
+                  </div><!-- /.box-body -->
+                  <div class="overlay spinner-search"><i class="fa fa-spinner fa-spin"></i></div>
+                </div><!-- /.box -->    
+              <div>
           </div>
+        </section>
 
-          <div class="row" id="AccountBlock" style="display:none">
-            <div class="col-lg-12 col-xs-12">
-                  <div class="box">
-                    <div class="box-body no-padding">
-                      <table class="table">
-                        <tr>
-                          <td class="col-md-2"><b>Bank Name</b></td>
-                          <td class="col-md-10" id="bankName"></td>
-                        </tr>
-                        <tr>
-                          <td><b>Account Holder Name</b></td>
-                          <td id="accountHolder"></td>
-                        </tr>
-                        <tr>
-                          <td><b>Account Number</b></td>
-                          <td> <span id="accountNumber"></span> <span class="text-muted"><i> (Loan amount will be credited to this account) </i></span></td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td><b>IFSC Code</b></td>
-                          <td id="ifscCode"></td>
-                        </tr>
-                      </table>
-                    </div>
-                  </div>
-            </div>
+        <!-- Main content -->
+        <section class="invoice loanDetails" style="display:none">
+          <!-- title row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box-tools pull-right">
+                <button class="btn btn-box-tool remove" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+              </div>
+              <h2 class="page-header">
+                Muthoot Mercantile Limited
+                <small>Pawn Ticket No: <span id="pawnTicketNumber"></span> (Digital Copy) </small>
+              </h2>
+            </div><!-- /.col -->
+          </div>
+          <!-- info row -->
+          <div class="row invoice-info">
+            <div class="col-xs-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <tr>
+                    <th style="width:15%; border-top:none">Pledge No:</th>
+                    <td style="width:60%; border-top:none"><span id="loanNumber"></span></td>
+                    <th style="border-top:none">Amount:</th>
+                    <td style="border-top:none"><span class="loanAmount"></span></td>
+                  </tr>
+                  <tr>
+                    <th>Branch:</th>
+                    <td>TestBranch</td>
+                    <th>Date:</th>
+                    <td><span class="startDate"><span></td>
+                  </tr>
+                  <tr>
+                    <th> </th>
+                    <td> </td>
+                    <th> </th>
+                    <td> </td>
+                  </tr>
+                </table>
+              </div>
+            </div><!-- /.col -->            
           </div><!-- /.row -->
 
-          <div class="row" id="AccountListBlock" style="display:none">
+           <div class="row">
+            <div class="col-xs-12 table-responsive">
+              I, <strong id="customerName"></strong>, <span id="address"></span> hereby pawn my article this day <strong class="startDate"></strong> with M/s <strong>MUTHOOT MERCANTILE LTD</strong>, in the above branch of principal amount of <strong class="loanAmount"></strong> at annual interest rate as follows.
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>0-1 Months</th>
+                    <th>2-3 Months</th>
+                    <th>3-6 Months</th>
+                    <th>Above 6 Months</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>12% (<strong>N</strong>)</td>
+                    <td>18% (<strong>N</strong>)</td>
+                    <td>22% (<strong>N</strong>)</td>
+                    <td>24% (<strong>C</strong>) - Interest % from the Date of Pledge </td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <strong>N</strong>-Simple <strong>C</strong>-Compound
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Table row -->
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-xs-6 table-responsive">
+              The details regarding articles are follows
+              <table class="table">
+                  <tr>
+                    <th style="width:50%">Article:</th>
+                    <td id="article"></td>
+                  </tr>
+                  <tr>
+                    <th>Gross Weight:</th>
+                    <td id="grossWeight"></td>
+                  </tr>
+                  <tr>
+                    <th>Net Weight:</th>
+                    <td id="netWeight"></td>
+                  </tr>
+                  <tr>
+                    <th>Average Caratege:</th>
+                    <td id="carat"></td>
+                  </tr>
+                </table>
+            </div><!-- /.col -->
+            <div class="col-xs-6">
+              <p class="text-muted well well-sm no-shadow" style="margin-top: 50px;">
+                I hereby promise to redeem the pawn after paying the principal amount and interest on or before the agreed redemption date <strong id="revisedDate">26th April 2021</strong>.
+              </p>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+          <!-- this row will not appear when printing -->
+          <div class="row no-print">
             <div class="col-xs-12">
-              <div class="box mainBox">
-                <div class="box-body ">
-                  <table id="LoanTable" class="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>Loan Account No</th>
-                        <th>Disbursement Date</th>
-                        <th>Loan Amount</th>
-                        <th>Available Loan Amount</th>
-                        <th>Last Repayment Date</th>
-                        <th>Scheme Name</th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-              </div>
-
-              <!-- Payment Details box -->
-              <div style="display:none" class="box loanDetails">
-                <div class="box-header" align="center">
-                  <h3 class="box-title">Apply Gold Loan for - <span id="loan_number"></span></h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                  </div>
-                </div>
-                
-                <div class="col-md-12">
-                  <div class="box">
-                    <div class="box-header">
-                      <h4 class="box-title">You can apply for the Gold Loan</h4>  
-                      <i>(amount between <b> <span id="minimum_amount_to_be_apply"> </span> - <span id="total_payable_amount" > </span></b>)</i>
-                    </div><!-- /.box-header -->
-                    <div class="box-body no-padding">
-                      <table class="table table-condensed">
-                        <tr>
-                          <td>Enter Amount</td>
-                          <td>
-                            <input type="number" id="PartAmount" class="form-control input-sm"/>
-                            <label style="margin-bottom: 0px;">&nbsp;</label>
-                            <label class="text-red part-payment-error" style="display:none; margin-bottom:0px"> Invalid amount </label>
-                          </td>
-                        </tr>
-                        <tr class="PPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="There is NO service charge for now"></i></a></td>
-                          <td id="part_service_charge">0.00</td>
-                        </tr>
-                        <tr class="PPGTotal">
-                          <td><b>Total Amount will Be Credited in Your Account</b></td>
-                          <td id="PG_part_total"><b>0.00</b></td>
-                        </tr>
-                      </table>
-                    </div><!-- /.box-body -->
-                    <div class="overlay partpayment"><i class="fa fa-spinner fa-spin"></i></div>
-                    <div class="box-footer">
-                      <button class="btn btn-success pull-right" id="confirm">
-                        <i class="fa fa-hand-o-right"></i> Apply
-                      </button>
-                    </div><!-- /.box-footer -->
-                  </div><!-- /.box -->
-                </div><!-- ./col -->
-
-                <div class="box-footer clearfix">
-                  
-                </div>
-
-              </div><!-- /.Payment Details box -->
-
+              <a href="pawn-ticket-print.php" target="_blank" class="btn btn-success pull-right"><i class="fa fa-print"></i> Print</a>
             </div>
           </div>
-
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
-                </div>
-                <div class="modal-body">
-                  Could you please verify the top-up amount ? top-up amount will be credited to your bank account with in 24 working hours.
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id="PartPayment">Confirm</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
         </section><!-- /.content -->
+
+        <div class="clearfix"></div>
       </div><!-- /.content-wrapper -->
-      
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.1.0
@@ -272,9 +278,9 @@
         <strong>Copyright &copy; 2010 <a target="_blank" href="http://www.muthootenterprises.com/">Muthoot Mercantile Limited</a>. Powered by <a target="_blank" href="http://www.experionglobal.com/">Experion Technologies</a></strong>.
       </footer>
 
-       <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->
 
+    <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -295,6 +301,7 @@
     <script src="plugins/dateformat/format.js"></script>
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
-    <script src="plugins/js/online-gold.js?rand=1992"></script>
+     <!-- Home -->
+    <script src="plugins/js/pawn.js?rand=2212"></script>
   </body>
 </html>

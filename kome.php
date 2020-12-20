@@ -107,7 +107,7 @@
             </li>
             <li class="treeview">
               <a href="#">
-                <i class="fa fa-download"></i> <span>Download Pawn Ticket</span><i class="fa fa-angle-left pull-right"></i>
+                <i class="fa fa-print"></i> <span>Print Pawn Ticket</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
             <li class="treeview">
