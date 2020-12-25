@@ -303,11 +303,11 @@
                           </div>
                         </tr> -->
                         <tr class="FPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8% + GST (18% of service charge)"></i></a></td>
                           <td id="service_charge"></td>
                         </tr>
                         <tr class="FNBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8% + GST (18% of service charge)"></i></a></td>
                           <td id="net_service_charge"></td>
                         </tr>
                         <tr class="FPGTotal">
@@ -357,11 +357,11 @@
                           </div>
                         </tr> -->
                         <tr class="PPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8% + GST (18% of service charge)"></i></a></td>
                           <td id="part_service_charge">0.00</td>
                         </tr>
                         <tr class="PNBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8% + GST (18% of service charge)"></i></a></td>
                           <td id="part_net_service_charge"></td>
                         </tr>
                         <tr class="PPGTotal">
@@ -434,11 +434,11 @@
                           </div>
                         </tr> -->
                         <tr class="EMIPGSCharge">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8% + GST (18% of service charge)"></i></a></td>
                           <td id="EmiServiceCharge"></td>
                         </tr>
                         <tr class="EMINBSCharge" style="display:none">
-                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8%"></i></a></td>
+                          <td>Service Charge &nbsp; <a href="#"><i class="fa fa-question" data-toggle="tooltip" title="0% for below 2000, otherwise 0.8% + GST (18% of service charge)"></i></a></td>
                           <td id="EmiServiceCharge"></td>
                         </tr>
                         <tr class="EMIPGTotal">
