@@ -510,13 +510,13 @@
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <!-- Config and Common -->
-    <script src="plugins/js/config.js"></script>
+    <script src="plugins/js/config.js?rand=20201225"></script>
     <!-- Formatting Date -->
     <script src="plugins/dateformat/format.js"></script>
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/home.js?rand=2099"></script>
+    <script src="plugins/js/home.js?rand=20201225"></script>
 
   </body>
 </html>
