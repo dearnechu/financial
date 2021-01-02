@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <!-- Custom CSS style -->
+    <link rel="stylesheet" href="../dist/css/custom.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
@@ -27,20 +29,6 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-      .example-modal .modal {
-        position: relative;
-        top: auto;
-        bottom: auto;
-        right: auto;
-        left: auto;
-        display: block;
-        z-index: 1;
-      }
-      .example-modal .modal {
-        background: transparent !important;
-      }
-    </style>
 
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
@@ -208,6 +196,36 @@
                     </div><!-- /.box-header -->
                     <div class="box-body no-padding">
                       <table class="table table-condensed">
+
+                        <tr>
+                          <td>Do you want to upgrade the existing scheme ? </td>
+                          <td>
+                                <label class="switch">
+                                  <input type="checkbox" id="isSwitchPlan"> <span class="slider round"></span>
+                                </label>
+                          </td>
+                        </tr>
+                        
+                        <tr class="schemeDetails" style="display:none">
+                          <td>Select a scheme for topup </td>
+                          <td>
+                            <select class="form-control" id="TopupPlan"> 
+                            </select>
+                          </td>
+                        </tr>
+                        <tr class="schemeDetails" style="display:none">
+                           <td> Minimum Interest Period of selected scheme</td>
+                           <td id="minimumInterestPeriod"></td>
+                        </tr>
+                        <tr class="schemeDetails" style="display:none">
+                           <td> Slab Rate of selected scheme </td>
+                           <td id="currentSlabRate"></td>
+                        </tr>
+                        <tr class="schemeDetails" style="display:none">
+                           <td> Available Loan Amount </td>
+                           <td id="availLoan"></td>
+                        </tr>
+
                         <tr>
                           <td>Enter Amount</td>
                           <td>

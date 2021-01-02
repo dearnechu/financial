@@ -10,6 +10,7 @@ var CompanyId = null;
 var BranchId = null;
 var GoldLoanAmount = null;
 var GoldLoanInterestDue = null;
+var planList = null;
 $(function() {
     var v1 = {
         customerId: localStorage.getItem("customerId"),
@@ -42,7 +43,6 @@ $(function() {
             $('#accountNumber').html(data['data']['accountNumber']);
             $('#accountHolder').html(data['data']['accountHolder']);
             $('#bankName').html(data['data']['bank']['code'] + ', ' + data['data']['branch']);
-            $('.spinner-search').hide();
             storesession('GetBankDetailsByCustomerId', data['data']);
             getList();
         }
@@ -53,6 +53,18 @@ $(function() {
 
     $(".close").click(function() {
         $(this).parent().parent().hide("slow");
+    });
+
+    $("#isSwitchPlan").change(function() {
+        if($("#isSwitchPlan").prop("checked")) {
+            $(".schemeDetails").show();
+        } else {
+            $(".schemeDetails").hide();
+        }
+    });
+
+    $("#TopupPlan").change(function() {
+        planUpdate();
     });
 
     $("#confirm").click(function() {
@@ -147,7 +159,7 @@ function getList() {
     }
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetLoanAvailableByCustId',
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailablebyCustId',
         contentType: 'application/json',
         method: "POST",
         data: JSON.stringify(v2),
@@ -158,8 +170,6 @@ function getList() {
             return false;
         },
         success: function (data) {
-            console.log(data.data);
-
             var dataSet = new Array();
             for (var index in data['data']) {
 
@@ -195,7 +205,6 @@ function getList() {
                 "autoWidth": false,
             });
             $("#LoanTable_wrapper .row .col-sm-6:first-child").append("<label> Online Gold Loan </label><i> (Click over the loan account no for online gold loan) </i>");
-            $('.spinner-search').hide();
 
             setTimeout(function () { $(".pg-message").hide("slow"); }, 10000);
 
@@ -213,7 +222,7 @@ function getList() {
 }
 
 function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
-    $('.spinner-search').show();
+    $('.partpayment').show();
     var data = {
         loanNumber: loanNo,
         branchId: branchId,
@@ -236,6 +245,36 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
             GoldLoanAmount = data['data']['goldLoanAmountRemaining'];
             GoldLoanInterestDue = Math.round(data['data']['goldLoanInterestDue']);
             storesession('GetGoldLoanDetailsWeb', data['data']);
+
+            var data = {
+                branchId: branchId,
+                companyId: companyId,
+                loanId: loanId
+            };
+            jQuery.ajax({
+                url: SERVICE_URL + 'PgCustomGoldLoan/GetActiveSchemes',
+                method: "POST",
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+                },
+                error: function (xhr, status, error) {
+                    return false;
+                },
+                success: function (data) {
+                    planList = data.data;
+
+                    $("#TopupPlan option").each(function () {
+                        $(this).remove();
+                    });
+
+                    data.data.forEach(element => {
+                        $('#TopupPlan').append(`<option value="${element.id}"> ${element.schemeName} </option>`); 
+                    });
+                    planUpdate();
+                }
+            });
         }
     });
 
@@ -252,7 +291,34 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     $('.loanDetails').show('slow');
     $("#minimum_amount_to_be_apply").html(minimumInterestToBePaid.format(2, 3));
     $("#total_payable_amount").html(parseInt(AvailLoan).format(2, 3));
-    $('.spinner-search, .fullpayment, .partpayment').hide();
+}
+
+function planUpdate() {
+    $('.partpayment').show();
+    var planDetails = planList.find(x => x.id == $("#TopupPlan").val());
+    $("#minimumInterestPeriod").html(planDetails.minimumInterestPeriod + ' Months');
+    $("#currentSlabRate").html(planDetails.currentSlabRate + '%');
+
+    var data = {
+        loanId: LoanNo,
+        paymentDetailId: $("#TopupPlan").val()
+    }
+    jQuery.ajax({
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetTopAmountbySchemeid',
+        method: "POST",
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+        },
+        error: function (xhr, status, error) {
+            return false;
+        },
+        success: function (data) {
+            $("#availLoan").html(data.data.availLoan.format(2, 3));
+            $('.partpayment').hide();
+        }
+    });
 }
 
 function storesession(tag, data) {
