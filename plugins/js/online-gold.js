@@ -5,6 +5,8 @@ Number.prototype.format = function(n, x) {
 var minimumInterestToBePaid = 10;
 var maxTopupAmount = 50000;
 var AvailLoan = 0;
+var AvailLoanOrg = 0;
+var AvailLoanScheme = 0;
 var LoanNo = null;
 var CompanyId = null;
 var BranchId = null;
@@ -61,6 +63,7 @@ $(function() {
         } else {
             $(".schemeDetails").hide();
         }
+        setAvailLoan();
     });
 
     $("#TopupPlan").change(function() {
@@ -112,16 +115,31 @@ $(function() {
                 return false;
             },
             success: function (data) {
-                var v2 = {
-                    glLoanDto: {
-                        id: LoanNo,
-                        startDate: new Date().toISOString(),
-                        loanAmount: loanAmount,
-                        glCustomer: {
-                            mobile: localStorage.getItem("mobile"),
+                if ($("#isSwitchPlan").prop("checked")) {
+                    var v2 = {
+                        glLoanDto: {
+                            id: LoanNo,
+                            startDate: new Date().toISOString(),
+                            schemeId: $("#TopupPlan").val(),
+                            loanAmount: loanAmount,
+                            glCustomer: {
+                                mobile: localStorage.getItem("mobile"),
+                            }
+                        }
+                    }
+                } else {
+                    var v2 = {
+                        glLoanDto: {
+                            id: LoanNo,
+                            startDate: new Date().toISOString(),
+                            loanAmount: loanAmount,
+                            glCustomer: {
+                                mobile: localStorage.getItem("mobile"),
+                            }
                         }
                     }
                 }
+                
 
                 jQuery.ajax({
                     url: SERVICE_URL + 'PgCustomGoldLoan/AddGoldLoan',
@@ -279,6 +297,7 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     });
 
     AvailLoan = availLoan;
+    AvailLoanOrg = availLoan;
     if (parseInt(AvailLoan) > maxTopupAmount) {
         AvailLoan = maxTopupAmount;
     }
@@ -290,7 +309,8 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     $(".mainBox").after($('.loanDetails'));
     $('.loanDetails').show('slow');
     $("#minimum_amount_to_be_apply").html(minimumInterestToBePaid.format(2, 3));
-    $("#total_payable_amount").html(parseInt(AvailLoan).format(2, 3));
+    // $("#total_payable_amount").html(parseInt(AvailLoan).format(2, 3));
+    setAvailLoan();
 }
 
 function planUpdate() {
@@ -315,10 +335,24 @@ function planUpdate() {
             return false;
         },
         success: function (data) {
+            AvailLoanScheme = data.data.availLoan;
             $("#availLoan").html(data.data.availLoan.format(2, 3));
             $('.partpayment').hide();
+            setAvailLoan();
         }
     });
+}
+
+function setAvailLoan() {
+    if ($("#isSwitchPlan").prop("checked")) {
+        AvailLoan = AvailLoanScheme;
+    } else {
+        AvailLoan = AvailLoanOrg;
+    }
+    if (parseInt(AvailLoan) > maxTopupAmount) {
+        AvailLoan = maxTopupAmount;
+    }
+    $("#total_payable_amount").html(parseInt(AvailLoan).format(2, 3));
 }
 
 function storesession(tag, data) {
