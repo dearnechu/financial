@@ -313,6 +313,6 @@
     <script src="plugins/dateformat/format.js"></script>
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
-    <script src="plugins/js/online-gold.js?rand=1992"></script>
+    <script src="plugins/js/online-gold.js?rand=1996"></script>
   </body>
 </html>
