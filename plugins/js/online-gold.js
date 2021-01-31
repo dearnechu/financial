@@ -11,7 +11,7 @@ var LoanNo = null;
 var CompanyId = null;
 var BranchId = null;
 var GoldLoanAmount = null;
-var GoldLoanInterestDue = null;
+var GoldLoanInterestDue = 0;
 var planList = null;
 $(function() {
     var v1 = {
@@ -97,7 +97,7 @@ $(function() {
             loanid: LoanNo,
             paymentStatus: 'Success',
             PaymentProcessType: 'Top Up',
-            paidAmount: GoldLoanAmount + GoldLoanInterestDue ? GoldLoanInterestDue : 0,
+            paidAmount: GoldLoanAmount + GoldLoanInterestDue,
             goldLoanAmount: GoldLoanAmount,
             goldLoanAmountRemaining: GoldLoanAmount,
             goldLoanInterestDue: GoldLoanInterestDue
@@ -261,7 +261,9 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
         },
         success: function (data) {
             GoldLoanAmount = data['data']['goldLoanAmountRemaining'];
-            GoldLoanInterestDue = Math.round(data['data']['goldLoanInterestDue']);
+            if (data['data']['goldLoanInterestDue']) {
+                GoldLoanInterestDue = Math.round(data['data']['goldLoanInterestDue']);
+            }
             storesession('GetGoldLoanDetailsWeb', data['data']);
 
             var data = {
