@@ -2,7 +2,7 @@ Number.prototype.format = function(n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-var minimumInterestToBePaid = 10;
+var minimumInterestToBePaid = 1;
 var maxTopupAmount = 50000;
 var AvailLoan = 0;
 var AvailLoanOrg = 0;
@@ -97,7 +97,7 @@ $(function() {
             loanid: LoanNo,
             paymentStatus: 'Success',
             PaymentProcessType: 'Top Up',
-            paidAmount: GoldLoanAmount + GoldLoanInterestDue,
+            paidAmount: GoldLoanAmount + GoldLoanInterestDue ? GoldLoanInterestDue : 0,
             goldLoanAmount: GoldLoanAmount,
             goldLoanAmountRemaining: GoldLoanAmount,
             goldLoanInterestDue: GoldLoanInterestDue
