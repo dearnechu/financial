@@ -393,7 +393,7 @@ function showLoanDetails(loanNo, branchId, companyId){
                 $("#nbtotal").html("<b>" + nbtotal.format(2, 3) + "</b>");  
                 minimumInterestToBePaid = 0;
                 if(data['data'].hasOwnProperty('minimumInterestToBePaid')){
-                    minimumInterestToBePaid = data['data']['minimumInterestToBePaid'];
+                    minimumInterestToBePaid = Math.round(data['data']['minimumInterestToBePaid']);
                 }
                 $("#minimum_interest_amount").html(minimumInterestToBePaid.format(2, 3));  
                 $("#total_payable_amount").html(total.format(2,3));  
