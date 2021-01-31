@@ -83,7 +83,8 @@ function mobileCheck(){
                             mobile: $.trim($("#mobile").val()),
                             message: "You have reset your password.",
                             email: data['data']['email'],
-                            password: data['data']['password']
+                            password: data['data']['password'],
+                            template_id: '100000000032098'
                     }
                     jQuery.ajax({
                         url: 'sms.php',
