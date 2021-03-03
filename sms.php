@@ -8,7 +8,7 @@
 		$url .= "Email:%20".$input_array['email']."%20";
 		$url .= "Password:%20".$input_array['password'];
 		$url .= ".%20MUTHOOT%20MERCANTILE%20LTD";
-		echo $url .= "&number=".$input_array['mobile']."&sender=MUTHOT";
+		$url .= "&number=".$input_array['mobile']."&sender=MUTHOT";
 		// $url .= "&template_id=".$input_array['template_id'];
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
