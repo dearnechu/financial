@@ -83,7 +83,7 @@ $(function () {
                             message: "You have registered Muthoot Online.",
                             email: $.trim($("#email").val()).toLowerCase(),
                             password: data['data']['password'],
-                            template_id: '100000000032093'
+                            template_id: '1607100000000032093'
                       }
                       jQuery.ajax({
                                 url: 'sms.php',

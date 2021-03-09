@@ -84,7 +84,7 @@ function mobileCheck(){
                             message: "You have reset your password.",
                             email: data['data']['email'],
                             password: data['data']['password'],
-                            template_id: '100000000032098'
+                            template_id: '1607100000000032098'
                     }
                     jQuery.ajax({
                         url: 'sms.php',
