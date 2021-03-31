@@ -3,7 +3,7 @@
   session_start();
 
   $GnuPG = new gnupg();
-  $PublicData = file_get_contents('key/uat.pkr');
+  $PublicData = file_get_contents('key/prod.pkr');
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
 
