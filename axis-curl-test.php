@@ -6,7 +6,7 @@
   $PublicData = file_get_contents('key/msnl_uat.pkr');
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
-  $GnuPG->addsignkey($PublicKey['fingerprint'], 'MSNL');
+  $GnuPG->addsignkey($PublicKey['fingerprint'], '');
 
   if (!file_exists('logs/reverse/test/' . date('Ymd'))) {
       mkdir('logs/reverse/test/' . date('Ymd'), 0777, true);
