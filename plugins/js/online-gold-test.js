@@ -3,7 +3,7 @@ Number.prototype.format = function(n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 var minimumInterestToBePaid = 1;
-var maxTopupAmount = 50000;
+var maxTopupAmount = 200000;
 var AvailLoan = 0;
 var AvailLoanOrg = 0;
 var AvailLoanScheme = 0;
