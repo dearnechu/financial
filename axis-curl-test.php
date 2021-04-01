@@ -6,7 +6,7 @@
   $PublicData = file_get_contents('key/msnl_uat.pkr');
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
-  $GnuPG->addsignkey($PublicKey['fingerprint'], '');
+  $GnuPG->addsignkey($PublicKey['fingerprint']);
 
   if (!file_exists('logs/reverse/test/' . date('Ymd'))) {
       mkdir('logs/reverse/test/' . date('Ymd'), 0777, true);
@@ -80,7 +80,7 @@
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, $jsondata);
-  fwrite($fp, PHP_EOL . $enc);
+  fwrite($fp, PHP_EOL . 'Encr: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
