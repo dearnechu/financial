@@ -3,13 +3,10 @@
   session_start();
 
   $GnuPG = new gnupg();
-  $PublicData = file_get_contents('key/public-muthoot.pkr');
+  $PublicData = file_get_contents('key/msnl_uat.pkr');
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
-
-  $privateData = file_get_contents('key/private-muthoot.pkr');
-  $privateKey = $GnuPG->import($privateData);
-  $GnuPG->addsignkey($privateKey['fingerprint']);
+  
 
   if (!file_exists('logs/reverse/test/' . date('Ymd'))) {
       mkdir('logs/reverse/test/' . date('Ymd'), 0777, true);
@@ -83,8 +80,7 @@
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, $jsondata);
-  fwrite($fp, PHP_EOL . 'Pub Key: ' . print_r($PublicKey, true));
-  fwrite($fp, PHP_EOL . 'Private Key: ' . print_r($privateKey, true));
+  fwrite($fp, $GnuPG->addsignkey($PublicKey['fingerprint']));
   fwrite($fp, PHP_EOL . 'Encr: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
