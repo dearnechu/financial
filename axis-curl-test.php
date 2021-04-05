@@ -3,7 +3,7 @@
   session_start();
 
   $GnuPG = new gnupg();
-  $PublicData = file_get_contents('key/msnl_uat.pkr');
+  $PublicData = file_get_contents('key/public-muthoot.pkr');
   $PublicKey = $GnuPG->import($PublicData);
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
 
