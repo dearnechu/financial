@@ -83,6 +83,8 @@
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, $jsondata);
+  fwrite($fp, PHP_EOL . 'Pub Key: ' . $PublicKey);
+  fwrite($fp, PHP_EOL . 'Private Key: ' . $privateKey);
   fwrite($fp, PHP_EOL . 'Encr: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
