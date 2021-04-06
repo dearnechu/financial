@@ -73,7 +73,7 @@
   $GnuPG2 = new gnupg();
   $privateKey = $GnuPG2->import($privateData);
 
-  $GnuPG->addsignkey($PublicKey['fingerprint'], $privateKey['fingerprint']);
+  $GnuPG->addsignkey($privateKey['fingerprint']);
 
   $jsondata = json_encode($payment_array);
   fwrite($fp, $jsondata);
