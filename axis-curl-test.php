@@ -69,6 +69,9 @@
   curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1!");
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
   
+  $privateData = file_get_contents('key/private-muthoot.pkr');
+  $privateKey = $GnuPG->import($privateData);
+  
   fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
   $signed = $GnuPG->sign($jsondata);
   fwrite($fp, PHP_EOL . 'Signed: ' . $signed);
