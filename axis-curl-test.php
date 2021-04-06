@@ -70,7 +70,7 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
   
   fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
-  $signed = $gpg->sign($jsondata);
+  $signed = $GnuPG->sign($jsondata);
   fwrite($fp, PHP_EOL . 'Signed: ' . $signed);
 
   $jsondata = json_encode($payment_array);
