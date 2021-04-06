@@ -75,7 +75,7 @@
   $gpg = new gnupg();
   $gpg -> addencryptkey($PublicKey['fingerprint']);
   $gpg -> addsignkey($PublicKey['fingerprint'], "test");
-  $enc = $gpg -> encryptsign("just a test");
+  $enc = $gpg -> encrypt("just a test");
   echo "----". $enc;
   
   fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
