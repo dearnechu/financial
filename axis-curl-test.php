@@ -94,8 +94,6 @@
   fwrite($fp, PHP_EOL . 'Server Output: ' . $server_output);
   fwrite($fp, PHP_EOL . 'Errors: ' . $errors);
   fwrite($fp, PHP_EOL . 'Response: ' . $response);
-  fclose($fp);
-
 
   $ch = curl_init('https://qah2h.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay/Enq');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
