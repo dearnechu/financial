@@ -70,15 +70,22 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
   
   $privateData = file_get_contents('key/private-muthoot.pkr');
-  $GnuPG2 = new gnupg();
-  $privateKey = $GnuPG2->import($privateData);
+  $privateKey = $GnuPG->import($privateData);
 
-  $GnuPG->addsignkey($privateKey['fingerprint']);
+  $gpg = new gnupg();
+  $gpg -> addencryptkey("8660281B6051D071D94B5B230549F9DC851566DC");
+  $gpg -> addsignkey("8660281B6051D071D94B5B230549F9DC851566DC","test");
+  $enc = $gpg -> encryptsign("just a test");
+  echo $enc;
+  
+  fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
+  $signed = $GnuPG->sign($jsondata);
+  fwrite($fp, PHP_EOL . 'Signed: ' . $signed);
 
   $jsondata = json_encode($payment_array);
   fwrite($fp, $jsondata);
 
-  $enc = $GnuPG->encryptsign($jsondata);
+  $enc = $GnuPG->encrypt($jsondata);
   fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
