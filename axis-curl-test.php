@@ -71,15 +71,13 @@
   
   $privateData = file_get_contents('key/private-muthoot.pkr');
   $privateKey = $GnuPG->import($privateData);
-  
-  fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
-  $signed = $GnuPG->sign($jsondata);
-  fwrite($fp, PHP_EOL . 'Signed: ' . $signed);
+
+  $GnuPG->addsignkey($PublicKey['fingerprint'], $privateKey['fingerprint']);
 
   $jsondata = json_encode($payment_array);
   fwrite($fp, $jsondata);
 
-  $enc = $GnuPG->encrypt($jsondata);
+  $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
