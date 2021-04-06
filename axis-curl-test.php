@@ -81,7 +81,7 @@
   $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, $jsondata);
   fwrite($fp, PHP_EOL . 'sign: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
-  fwrite($fp, $enc);
+  fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
