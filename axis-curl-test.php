@@ -77,10 +77,12 @@
   curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1!");
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
 
+  fwrite($fp, PHP_EOL . 'sign: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
+
   $jsondata = json_encode($payment_array);
-  $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, $jsondata);
-  // fwrite($fp, PHP_EOL . 'Sign: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
+
+  $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
