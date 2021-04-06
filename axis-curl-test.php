@@ -70,7 +70,8 @@
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
   
   $privateData = file_get_contents('key/private-muthoot.pkr');
-  $privateKey = $GnuPG->import($privateData);
+  $GnuPG2 = new gnupg();
+  $privateKey = $GnuPG2->import($privateData);
 
   $GnuPG->addsignkey($PublicKey['fingerprint'], $privateKey['fingerprint']);
 
