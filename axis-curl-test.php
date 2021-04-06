@@ -82,7 +82,7 @@
   $jsondata = json_encode($payment_array);
   fwrite($fp, $jsondata);
 
-  $enc = $GnuPG->encryptsign($jsondata);
+  $enc = $GnuPG->encrypt($jsondata);
   fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
