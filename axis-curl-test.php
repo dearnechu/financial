@@ -95,4 +95,30 @@
   fwrite($fp, PHP_EOL . 'Errors: ' . $errors);
   fwrite($fp, PHP_EOL . 'Response: ' . $response);
   fclose($fp);
+
+
+  $ch = curl_init('https://qah2h.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay/Enq');
+  curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+  curl_setopt($ch, CURLOPT_PORT, 443);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+  curl_setopt($ch, CURLOPT_USERNAME, "corpuser");
+  curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1!");
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
+
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycHVzZXI6YXhpc2NvcnBjb24xIQ==')); 
+
+  $server_output = curl_exec($ch);
+  $errors = curl_error($ch);
+  $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+  curl_close($ch);
+  fwrite($fp, PHP_EOL . 'Enq Server Output: ' . $server_output);
+  fwrite($fp, PHP_EOL . 'Enq Errors: ' . $errors);
+  fwrite($fp, PHP_EOL . 'Enq Response: ' . $response);
+  fclose($fp);
 ?>
