@@ -80,7 +80,7 @@
   $jsondata = json_encode($payment_array);
   $enc = $GnuPG->encryptsign($jsondata);
   fwrite($fp, $jsondata);
-  fwrite($fp, PHP_EOL . 'sign: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
+  fwrite($fp, PHP_EOL . 'Sign: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
   fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
