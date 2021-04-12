@@ -106,9 +106,11 @@
   //  }
 
   $enq_array['Request']['CORP_CODE'] = 'DEMOCORP279';
-  $enq_array['RECORD']['PAY_DOC_NUMBER'] = [$uneque_refrence_number];
+  $enq_array['Request']['PAY_DOC_NUMBER'] = [$uneque_refrence_number];
   $jsondata = json_encode($enq_array);
   fwrite($fp, PHP_EOL . 'Enq req: ' . $jsondata);
+  $enc = $GnuPG->encrypt($jsondata);
+  fwrite($fp, PHP_EOL . 'Enc Enq: ' . $enc);
 
   $ch = curl_init('https://qah2h.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay/Enq');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
@@ -121,7 +123,7 @@
   curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1!");
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
 
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata ); 
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycHVzZXI6YXhpc2NvcnBjb24xIQ==')); 
 
