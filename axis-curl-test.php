@@ -72,12 +72,6 @@
   $privateData = file_get_contents('key/private-muthoot.pkr');
   $privateKey = $GnuPG->import($privateData);
 
-  $gpg = new gnupg();
-  $gpg -> addencryptkey($PublicKey['fingerprint']);
-  $gpg -> addsignkey($PublicKey['fingerprint']);
-  $enc = $gpg -> encrypt("just a test");
-  echo "----". $enc;
-  
   fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
   $signed = $GnuPG->sign($jsondata);
   fwrite($fp, PHP_EOL . 'Signed: ' . $signed);
@@ -101,6 +95,21 @@
   fwrite($fp, PHP_EOL . 'Errors: ' . $errors);
   fwrite($fp, PHP_EOL . 'Response: ' . $response);
 
+
+  //   {
+  //     "Request": {
+  //        "CORP_CODE": "DEMOCORP279",
+  //        "PAY_DOC_NUMBER": [
+  //           $uneque_refrence_number,
+  //        ]
+  //     }
+  //  }
+
+  $enq_array['Request']['CORP_CODE'] = 'DEMOCORP279';
+  $enq_array['RECORD']['PAY_DOC_NUMBER'] = [$uneque_refrence_number];
+  $jsondata = json_encode($enq_array);
+  fwrite($fp, PHP_EOL . 'Enq req: ' . $jsondata);
+
   $ch = curl_init('https://qah2h.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay/Enq');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
   curl_setopt($ch, CURLOPT_PORT, 443);
@@ -112,7 +121,7 @@
   curl_setopt($ch, CURLOPT_USERPWD, "axiscorpcon1!");
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Cache-Control: no-cache'));
 
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $jsondata ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycHVzZXI6YXhpc2NvcnBjb24xIQ==')); 
 
