@@ -105,11 +105,11 @@ function showLoanDetails(loanNo, branchId, companyId){
 
                 $('#customerName').html(data.data.glCustomer.firstName + ' ' + data.data.glCustomer.lastName);
                 $('#address').html(data.data.glCustomer.addressOne + ' ' + data.data.glCustomer.addressTwo + ' - Ph: ' + data.data.glCustomer.mobile);
-
-                $('#article').html(data.data.glLoanDetail[0].glItem.itemName);
-                $('#grossWeight').html(data.data.glLoanDetail[0].grossWeight + ' gms');
-                $('#netWeight').html(data.data.glLoanDetail[0].netWeight + ' gms');
-                $('#carat').html(data.data.glLoanDetail[0].carat + ' Ct');
+              
+                $('#article').html(data.data.glLoanDetail.map(x => x.glItem.itemName).join(', '));
+                $('#grossWeight').html(data.data.glLoanDetail.map(x => x.grossWeight).reduce((a, b) => a + b) + ' gms');
+                $('#netWeight').html(data.data.glLoanDetail.map(x => x.netWeight).reduce((a, b) => a + b) + ' gms');
+                $('#carat').html(data.data.glLoanDetail.map(x => x.carat).reduce((a, b) => a + b) / data.data.glLoanDetail.length + ' Ct');
                 $('.brancName').html(localStorage.getItem("location"));
 
                 // $('#print').attr('href', 'pawn-ticket-print.php?branchid=' + branchId + '&companyId=' + companyId + '&startdate=' + new Date().toISOString() + '&loannumber=' + loanNo);
@@ -143,10 +143,10 @@ function getPrintData() {
     $('#customerName').html(data.glCustomer.firstName + ' ' + data.glCustomer.lastName);
     $('#address').html(data.glCustomer.addressOne + ' ' + data.glCustomer.addressTwo + ' - Ph: ' + data.glCustomer.mobile);
 
-    $('#article').html(data.glLoanDetail[0].glItem.itemName);
-    $('#grossWeight').html(data.glLoanDetail[0].grossWeight + ' gms');
-    $('#netWeight').html(data.glLoanDetail[0].netWeight + ' gms');
-    $('#carat').html(data.glLoanDetail[0].carat + ' Ct');
+    $('#article').html(data.glLoanDetail.map(x => x.glItem.itemName).join(', '));
+    $('#grossWeight').html(data.glLoanDetail.map(x => x.grossWeight).reduce((a, b) => a + b) + ' gms');
+    $('#netWeight').html(data.glLoanDetail.map(x => x.netWeight).reduce((a, b) => a + b) + ' gms');
+    $('#carat').html(data.glLoanDetail.map(x => x.carat).reduce((a, b) => a + b) / data.glLoanDetail.length + ' Ct');
     window.print();
 }
 

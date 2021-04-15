@@ -302,6 +302,6 @@
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/pawn.js?rand=2212"></script>
+    <script src="plugins/js/pawn.js?rand=2262"></script>
   </body>
 </html>
