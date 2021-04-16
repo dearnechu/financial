@@ -4,9 +4,9 @@
 		$input_array = json_decode($input, true);
 		$url = "https://sms.xpresssms.in/api/api.php?ver=1&mode=1&action=push_sms&type=1";
 		$url .= "&route=2&login_name=muthootmercantile&api_password=f38ad42506766914d5d7&";
-		$url .= "message=".str_replace(" ", "%20", $input_array['message']).".%20"; 
+		$url .= "message=".str_replace(" ", "%20", $input_array['message']); 
 		if ($input_array['email']) {
-			$url .= "Email:%20".$input_array['email']."%20";	
+			$url .= ".%20Email:%20".$input_array['email']."%20";	
 		}
 		if ($input_array['password']) {
 			$url .= "Password:%20".$input_array['password'];

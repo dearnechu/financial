@@ -8,6 +8,8 @@ var AvailLoan = 0;
 var AvailLoanOrg = 0;
 var AvailLoanScheme = 0;
 var LoanNo = null;
+var LoanNumber = null; // 4 digit number
+var BranchName = null;
 var CompanyId = null;
 var BranchId = null;
 var GoldLoanAmount = null;
@@ -156,7 +158,7 @@ $(function() {
 
                         var sms_data = {
                             mobile: '9895933511',
-                            message: "New Pledge No " + LoanNo + " with loan amount of Rs " + loanAmount + " created in branch Bank Amount = " + loanAmount,
+                            message: "New Pledge No " + LoanNumber + " with loan amount of Rs " + loanAmount + " created in branch " + BranchName + " Bank Amount = " + loanAmount,
                             template_id: '1607100000000031562'
                         }
                         jQuery.ajax({
@@ -213,7 +215,7 @@ function getList() {
                 var loanNumber = "<a class='best' href='javascript:showEmiDetails(\"" + data['data'][index]['id'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
 
                 if (!data['data'][index]['isEmi']) {
-                    loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['availLoan'] + "\", \"" + data['data'][index]['id'] + "\", \"" + data['data'][index]['companyId'] + "\", \"" + data['data'][index]['branchId'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
+                    loanNumber = "<a class='best' href='javascript:showLoanDetails(" + data['data'][index]['loanNumber'] + ", \"" + data['data'][index]['availLoan'] + "\", \"" + data['data'][index]['id'] + "\", \"" + data['data'][index]['companyId'] + "\", \"" + data['data'][index]['branchId'] + "\", \"" + data['data'][index]['branch']['name'] + "\")'>" + data['data'][index]['loanNumber'] + "</a>";
                 }
 
                 if (data['data'][index]['availLoan'] && data['data'][index]['availLoan'] >= minimumInterestToBePaid) {
@@ -258,7 +260,7 @@ function getList() {
     });
 }
 
-function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
+function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId, branchName) {
     $('.partpayment').show();
     var data = {
         loanNumber: loanNo,
@@ -324,6 +326,8 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId) {
     }
     
     LoanNo = loanId;
+    LoanNumber = loanNo;
+    BranchName = branchName;
     CompanyId = companyId;
     BranchId = branchId;
     $("#loan_number").html(loanNo);
