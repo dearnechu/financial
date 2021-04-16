@@ -98,6 +98,11 @@ function showLoanDetails(loanNo, branchId, companyId){
             },
             success: function(data) {
                 $('#pawnTicketNumber').html(data.data.pawnTicketNumber);
+                if (data.data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
+                    $('#companyName').html('Muthoot Syndicate Nidhi Limited');
+                } else {
+                    $('#companyName').html('Muthoot Mercantile Limited');
+                }
                 $('#loanNumber').html(loanNo);
                 $('.loanAmount').html(data.data.loanAmount.format(2, 3));
                 $('.startDate').html(new Date(data.data.revisedDate).format("d-M-Y"));
@@ -134,6 +139,11 @@ function getPrintData() {
     data = JSON.parse(localStorage.getItem("GetPawnTicketDetails"));
     $('.brancName').html(localStorage.getItem("location"));
     $('#pawnTicketNumber').html(data.pawnTicketNumber);
+    if (data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
+        $('#companyName').html('Muthoot Syndicate Nidhi Limited');
+    } else {
+        $('#companyName').html('Muthoot Mercantile Limited');
+    }
     $('#loanNumber').html(data.loanNumber);
     $('.loanAmount').html(data.loanAmount.format(2, 3));
     $('.startDate').html(new Date(data.revisedDate).format("d-M-Y"));

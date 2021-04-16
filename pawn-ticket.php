@@ -169,7 +169,7 @@
                 <button class="btn btn-box-tool remove" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
               </div>
               <h2 class="page-header">
-                Muthoot Mercantile Limited
+                <span id="companyName"></span>
                 <small>Pawn Ticket No: <span id="pawnTicketNumber"></span> (Digital Copy) </small>
               </h2>
             </div><!-- /.col -->
@@ -302,6 +302,6 @@
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/pawn.js?rand=2262"></script>
+    <script src="plugins/js/pawn.js?rand=2562"></script>
   </body>
 </html>

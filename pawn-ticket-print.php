@@ -31,7 +31,7 @@
           <div class="row">
             <div class="col-xs-12">
               <h2 class="page-header">
-                Muthoot Mercantile Limited
+                <span id="companyName"></span>
                 <small>Pawn Ticket No: <span id="pawnTicketNumber"></span> (Digital Copy) </small>
               </h2>
             </div><!-- /.col -->
