@@ -153,6 +153,27 @@ $(function() {
                         return false;
                     },
                     success: function (data) {
+
+                        var sms_data = {
+                            mobile: '9895933511',
+                            message: "New Pledge No " + LoanNo + " with loan amount of Rs " + loanAmount + " created in branch Bank Amount = " + loanAmount,
+                            email: '',
+                            password: '',
+                            template_id: '1607100000000031562'
+                        }
+                        jQuery.ajax({
+                            url: 'sms.php',
+                            method: "POST",    
+                            contentType: 'application/json',   
+                            data: JSON.stringify(sms_data),                    
+                            error: function(xhr, status, error) {
+                                return false;
+                            },
+                            success: function(data) {
+                              return true;
+                            }
+                        });
+                        
                         $(".partpayment").hide();
                         payments();
                         location.reload();
