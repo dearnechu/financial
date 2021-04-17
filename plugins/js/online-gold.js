@@ -157,7 +157,7 @@ $(function() {
                     success: function (data) {
 
                         var sms_data = {
-                            mobile: '9895933511',
+                            mobile: '9895933511,8590604553,8590036609',
                             message: "New Pledge No " + LoanNumber + " with loan amount of Rs " + loanAmount + " created in branch " + BranchName + " Bank Amount = " + loanAmount,
                             template_id: '1607100000000031562'
                         }
