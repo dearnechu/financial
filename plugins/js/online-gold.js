@@ -2,7 +2,7 @@ Number.prototype.format = function(n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
-var minimumInterestToBePaid = 1;
+var minimumInterestToBePaid = 1000;
 var maxTopupAmount = 50000;
 var AvailLoan = 0;
 var AvailLoanOrg = 0;
