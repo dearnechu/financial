@@ -216,10 +216,10 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>12% (<strong>N</strong>)</td>
-                    <td>18% (<strong>N</strong>)</td>
-                    <td>22% (<strong>N</strong>)</td>
-                    <td>24% (<strong>C</strong>) - Interest % from the Date of Pledge </td>
+                    <td>-% (<strong>N</strong>)</td>
+                    <td>-% (<strong>N</strong>)</td>
+                    <td>-% (<strong>N</strong>)</td>
+                    <td>-% (<strong>C</strong>) - Interest % from the Date of Pledge </td>
                   </tr>
                   <tr>
                     <td colspan="4">
