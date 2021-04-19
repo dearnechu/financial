@@ -96,32 +96,75 @@ function showLoanDetails(loanNo, branchId, companyId){
             error: function(xhr, status, error) {
                 return false;
             },
-            success: function(data) {
-                $('#pawnTicketNumber').html(data.data.pawnTicketNumber);
-                if (data.data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
-                    $('#companyName').html('Muthoot Syndicate Nidhi Limited');
-                } else {
-                    $('#companyName').html('Muthoot Mercantile Limited');
+            success: function (data) {
+                var datas = {
+                    branchId : data.data.schemeId,
+                    logindate : new Date().toISOString()
                 }
-                $('#loanNumber').html(loanNo);
-                $('.loanAmount').html(data.data.loanAmount.format(2, 3));
-                $('.startDate').html(new Date(data.data.revisedDate).format("d-M-Y"));
-                $('#revisedDate').html(addMonths(new Date(data.data.revisedDate), 9).format("d-M-Y"));                
 
-                $('#customerName').html(data.data.glCustomer.firstName + ' ' + data.data.glCustomer.lastName);
-                $('#address').html(data.data.glCustomer.addressOne + ' ' + data.data.glCustomer.addressTwo + ' - Ph: ' + data.data.glCustomer.mobile);
-              
-                $('#article').html(data.data.glLoanDetail.map(x => x.glItem.itemName).join(', '));
-                $('#grossWeight').html(data.data.glLoanDetail.map(x => x.grossWeight).reduce((a, b) => a + b) + ' gms');
-                $('#netWeight').html(data.data.glLoanDetail.map(x => x.netWeight).reduce((a, b) => a + b) + ' gms');
-                $('#carat').html(data.data.glLoanDetail.map(x => x.carat).reduce((a, b) => a + b) / data.data.glLoanDetail.length + ' Ct');
-                $('.brancName').html(localStorage.getItem("location"));
+                jQuery.ajax({
+                    url: SERVICE_URL + 'PgCustomGoldLoan/GetSlabDetailsByScheme',
+                    method: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(datas),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+                    },
+                    error: function (xhr, status, error) {
+                        return false;
+                    },
+                    success: function (pdata) {
+                        let head = '';
+                        let body = '';
+                        let bottom = "";
+                        
+                        for (var index in pdata['data']) {
+                            head += "<th>" + (pdata['data'][index]['fromMonth'] ? pdata['data'][index]['fromMonth'] : '0') + (pdata['data'][index]['toMonth'] ? "-" + pdata['data'][index]['toMonth'] + ' Months' : ' Months and Above') + "</th>";
+                            body += "<td>" + pdata['data'][index]['interestPercentage'] + "% " + (pdata['data'][index]['isCompound'] ? '(<strong>C</strong>) - Interest % from the Date of Pledge' : '(<strong>N</strong>)')  + "</td>";
+                        }
+                        
+                        if (index) {
+                            bottom = "<td colspan='4'><strong>N</strong>-Simple <strong>C</strong>-Compound</td>";   
+                        } 
 
-                // $('#print').attr('href', 'pawn-ticket-print.php?branchid=' + branchId + '&companyId=' + companyId + '&startdate=' + new Date().toISOString() + '&loannumber=' + loanNo);
-                localStorage.setItem("GetPawnTicketDetails", JSON.stringify(data.data));
+                        $('#planHeading').html(head);
+                        $('#planBody').html(body);
+                        $('#planBottom').html(bottom);   
 
-                $('.loanDetails').show('slow');
-                $('.spinner-search').hide();
+                        $('#pawnTicketNumber').html(data.data.pawnTicketNumber);
+                        if (data.data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
+                            $('#companyName').html('Muthoot Syndicate Nidhi Limited');
+                        } else {
+                            $('#companyName').html('Muthoot Mercantile Limited');
+                        }
+                        $('#loanNumber').html(loanNo);
+                        $('.loanAmount').html(data.data.loanAmount.format(2, 3));
+                        $('.startDate').html(new Date(data.data.revisedDate).format("d-M-Y"));
+                        $('#revisedDate').html(addMonths(new Date(data.data.revisedDate), 9).format("d-M-Y"));                
+
+                        $('#customerName').html(data.data.glCustomer.firstName + ' ' + data.data.glCustomer.lastName);
+                        $('#address').html(data.data.glCustomer.addressOne + ' ' + data.data.glCustomer.addressTwo + ' - Ph: ' + data.data.glCustomer.mobile);
+                    
+                        $('#article').html(data.data.glLoanDetail.map(x => x.glItem.itemName).join(', '));
+                        $('#grossWeight').html(data.data.glLoanDetail.map(x => x.grossWeight).reduce((a, b) => a + b) + ' gms');
+                        $('#netWeight').html(data.data.glLoanDetail.map(x => x.netWeight).reduce((a, b) => a + b) + ' gms');
+                        $('#carat').html(data.data.glLoanDetail.map(x => x.carat).reduce((a, b) => a + b) / data.data.glLoanDetail.length + ' Ct');
+                        $('.brancName').html(localStorage.getItem("location"));
+
+                        const print = {
+                            data: data.data,
+                            head: head,
+                            body: body,
+                            bottom: bottom
+                        };
+
+                        localStorage.setItem("GetPawnTicketDetails", JSON.stringify(print));
+
+                        $('.loanDetails').show('slow');
+                        $('.spinner-search').hide();
+
+                    }
+                });
             }
     });
 }
@@ -136,7 +179,8 @@ function addMonths(date, months) {
 }
 
 function getPrintData() {
-    data = JSON.parse(localStorage.getItem("GetPawnTicketDetails"));
+    const pawnTicketDetails = JSON.parse(localStorage.getItem("GetPawnTicketDetails"));
+    data = pawnTicketDetails.data;
     $('.brancName').html(localStorage.getItem("location"));
     $('#pawnTicketNumber').html(data.pawnTicketNumber);
     if (data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
@@ -157,6 +201,10 @@ function getPrintData() {
     $('#grossWeight').html(data.glLoanDetail.map(x => x.grossWeight).reduce((a, b) => a + b) + ' gms');
     $('#netWeight').html(data.glLoanDetail.map(x => x.netWeight).reduce((a, b) => a + b) + ' gms');
     $('#carat').html(data.glLoanDetail.map(x => x.carat).reduce((a, b) => a + b) / data.glLoanDetail.length + ' Ct');
+
+    $('#planHeading').html(pawnTicketDetails.head);
+    $('#planBody').html(pawnTicketDetails.body);
+    $('#planBottom').html(pawnTicketDetails.bottom);
     window.print();
 }
 

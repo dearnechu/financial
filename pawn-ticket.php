@@ -207,24 +207,13 @@
               I, <strong id="customerName"></strong>, <span id="address"></span> hereby pawn my article this day <strong class="startDate"></strong> with M/s <strong>MUTHOOT MERCANTILE LTD</strong>, in the above branch of principal amount of <strong class="loanAmount"></strong> at annual interest rate as follows.
               <table class="table table-striped">
                 <thead>
-                  <tr>
-                    <th>0-1 Months</th>
-                    <th>2-3 Months</th>
-                    <th>3-6 Months</th>
-                    <th>Above 6 Months</th>
+                  <tr id="planHeading">
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>-% (<strong>N</strong>)</td>
-                    <td>-% (<strong>N</strong>)</td>
-                    <td>-% (<strong>N</strong>)</td>
-                    <td>-% (<strong>C</strong>) - Interest % from the Date of Pledge </td>
+                <tbody>                
+                  <tr id="planBody"> 
                   </tr>
-                  <tr>
-                    <td colspan="4">
-                      <strong>N</strong>-Simple <strong>C</strong>-Compound
-                    </td>
+                  <tr id="planBottom">
                   </tr>
                 </tbody>
               </table>
