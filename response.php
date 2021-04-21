@@ -29,24 +29,23 @@
 	$amount = $jsonResponse->{'amount'};
 	$txnId = $jsonResponse->{'txnId'};
 
+	if($_SESSION['payment_type'] == "FULL"){
+		$url = $API_URL . "PgCustomGoldLoan/CloseGoldLoan";
+	}
+	elseif($_SESSION['payment_type'] == "EMI"){
+		$url = $API_URL . "PgCustomGoldLoan/AddEmiPayment";
+		$payment_array["totalEmiPaid"] = $_SESSION['payInstallments'];
+	}
+	else{
+		$url = $API_URL . "PgCustomGoldLoan/AddPartPayment";
+	}
+
 	$payment_array["paymentStatus"] = "Failed";
 	$payment_array["paidAmount"] = 0;
 	$payment_array["transactionNumber"] = date("YmdHis");
 	$payment_array['OnlineServiceCharge'] = 0;
 	if($statusId == 21) {   
-		$_SESSION['status'] = true;
-
-		if($_SESSION['payment_type'] == "FULL"){
-			$url = $API_URL . "PgCustomGoldLoan/CloseGoldLoan";
-		}
-		elseif($_SESSION['payment_type'] == "EMI"){
-			$url = $API_URL . "PgCustomGoldLoan/AddEmiPayment";
-			$payment_array["totalEmiPaid"] = $_SESSION['payInstallments'];
-		}
-		else{
-			$url = $API_URL . "PgCustomGoldLoan/AddPartPayment";
-		}
-		
+		$_SESSION['status'] = true;		
 		$payment_array["paymentStatus"] = "Success";
 		$payment_array["paidAmount"] = $amount - (double)$_SESSION['service_charge'];
 		$payment_array["OnlineServiceCharge"] = (double)$_SESSION['service_charge'];
