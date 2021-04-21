@@ -33,7 +33,6 @@
 	$payment_array["paidAmount"] = 0;
 	$payment_array["transactionNumber"] = date("YmdHis");
 	$payment_array['OnlineServiceCharge'] = 0;
-	$fp = fopen('logs/pg/' . date('Ymd') .'/'. date("YmdHis") . '.txt', 'w');
 	if($statusId == 21) {   
 		$_SESSION['status'] = true;
 
@@ -54,8 +53,11 @@
 		$payment_array["transactionNumber"] = $txnId; 
 		$payment_array["PaymentProcessType"] = 'AXIS PG';
 		$fp = fopen('logs/pg/' . date('Ymd') .'/'. $txnId . '.txt', 'w');
-	} 
+	} else {
+		$fp = fopen('logs/pg/' . date('Ymd') .'/'. date("YmdHis") . '.txt', 'w');
+	}
 	$jsondata = json_encode($payment_array);
+	fwrite($fp, PHP_EOL . 'URL: ' . $url);
 	fwrite($fp, PHP_EOL . 'Input: ' . $jsondata);
 
 	unset($_SESSION['payment']);
