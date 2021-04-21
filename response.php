@@ -1,4 +1,8 @@
 <?php 
+	if (!file_exists('logs/pg/' . date('Ymd'))) {
+		mkdir('logs/pg/' . date('Ymd'), 0777, true);
+	}
+
 	include "config.php";
 	error_reporting(0);
 	session_start();
@@ -29,6 +33,7 @@
 	$payment_array["paidAmount"] = 0;
 	$payment_array["transactionNumber"] = date("YmdHis");
 	$payment_array['OnlineServiceCharge'] = 0;
+	$fp = fopen('logs/pg/' . date('Ymd') .'/'. date("YmdHis") . '.txt', 'w');
 	if($statusId == 21) {   
 		$_SESSION['status'] = true;
 
@@ -48,8 +53,10 @@
 		$payment_array["OnlineServiceCharge"] = (double)$_SESSION['service_charge'];
 		$payment_array["transactionNumber"] = $txnId; 
 		$payment_array["PaymentProcessType"] = 'AXIS PG';
+		$fp = fopen('logs/pg/' . date('Ymd') .'/'. $txnId . '.txt', 'w');
 	} 
 	$jsondata = json_encode($payment_array);
+	fwrite($fp, PHP_EOL . 'Input: ' . $jsondata);
 
 	unset($_SESSION['payment']);
 	unset($_SESSION['service_charge']);
@@ -70,8 +77,17 @@
 
 	$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
 	$server_output = curl_exec ($ch);
+	$errors = curl_error($ch);
+	$response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+	fwrite($fp, PHP_EOL . 'Server Output: ' . $server_output);
+	fwrite($fp, PHP_EOL . 'Errors: ' . $errors);
+	fwrite($fp, PHP_EOL . 'Response: ' . $response);
+
 	curl_close ($ch);
+	fclose($fp);
 
 	header("Location: home.html");
  ?>
