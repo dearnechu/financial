@@ -124,8 +124,11 @@ function showLoanDetails(loanNo, branchId, companyId){
                         }
                         
                         if (index) {
-                            bottom = "<td colspan='4'><strong>N</strong>-Simple <strong>C</strong>-Compound</td>";   
-                        } 
+                            bottom = "<td colspan='"+ index +"'><strong>N</strong>-Simple <strong>C</strong>-Compound</td>";   
+                        }
+                        if (data.data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
+                            bottom += "<td>(All rates are inclusive of service charge)</td>";
+                        }
 
                         $('#planHeading').html(head);
                         $('#planBody').html(body);
@@ -133,9 +136,9 @@ function showLoanDetails(loanNo, branchId, companyId){
 
                         $('#pawnTicketNumber').html(data.data.pawnTicketNumber);
                         if (data.data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
-                            $('#companyName').html('Muthoot Syndicate Nidhi Limited');
+                            $('.companyName').html('Muthoot Syndicate Nidhi Limited');
                         } else {
-                            $('#companyName').html('Muthoot Mercantile Limited');
+                            $('.companyName').html('Muthoot Mercantile Limited');
                         }
                         $('#loanNumber').html(loanNo);
                         $('.loanAmount').html(data.data.loanAmount.format(2, 3));
@@ -184,9 +187,9 @@ function getPrintData() {
     $('.brancName').html(localStorage.getItem("location"));
     $('#pawnTicketNumber').html(data.pawnTicketNumber);
     if (data.companyId === '918FCC58-499E-4757-912A-295DC19BE564') {
-        $('#companyName').html('Muthoot Syndicate Nidhi Limited');
+        $('.companyName').html('Muthoot Syndicate Nidhi Limited');
     } else {
-        $('#companyName').html('Muthoot Mercantile Limited');
+        $('.companyName').html('Muthoot Mercantile Limited');
     }
     $('#loanNumber').html(data.loanNumber);
     $('.loanAmount').html(data.loanAmount.format(2, 3));
