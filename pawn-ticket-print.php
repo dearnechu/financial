@@ -45,7 +45,7 @@
                     <th style="width:15%; border-top:none">Pledge No:</th>
                     <td style="width:60%; border-top:none"><span id="loanNumber"></span></td>
                     <th style="border-top:none">Amount:</th>
-                    <td style="border-top:none"><span class="loanAmount"></span></td>
+                    <td style="border-top:none">Rs. <span class="loanAmount"></span></td>
                   </tr>
                   <tr>
                     <th>Branch:</th>
@@ -66,7 +66,7 @@
 
            <div class="row">
            <div class="col-xs-12 table-responsive">
-              I, <strong id="customerName"></strong>, <span id="address"></span> hereby pawn my article this day <strong class="startDate"></strong> with M/s <strong><span class="companyName"></span></strong>, in the above branch of principal amount of <strong class="loanAmount"></strong> at annual interest rate as follows.
+              I, <strong id="customerName"></strong>, <span id="address"></span> hereby pawn my article this day <strong class="startDate"></strong> with M/s <strong><span class="companyName"></span></strong>, in the above branch of principal amount of Rs. <strong class="loanAmount"></strong> at annual interest rate as follows.
               <table class="table table-striped">
                 <thead>
                   <tr id="planHeading">
