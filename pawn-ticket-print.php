@@ -66,7 +66,7 @@
 
            <div class="row">
            <div class="col-xs-12 table-responsive">
-              I, <strong id="customerName"></strong>, <span id="address"></span> hereby pawn my article this day <strong class="startDate"></strong> with M/s <strong><span class="companyName"></span></strong>, in the above branch of principal amount of Rs. <strong class="loanAmount"></strong> at annual interest rate as follows.
+              I, <strong id="customerName"></strong>, <span id="address"></span> hereby pawn my article this day <strong class="startDate"></strong> with M/s <strong><span class="companyName"></span></strong>, in the above branch for a principal amount of Rs. <strong class="loanAmount"></strong> an annual interest rate as follows.
               <table class="table table-striped">
                 <thead>
                   <tr id="planHeading">
@@ -115,7 +115,7 @@
           <div class="row">
             <div class="col-xs-12 table-responsive">
               <p class="text-muted well well-sm no-shadow"><i>
-                This is automatic computer generated printout. It does not require a signature. The customer is directed to collect the original pawn ticket from the concerned branch at the earliest.
+                This is an automatic computer generated printout. It does not require a signature. The customer is directed to collect the original pawn ticket from the concerned branch at the earliest.
               </p></i>
             </div>
           </div>
