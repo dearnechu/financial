@@ -14,9 +14,15 @@
       $privateKey = $gpg->import($privateData);
 
       echo $privateKey['fingerprint'];
-      $gpg->addsignkey($privateKey['fingerprint'], '');
-      $cipher_text = $gpg->encryptsign('This is a test message');
+      
+      $cipher_text = $gpg->encrypt('This is a test message');
       echo $cipher_text;
+
+
+      $gpg->addsignkey($privateKey['fingerprint'], '');
+      $signed = $gpg->sign("just a test");
+      echo "<br>".$signed;
+
   } catch (Exception $e) {
       // restore the envelope
       echo "Failed";
