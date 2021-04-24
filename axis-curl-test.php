@@ -5,6 +5,7 @@
   $GnuPG = new gnupg();
   $PublicData = file_get_contents('key/msnl_uat.pkr');
   $PublicKey = $GnuPG->import($PublicData);
+  $GnuPG->setsignmode(gnupg::SIG_MODE_DETACH); // produce a detached signature
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
   
 
@@ -72,12 +73,12 @@
   $privateData = file_get_contents('key/private-muthoot.pkr');
   $privateKey = $GnuPG->import($privateData);
 
-  fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($PublicKey['fingerprint']));
+  fwrite($fp, PHP_EOL . 'Sign Status: ' . $GnuPG->addsignkey($privateKey['fingerprint']));
   $signed = $GnuPG->sign($jsondata);
   fwrite($fp, PHP_EOL . 'Signed: ' . $signed);
 
   $jsondata = json_encode($payment_array);
-  fwrite($fp, $jsondata);
+  fwrite($fp, PHP_EOL . 'JSON: ' . $jsondata);
 
   $enc = $GnuPG->encrypt($jsondata);
   fwrite($fp, PHP_EOL . 'Enc: ' . $enc);
