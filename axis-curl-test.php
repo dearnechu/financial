@@ -10,12 +10,11 @@
       $gpg->seterrormode(gnupg::ERROR_EXCEPTION);
       $gpg->addencryptkey($PublicKey['fingerprint']);
 
-      $gpg2 = new gnupg();
       $privateData = file_get_contents('key/private-muthoot.pkr');
-      $privateKey = $gpg2->import($privateData);
+      $privateKey = $gpg->import($privateData);
 
       echo $privateKey['fingerprint'];
-      $gpg->addsignkey($privateKey['fingerprint']);
+      $gpg->addsignkey($PublicKey['fingerprint']);
       $cipher_text = $gpg->encryptsign('This is a test message');
       echo $cipher_text;
   } catch (Exception $e) {
