@@ -15,7 +15,7 @@
       $privateKey = $gpg2->import($privateData);
 
       echo $privateKey['fingerprint'];
-      $gpg->addsignkey(true, $privateKey['fingerprint']);
+      $gpg->addsignkey($PublicKey['fingerprint'], $privateKey['fingerprint']);
       $cipher_text = $gpg->encryptsign('This is a test message');
       echo $cipher_text;
   } catch (Exception $e) {
