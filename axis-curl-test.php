@@ -1,12 +1,15 @@
 <?php
-  error_reporting(1);
+  error_reporting(0);
   session_start();
+
+
+  $this->set_env();
   try {
       $gpg = new gnupg();
       // throw exception if error occurs
 
       $PublicData = file_get_contents('key/msnl_uat.pkr');
-      $PublicKey = $GnuPG->import($PublicData);
+      $PublicKey = $gpg->import($PublicData);
       $gpg->seterrormode(gnupg::ERROR_EXCEPTION);
       $gpg->addencryptkey($PublicKey['fingerprint']);
 
@@ -14,9 +17,11 @@
       $privateKey = $gpg->import($privateData);
       $gpg->addsignkey($privateKey['fingerprint'], 'test');
       $cipher_text = $gpg->encryptsign($plaintext);
+      $this->restore_env();
       echo $cipher_text;
   } catch (Exception $e) {
       // restore the envelope
+      $this->restore_env();
       print_r($e);
       // re-throw the exception
       throw $e;
