@@ -15,7 +15,7 @@
       $privateKey = $gpg2->import($privateData);
 
       $gpg->addsignkey($privateKey['fingerprint']);
-      $cipher_text = $gpg->encryptsign('This is a test message');
+      $cipher_text = $gpg->encrypt('This is a test message');
       echo $cipher_text;
   } catch (Exception $e) {
       // restore the envelope
