@@ -19,7 +19,7 @@
       echo $cipher_text;
 
 
-      $gpg->addsignkey($privateKey['fingerprint'], '');
+      $gpg->addsignkey($privateKey['fingerprint'], '@Magento318');
       $signed = $gpg->sign("just a test");
       echo "<br>".$signed;
 
