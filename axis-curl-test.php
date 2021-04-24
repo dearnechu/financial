@@ -1,9 +1,6 @@
 <?php
   error_reporting(0);
   session_start();
-
-
-  $this->set_env();
   try {
       $gpg = new gnupg();
       // throw exception if error occurs
@@ -17,14 +14,11 @@
       $privateKey = $gpg->import($privateData);
       $gpg->addsignkey($privateKey['fingerprint'], 'test');
       $cipher_text = $gpg->encryptsign($plaintext);
-      $this->restore_env();
       echo $cipher_text;
   } catch (Exception $e) {
       // restore the envelope
-      $this->restore_env();
       print_r($e);
       // re-throw the exception
-      throw $e;
   }
 
   exit;
