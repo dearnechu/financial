@@ -12,7 +12,7 @@
 
       $privateData = file_get_contents('key/private-muthoot.pkr');
       $privateKey = $gpg->import($privateData);
-      $gpg->addsignkey($privateKey['fingerprint'], 'test');
+      $gpg->addsignkey($privateKey['fingerprint']);
       $cipher_text = $gpg->encryptsign('This is a test message');
       echo $cipher_text;
   } catch (Exception $e) {
