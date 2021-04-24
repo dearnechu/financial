@@ -3,18 +3,35 @@
   session_start();
 
 
-  $gpg = new gnupg();
-  $gpg -> addencryptkey("8660281B6051D071D94B5B230549F9DC851566DC");
-  $gpg -> addsignkey("8660281B6051D071D94B5B230549F9DC851566DC","test");
-  $enc = $gpg -> encryptsign("just a test");
-  $enc = $gpg -> encrypt("just a test");
-  echo $enc;
+  $this->set_env();
+  try {
+      $gpg = new gnupg();
+      // throw exception if error occurs
+
+      $PublicData = file_get_contents('key/msnl_uat.pkr');
+      $PublicKey = $GnuPG->import($PublicData);
+      $gpg->seterrormode(gnupg::ERROR_EXCEPTION);
+      $gpg->addencryptkey($PublicKey['fingerprint']);
+
+      $privateData = file_get_contents('key/private-muthoot.pkr');
+      $privateKey = $gpg->import($privateData);
+      $gpg->addsignkey($privateKey['fingerprint'], 'test');
+      $cipher_text = $gpg->encryptsign($plaintext);
+      $this->restore_env();
+      echo $cipher_text;
+  } catch (Exception $e) {
+      // restore the envelope
+      $this->restore_env();
+      print_r($e);
+      // re-throw the exception
+      throw $e;
+  }
+
   exit;
 
   $GnuPG = new gnupg();
   $PublicData = file_get_contents('key/msnl_uat.pkr');
   $PublicKey = $GnuPG->import($PublicData);
-  $GnuPG->setsignmode(gnupg::SIG_MODE_DETACH); // produce a detached signature
   $GnuPG->addencryptkey($PublicKey['fingerprint']);
   
 
