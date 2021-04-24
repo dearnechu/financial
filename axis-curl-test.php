@@ -20,7 +20,7 @@
 
 
       $gpg->addsignkey($privateKey['fingerprint'], '@Magento318');
-      $signed = $gpg->sign("just a test");
+      $signed = $gpg->encryptsign("just a test");
       echo "<br>".$signed;
 
   } catch (Exception $e) {
