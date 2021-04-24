@@ -5,12 +5,12 @@
       $gpg = new gnupg();
       // throw exception if error occurs
 
-      $PublicData = file_get_contents('key/prod.pkr');
+      $PublicData = file_get_contents('key/msnl_uat.pkr');
       $PublicKey = $gpg->import($PublicData);
       $gpg->seterrormode(gnupg::ERROR_EXCEPTION);
       $gpg->addencryptkey($PublicKey['fingerprint']);
 
-      $privateData = file_get_contents('key/private-muthoot.pkr');
+      $privateData = file_get_contents('key/prod.pkr');
       $privateKey = $gpg->import($privateData);
 
       echo $privateKey['fingerprint'];
