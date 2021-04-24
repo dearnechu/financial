@@ -2,6 +2,14 @@
   error_reporting(0);
   session_start();
 
+
+  $gpg = new gnupg();
+  $gpg -> addencryptkey("8660281B6051D071D94B5B230549F9DC851566DC");
+  $gpg -> addsignkey("8660281B6051D071D94B5B230549F9DC851566DC","test");
+  $enc = $gpg -> encryptsign("just a test");
+  echo $enc;
+  exit;
+
   $GnuPG = new gnupg();
   $PublicData = file_get_contents('key/msnl_uat.pkr');
   $PublicKey = $GnuPG->import($PublicData);
