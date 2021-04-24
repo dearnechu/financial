@@ -10,13 +10,16 @@
       $gpg->seterrormode(gnupg::ERROR_EXCEPTION);
       $gpg->addencryptkey($PublicKey['fingerprint']);
 
+      $gpg2 = new gnupg();
       $privateData = file_get_contents('key/private-muthoot.pkr');
-      $privateKey = $gpg->import($privateData);
-      $gpg->addsignkey($privateKey['fingerprint']);
+      $privateKey = $gpg2->import($privateData);
+
+      $gpg->addsignkey($privateKey['fingerprint'], 'test');
       $cipher_text = $gpg->encryptsign('This is a test message');
       echo $cipher_text;
   } catch (Exception $e) {
       // restore the envelope
+      echo "Failed";
       print_r($e);
       // re-throw the exception
   }
