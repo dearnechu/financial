@@ -1,9 +1,6 @@
 <?php
-  error_reporting(0);
+  error_reporting(1);
   session_start();
-
-
-  $this->set_env();
   try {
       $gpg = new gnupg();
       // throw exception if error occurs
@@ -21,7 +18,6 @@
       echo $cipher_text;
   } catch (Exception $e) {
       // restore the envelope
-      $this->restore_env();
       print_r($e);
       // re-throw the exception
       throw $e;
