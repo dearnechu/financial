@@ -14,7 +14,6 @@
       $privateKey = $gpg->import($privateData);
       $gpg->addsignkey($privateKey['fingerprint'], 'test');
       $cipher_text = $gpg->encryptsign($plaintext);
-      $this->restore_env();
       echo $cipher_text;
   } catch (Exception $e) {
       // restore the envelope
