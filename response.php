@@ -4,7 +4,7 @@
 	}
 
 	include "config.php";
-	error_reporting(0);
+	error_reporting(1);
 	session_start();
 
 	$orderId = $_GET["order_id"];
