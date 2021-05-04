@@ -58,7 +58,7 @@
 	$jsondata = json_encode($payment_array);
 
 	fwrite($fp, PHP_EOL . 'Order Id: ' . $orderId);
-	fwrite($fp, PHP_EOL . 'Response: ' . json_encode($jsonResponse));
+	fwrite($fp, PHP_EOL . 'Response: ' . serialize($jsonResponse));
 	fwrite($fp, PHP_EOL . 'URL: ' . $url);
 	fwrite($fp, PHP_EOL . 'Input: ' . $jsondata);
 
