@@ -55,7 +55,7 @@
   // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_EMAIL_ADDR2'] = 'test@axisbank.com';
   
 
-  $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay');
+  $ch = curl_init('https://s2a.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
   curl_setopt($ch, CURLOPT_PORT, 443);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -73,7 +73,7 @@
   
   curl_setopt($ch, CURLOPT_POSTFIELDS, $enc ); 
   curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: text/plain;charset=UTF-8')); 
-  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290MzY6YXhpc2NvcnBjb24x')); 
+  curl_setopt($ch, CURLOPT_HTTPHEADER,array('Authorization: Basic Y29ycF9tdXRob290MzY6YXhpc2NvcnBjb24x')); // https://www.base64encode.org/
      
   $server_output = curl_exec($ch);
   $errors = curl_error($ch);
