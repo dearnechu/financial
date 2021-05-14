@@ -4,7 +4,7 @@
 	}
 
 	include "config.php";
-	error_reporting(0);
+	error_reporting(1);
 	session_start();
 
 	$orderId = $_GET["order_id"];
@@ -56,6 +56,9 @@
 		$fp = fopen('logs/pg/' . date('Ymd') .'/'. date("YmdHis") . '.txt', 'w');
 	}
 	$jsondata = json_encode($payment_array);
+
+	fwrite($fp, PHP_EOL . 'Order Id: ' . $orderId);
+	fwrite($fp, PHP_EOL . 'Response: ' . serialize($jsonResponse));
 	fwrite($fp, PHP_EOL . 'URL: ' . $url);
 	fwrite($fp, PHP_EOL . 'Input: ' . $jsondata);
 
