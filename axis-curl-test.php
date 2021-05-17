@@ -41,19 +41,10 @@
 
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['PRODUCT_CODE'] = 'pa';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BATCH_ID'] = 'MUTHOOT_MSNL';
-
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_ADDR_1'] = 'arun nagar,Pimpalgaon,Pimpalgaon Bk.,Jalgaon,Pachora,Maharashtra,424203,';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_ADDR_2'] = 'test';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_ADDR_3'] = '';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_CITY'] = 'Jalgaon';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_STATE'] = 'Maharashtra';
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_PINCODE'] = '424203';
   
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['CORP_EMAIL_ADDR'] = 'support@muthootenterprises.com';
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_MOBILE_NO'] = $_SESSION['customer_phone'];
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_EMAIL_ADDR1'] = $_SESSION['customer_email'];
-  // $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_EMAIL_ADDR2'] = 'test@axisbank.com';
-  
 
   $ch = curl_init('https://s2a.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
