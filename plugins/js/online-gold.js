@@ -175,7 +175,11 @@ $(function() {
                         });
                         
                         $(".partpayment").hide();
-                        payments();
+                        if (CompanyId === '918FCC58-499E-4757-912A-295DC19BE564') { // MSNL
+                            payments_msnl();
+                        } else {
+                            payments();
+                        }
                         location.reload();
                     }
                 });
@@ -403,6 +407,18 @@ function storesession(tag, data) {
 function payments() {
     jQuery.ajax({
         url: 'axis-curl.php',
+        error: function (xhr, status, error) {
+            console.log(error);
+        },
+        success: function (data) {
+            console.log(data);
+        }
+    });
+}
+
+function payments_msnl() {
+    jQuery.ajax({
+        url: 'axis-curl-test.php',
         error: function (xhr, status, error) {
             console.log(error);
         },
