@@ -46,7 +46,7 @@
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_MOBILE_NO'] = $_SESSION['customer_phone'];
   $payment_array['RECORD']['PAYMENT_DETAILS'][0]['PAYMENTS']['BENE_EMAIL_ADDR1'] = $_SESSION['customer_email'];
 
-  $ch = curl_init('https://h2h.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay');
+  $ch = curl_init('https://s2a.axisbank.co.in/RESTAdapter/AxisBank/Muthoot36/Pay');
   curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
   curl_setopt($ch, CURLOPT_PORT, 443);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
