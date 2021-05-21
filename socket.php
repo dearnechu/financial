@@ -12,6 +12,13 @@ if (!$fp) {
     while (!feof($fp)) {
         echo fgets($fp, 128);
     }
+
+    $output = '';
+    while (!feof($fp)) {
+        $output .= fgets($fp, 128);
+    }
+
     fclose($fp);
+    file_put_contents('logs/output.txt', $output);
 }
 ?>
