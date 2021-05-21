@@ -1,5 +1,6 @@
 <?php
 $fp = fsockopen("s2a.axisbank.co.in", 443, $errno, $errstr, 30);
+print_r($fp);
 if (!$fp) {
     echo "$errstr ($errno)<br />\n";
 } else {
