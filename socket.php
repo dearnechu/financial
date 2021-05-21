@@ -1,7 +1,7 @@
 <?php
 $fp = fsockopen("s2a.axisbank.co.in", 443, $errno, $errstr, 30);
 if (!$fp) {
-    echo "$errstr ($errno)<br />\n";
+    echo "---"."$errstr ($errno)<br />\n";
 } else {
     $out = "GET / HTTP/1.1\r\n";
     $out .= "Host: s2a.axisbank.co.in\r\n";
