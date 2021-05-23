@@ -8,7 +8,7 @@ set_time_limit(0);
  * as it comes in. */
 ob_implicit_flush();
 
-$address = 's2a.axisbank.co.in';
+$address = 'h2h.axisbank.co.in';
 $port = 443;
 
 if (($sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
