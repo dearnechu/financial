@@ -413,8 +413,8 @@ function storesession(tag, data) {
   jQuery.ajax({
             url: 'storesession.php',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(session_data),                    
+            contentType: 'application/x-www-form-urlencoded',
+            data: session_data,                    
             error: function(xhr, status, error) {
                 return false;
             },

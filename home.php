@@ -125,11 +125,11 @@
                 <i class="fa fa-support"></i> <span>Support</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
-           <li class="treeview">
+           <!-- <li class="treeview">
               <a href="faq.html">
                 <i class="fa fa-sliders"></i> <span>FAQ</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li>
+            </li> -->
 
           </ul>
         </section>
@@ -516,7 +516,7 @@
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/home.js?rand=20201225"></script>
+    <script src="plugins/js/home.js?rand=20201228"></script>
 
   </body>
 </html>

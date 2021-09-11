@@ -108,11 +108,11 @@
                 <i class="fa fa-support"></i> <span>Support</span><i class="fa fa-angle-right pull-right"></i>
               </a>
             </li>
-           <li class="treeview">
+           <!-- <li class="treeview">
               <a href="faq.html">
                 <i class="fa fa-sliders"></i> <span>FAQ</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li>
+            </li> -->
 
           </ul>
         </section>

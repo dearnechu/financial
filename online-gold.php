@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link href="assets/images/favicon.png" rel="shortcut icon">
     <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -16,12 +16,12 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
     <!-- Custom CSS style -->
-    <link rel="stylesheet" href="../dist/css/custom.css">
+    <link rel="stylesheet" href="dist/css/custom.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -313,6 +313,6 @@
     <script src="plugins/dateformat/format.js"></script>
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
-    <script src="plugins/js/online-gold.js?rand=2009"></script>
+    <script src="plugins/js/online-gold.js?rand=2709"></script>
   </body>
 </html>
