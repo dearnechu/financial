@@ -13,7 +13,7 @@
 		}
 		$url .= ".%20MUTHOOT%20MERCANTILE%20LTD";
 		$url .= "&mobile=".$input_array['mobile']."&sender=MUTHOT";
-		echo $url .= "&template_id=".$input_array['template_id'];
+		$url .= "&template_id=".$input_array['template_id'];
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		$server_output = curl_exec ($ch);
