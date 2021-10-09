@@ -12,7 +12,7 @@
 			$url .= "Password:%20".$input_array['password'];
 		}
 		$url .= ".%20MUTHOOT%20MERCANTILE%20LTD";
-		$url .= "&mobile=".$input_array['mobile']."&sender=MUTHOT";
+		$url .= "&mobile=".$input_array['mobile'];
 		$url .= "&template_id=".$input_array['template_id'];
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);

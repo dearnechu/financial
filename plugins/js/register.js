@@ -80,7 +80,7 @@ $(function () {
                       
                       var sms_data = {
                             mobile: $.trim($("#mobile").val()),
-                            message: "You have registered Muthoot Online.",
+                            message: "You have registered Muthoot Online",
                             email: $.trim($("#email").val()).toLowerCase(),
                             password: data['data']['password'],
                             template_id: '1607100000000032093'
