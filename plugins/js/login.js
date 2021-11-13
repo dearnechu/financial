@@ -16,19 +16,37 @@ $(function () {
         $("#RemeberMe").attr('checked', false);
     }
 
-    $( "#SignIn" ).click(function() {            
+    const captcha = new Captcha($('#canvas'),{
+        width: 200,
+        height: 40,
+        font:'bold 23px Arial',
+        length: 6
+    });
+
+    $( "#SignIn" ).click(function() {        
+        const ans = captcha.valid($('input[name="code"]').val());
+
         if($.trim($("#email").val()) == ""){
             $(".mail-group").addClass("has-error");
             $(".email-error").show();
             $("#email").focus();
-            return false;;
+            return false;
         }            
         if($.trim($("#password").val()) == ""){
             $(".password-group").addClass("has-error");
             $(".password-error").show();
             $("#password").focus();
-            return false;;
+            return false;
         }
+        
+        if(!ans) {
+            $(".captcha-group").addClass("has-error");
+            $(".captcha-error").show();
+            return false;;
+        } else {
+            $(".captcha-error").hide();
+        }
+
         $(".loader").show();
         if($("#RemeberMe:checked").length == 1){
             localStorage.setItem("email", $.trim($("#email").val()));

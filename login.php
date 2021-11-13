@@ -43,6 +43,15 @@
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             <label class="control-label password-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide your password</label>
           </div>
+
+          <div class="form-group has-feedback password-group">
+            <canvas id="canvas"></canvas>
+          </div>
+          <div class="form-group has-feedback captcha-group">
+            <input name="code" />
+            <label class="control-label captcha-error" for="capthaError" style="display:none"><i class="fa fa-times-circle-o"></i> Invalid Captcha</label>
+          </div>
+
           <p class="login-box-msg text-red error-message" style="display:none">Unauthorized Access</p>
           <div class="row">
             <div class="col-xs-8">
@@ -78,6 +87,8 @@
     <script src="plugins/js/config.js"></script>
     <!-- Login -->
     <script src="plugins/js/login.js"></script>
+
+    <script src="plugins/alphanumeric-captcha/js/jquery-captcha.min.js"></script>
 
   </body>
 </html>
