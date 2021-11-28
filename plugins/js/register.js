@@ -78,6 +78,7 @@ $(function () {
                       $(".success-message").html("We have sent an SMS to your mobile with login details. Please check it");
                       $(".success-message").show();
                       
+                      /*
                       var sms_data = {
                             mobile: $.trim($("#mobile").val()),
                             message: "You have registered Muthoot Online",
@@ -96,7 +97,7 @@ $(function () {
                                 success: function(data) {
                                   return true;
                                 }
-                      });
+                      }); */
                       
                    }
                    else{

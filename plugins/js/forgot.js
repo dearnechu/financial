@@ -74,11 +74,11 @@ function mobileCheck(){
                 $('.overlay').hide();
             },
             success: function(data) {
-                if(data['status'] == "1"){
-                    $(".error-message").hide();
-                    $(".success-message").html("We have sent an SMS to your mobile with login details. Please check it");
-                    $(".success-message").show();
-
+                $(".error-message").hide();
+                $(".success-message").html("We have sent an SMS to registered mobile with login details. If you are not registered for online transaction, please contact your branch.");
+                $(".success-message").show();
+                $('.overlay').hide();
+                /*
                     var sms_data = {
                             mobile: $.trim($("#mobile").val()),
                             message: "You have reset your password.",
@@ -95,16 +95,9 @@ function mobileCheck(){
                             return false;
                         },
                         success: function(data) {
-                          return true;
+                            return true;
                         }
-                    });
-                }
-                else{
-                    $(".success-message").hide();
-                    $(".error-message").html(data['message']);
-                    $(".error-message").show();
-                    $("#email").val("");
-                }
+                    }); */
                 $('.overlay').hide();
             }
         });
