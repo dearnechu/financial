@@ -286,6 +286,14 @@
                           <td>Principle Amount</td>
                           <td id="principle_amount"></td>
                         </tr>
+                        <tr class="DPNPrinciple" style="display:none">
+                          <td>DPN Principle Remaining</td>
+                          <td id="dpn_principle_remaining"></td>
+                        </tr>
+                        <tr  class="DPNInterest" style="display:none">
+                          <td>DPN Interest Due</td>
+                          <td id="dpn_interest_due"></td>
+                        </tr>
                         <tr>
                           <td>Interest</td>
                           <td id="interest"></td>
@@ -372,6 +380,14 @@
                         <tr class="PNBTotal" style="display:none">
                           <td><b>Total</b></td>
                           <td id="NB_part_total"><b>0.00</b></td>
+                        </tr>
+                        <tr class="DPNPrinciple" style="display:none">
+                          <td>&nbsp;</td>
+                          <td></td>
+                        </tr>
+                        <tr  class="DPNInterest" style="display:none">
+                          <td>&nbsp;</td>
+                          <td></td>
                         </tr>
                       </table>
                     </div><!-- /.box-body -->

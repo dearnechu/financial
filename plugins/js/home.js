@@ -180,6 +180,8 @@ $(function() {
             $(".part-payment-error").show();
             return false;;
         }   
+        // checkBeforePartPayment();
+        // return false;
         $(".part-payment-error").hide();
         $(".partpayment").show();
         $("#amount").val($("#NB_part_total").html());
@@ -287,6 +289,38 @@ function showEmiDetails(loanNo){
     });
 }
 
+function checkBeforePartPayment() {
+    console.log(data);
+    var data = {
+        // loanId: emiId,
+        loanNumber: $("#loan_number").html(),
+        // branchId : branchId,
+        loanId: "23a506f7-35f9-468c-aead-6466addfcc5b",
+        branchId: "C8A07BB1-CB62-4441-B5A7-AD64BD09F732",
+        companyId: "B90A1259-1D3A-43AA-9254-15DC3D149E23",
+
+        // companyId: companyId,
+        customerId: localStorage.getItem("customerId"),
+        logindate : new Date().toISOString()
+    }
+
+    jQuery.ajax({
+        url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanPartPaymentDateChecking',
+        method: "POST",    
+        contentType: 'application/json',   
+        data: JSON.stringify(data),                    
+        beforeSend: function (xhr) {
+           xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
+        },
+        error: function(xhr, status, error) {
+            return false;
+        },
+        success: function(data) {
+            console.log(data);
+        }
+    });
+}
+
 function CalculateEmiInterestOnline(numberOfinstallmentPaid){
     var data = {  
             "loanId": emiId,
@@ -367,6 +401,24 @@ function showLoanDetails(loanNo, branchId, companyId){
                     goldLoanAmountRemaining = data['data']['goldLoanAmountRemaining'];
                 }
                 $("#principle_amount").html(goldLoanAmountRemaining.format(2, 3));
+
+                var pronoteAmountRemaining = 0;
+                if(data['data'].hasOwnProperty('pronoteAmountRemaining')){
+                    pronoteAmountRemaining = data['data']['pronoteAmountRemaining'];
+                    $(".DPNPrinciple").show();
+                } else {
+                    $(".DPNPrinciple").hide();
+                }
+                $("#dpn_principle_remaining").html(pronoteAmountRemaining.format(2, 3));
+
+                var pronoteInterestDue = 0;
+                if(data['data'].hasOwnProperty('pronoteInterestDue')){
+                    pronoteInterestDue = data['data']['pronoteInterestDue'];
+                    $(".DPNInterest").show();
+                } else {
+                    $(".DPNInterest").hide();
+                }
+                $("#dpn_interest_due").html(pronoteInterestDue.format(2, 3));
                 
                 var goldLoanInterestDue = 0;
                 if(data['data'].hasOwnProperty('goldLoanInterestDue')){
@@ -384,8 +436,8 @@ function showLoanDetails(loanNo, branchId, companyId){
                 var net_service_charge = getNetBankingServiceCharge(goldLoanAmountRemaining + goldLoanInterestDue);
                 $("#net_service_charge").html(net_service_charge.format(2, 3));  
                 
-                nbtotal = goldLoanAmountRemaining + goldLoanInterestDue + net_service_charge;
-                total = goldLoanAmountRemaining + goldLoanInterestDue + service_charge;
+                nbtotal = goldLoanAmountRemaining + goldLoanInterestDue + net_service_charge + pronoteAmountRemaining + pronoteInterestDue;
+                total = goldLoanAmountRemaining + goldLoanInterestDue + service_charge + pronoteAmountRemaining + pronoteInterestDue;
 
                 $("#vpc_Amount").val(total.toFixed(2));
                 $("#amount").val((goldLoanAmountRemaining + goldLoanInterestDue).toFixed(2));
