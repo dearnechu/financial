@@ -39,7 +39,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-red sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
@@ -89,7 +89,7 @@
                 <i class="fa fa-credit-card"></i> <span>Online Payment</span><i class="fa fa-angle-left pull-right"></i>
               </a>
             </li>
-            <li class="treeview">
+            <!-- <li class="treeview">
               <a href="#">
                 <i class="fa fa-table"></i> <span>Registration Form</span><i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -103,7 +103,7 @@
               <a href="pawn-ticket.html">
                 <i class="fa fa-print"></i> <span>Print Pawn Ticket</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li>
+            </li> -->
             <li class="treeview active">
               <a href="#">
                 <i class="fa fa-history"></i> <span>Payment History</span><i class="fa fa-angle-right pull-right"></i>
