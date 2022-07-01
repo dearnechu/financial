@@ -132,21 +132,22 @@
                 <div class="box-body">
                   <div class="form-group">
                     <label for="Password" class="col-sm-5 control-label">Current Password</label>
-                      <div class="col-sm-7 current-password-group">
+                      <div class="col-sm-7 current-password-group input-group">
                         <input type="password" class="form-control" id="current_password" placeholder="Current Password">
                         <label class="control-label current-password-error" for="current_password" style="display:none"><i class="fa fa-times-circle-o"></i> Please provide password</label>
                       </div>
                   </div>
                   <div class="form-group">
                     <label for="Password" class="col-sm-5 control-label">New Password</label>
-                      <div class="col-sm-7 password-group">
+                      <div class="col-sm-7 password-group input-group">
                         <input type="password" class="form-control" id="password" placeholder="New Password">
                         <label class="control-label password-error" for="password" style="display:none"><i class="fa fa-times-circle-o"></i> Please provide password</label>
+                        <label class="control-label password-error-validation" for="password" style="display:none"><i class="fa fa-times-circle-o"></i> password must be at least 6 characters long and must contain one number and one special character </label>
                       </div>
                   </div>
                   <div class="form-group">
                     <label for="Confirm Password" class="col-sm-5 control-label">Confirm Password</label>
-                    <div class="col-sm-7 confirm-password-group">
+                    <div class="col-sm-7 confirm-password-group input-group">
                       <input type="password" class="form-control" id="confirm_password" placeholder="Confirm Password">
                       <label class="control-label confirm-password-error" for="confirm password" style="display:none"><i class="fa fa-times-circle-o"></i> password mismatch</label>
                     </div>      
@@ -206,7 +207,8 @@
 
 
     <script type="text/javascript">
-        $( "#Change" ).click(function() {            
+        $( "#Change" ).click(function() {       
+            var regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
             if($.trim($("#current_password").val()) == ""){
                 $(".current-password-group").addClass("has-error");
                 $(".current-password-error").show();
@@ -218,6 +220,12 @@
                 $(".password-error").show();
                 $("#password").focus();
                 return false;
+            }
+            if(!regularExpression.test($.trim($("#password").val()))) {
+              $(".password-group").addClass("has-error");
+              $(".password-error-validation").show();
+              $("#password").focus();
+              return false;
             }
             if($("#password").val() != $("#confirm_password").val()){
                 $(".confirm-password-group").addClass("has-error");
@@ -277,6 +285,7 @@
         $('#password').on('keyup blur change', function(e) {
             $(".password-group").removeClass("has-error");
             $(".password-error").hide();
+            $(".password-error-validation").hide();
         });
 
         $('#confirm_password').on('keyup blur change', function(e) {
