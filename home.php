@@ -7,6 +7,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv=”refresh” content=”5" />
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -46,7 +47,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-red sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
@@ -260,7 +261,9 @@
                 </div>
 
                 <div class="box-footer clearfix">
-                  
+                  <div class="col-sm-12 text-red">
+                    <i class="fa fa-fw fa-hand-o-right"> </i> Please do not close the window until shows the transaction success message.
+                  </div>
                 </div>
 
               </div><!-- /.Statement of Account box -->
