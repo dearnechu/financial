@@ -311,21 +311,21 @@ function showEmiLoanStatements(loanId){
     });
 }
 
+function logout() {
+    localStorage.removeItem("customerName");
+    localStorage.removeItem("mobile");
+    localStorage.removeItem("customerId");
+    location.href = "login.html";
+}
 
-    $(function() {
-        if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") == null){
-            location.href = "login.html";
-        }
-        
-        $(".logout").click(function(){
-            localStorage.removeItem("customerName");
-            localStorage.removeItem("mobile");
-            localStorage.removeItem("customerId");
-            location.href = "login.html";
-        });
-
-        $(".customer-name").html(localStorage.getItem("customerName"));      
-
-        //$("body").css("font-size", "12px");
-
+$(function() {
+    if(localStorage.getItem("customerName") == null && location.href.match("login|register|forgot") == null){
+        location.href = "login.html";
+    }
+    
+    $(".logout").click(function(){
+        logout();
     });
+
+    $(".customer-name").html(localStorage.getItem("customerName"));
+});
