@@ -48,7 +48,7 @@
             <canvas id="canvas"></canvas>
           </div>
           <div class="form-group has-feedback captcha-group">
-            <input name="code" />
+            <input class="form-control" name="code" placeholder="captcha"/>
             <label class="control-label captcha-error" for="capthaError" style="display:none"><i class="fa fa-times-circle-o"></i> Invalid Captcha</label>
           </div>
 

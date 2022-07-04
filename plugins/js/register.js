@@ -8,6 +8,12 @@ $(function () {
         increaseArea: '20%' // optional
     });
 
+    const captcha = new Captcha($('#canvas'),{
+        width: 200,
+        height: 40,
+        font:'bold 23px Arial',
+        length: 6
+    });
         
     jQuery.ajax({
         url: SERVICE_URL + 'GlCustomCustomer/GetAllBranches',

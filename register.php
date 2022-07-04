@@ -59,6 +59,13 @@
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             <label class="control-label email-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide your email</label>
           </div>
+          <div class="form-group has-feedback password-group">
+            <canvas id="canvas"></canvas>
+          </div>
+          <div class="form-group has-feedback captcha-group">
+            <input class="form-control" name="code" placeholder="captcha"/>
+            <label class="control-label captcha-error" for="capthaError" style="display:none"><i class="fa fa-times-circle-o"></i> Invalid Captcha</label>
+          </div>
           <p class="login-box-msg text-red error-message" style="display:none">Email not exist</p>
           <p class="login-box-msg text-green success-message" style="display:none"></p>
           <div class="row">
@@ -95,6 +102,7 @@
     <!-- Register -->
     <script src="plugins/js/register.js"></script>
     
+    <script src="plugins/alphanumeric-captcha/js/jquery-captcha.min.js"></script>
 
   </body>
 </html>

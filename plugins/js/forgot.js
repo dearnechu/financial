@@ -5,6 +5,13 @@ $(function () {
         increaseArea: '20%' // optional
     });
 
+    const captcha = new Captcha($('#canvas'),{
+        width: 200,
+        height: 40,
+        font:'bold 23px Arial',
+        length: 6
+    });
+
         
     jQuery.ajax({
         url: SERVICE_URL + 'GlCustomCustomer/GetAllBranches',
@@ -27,15 +34,23 @@ $(function () {
     });
 
  
-    var customerId;
-
-    $( "#SignIn" ).click(function() {            
+    $( "#SignIn" ).click(function() {        
+        const ans = captcha.valid($('input[name="code"]').val());    
         if($.trim($("#mobile").val()) == ""){
             $(".mobile-group").addClass("has-error");
             $(".mobile-error").show();
             $("#mobile").focus();
             return false;;
         }     
+
+        if(!ans) {
+            $(".captcha-group").addClass("has-error");
+            $(".captcha-error").show();
+            return false;;
+        } else {
+            $(".captcha-error").hide();
+            captcha.refresh();
+        }
  
         $('.overlay').show();
         

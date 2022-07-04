@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="1205" />
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -274,7 +275,9 @@
     <script src="plugins/dateformat/format.js"></script>
     <!-- History -->
     <script src="plugins/js/history.js"></script>
-
+    <?php
+      include('session.php');
+    ?>
 
   </body>
 </html>
