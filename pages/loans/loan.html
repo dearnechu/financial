@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Muthoot Mercantile</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link href="../../assets/images/favicon.png" rel="shortcut icon">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+     <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="../../plugins/iCheck/all.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      textarea {
+        height: 108px !important;
+      }
+      .img-responsive {
+        height: 108px !important;
+      }
+    </style>
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+     
+       <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper" style="margin-left:0px; background-color: bisque">
+        <!-- Content Header (Page header) -->
+
+
+        <!-- Main content -->
+        <section class="content">
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4">
+              <a class="menuzord-brand pull-left flip sm-pull-center" href="https://muthootenterprises.com/">
+              <img style="width:100%;" src="https://muthootenterprises.com/repo/images/logo.png" alt="">
+            </a>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-8">
+              <div class="row">
+                
+                <div class="col-xs-12 col-sm-8 col-md-8 mobile_hide">
+                <p style="text-align: center; margin-bottom:unset; padding-top: 3%;">The wordmark "Muthoot" and trademark are registered exclusively in the name of Shri.M.Mathew, the Charioteer of the Muthoot Ninan Group.</p>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 mobile_hide">
+                  <div class="widget no-border text-right mt-10 mb-10 m-0">
+                    <img src="https://muthootenterprises.com/repo/images/muthoottm.png">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section class="content-header">
+            
+          </section>
+
+          <div class="row">
+            <div class="col-md-3">
+
+              <!-- Profile Image -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Loan Details</h3>
+                </div>
+                <div class="box-body box-profile">
+                  
+                      <form role="form">
+                        <div class="box-body">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Branch</label>
+                            <select class="form-control select2" id="branch" style="width: 100%;">
+                              <option selected="selected" value="">Select</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputPassword1">Company</label>
+                            <select class="form-control select2" id="company" style="width: 100%;">
+                              <option selected="selected" value="">Select</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="loanNumber">Loan no</label>
+                            <input type="text" id="loan_no" class="form-control" placeholder="Loan no">
+                          </div>
+                        </div>
+                      </form>
+
+                  <a class="btn btn-danger btn-block" id="submit"><b>Submit</b></a>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+
+             </div><!-- /.col -->
+            <div class="col-md-9">
+              <div class="callout callout-danger" style="display: none">
+                <h4>No Loans Found!</h4>
+                <p>Sorry, we could not fetch the gold loan details with provided inputs. Please check the details and try again.</p>
+              </div>
+              <div class="nav-tabs-custom">
+                <div class="box box-danger">
+                  <div class="box-body">
+                    <div class="col-md-5">
+                      <form role="form" class="loanForm">
+                        <div class="box-body">
+                          
+                              <div class="form-group">
+                                <label for="gl_number">GL Number</label>
+                                <input type="text" class="form-control" readonly id="gl_number">
+                              </div>
+                            
+                              <div class="form-group">
+                                <label for="customerCode">Customer Code</label>
+                                <input type="text" class="form-control" readonly id="customerCode">
+                              </div>
+                            
+                          <div class="form-group">
+                            <label for="schemeName">Scheme Name</label>
+                            <input type="text" class="form-control" readonly id="schemeName">
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="ratePerGram">Gold Rate</label>
+                                <input type="text" class="form-control" readonly id="ratePerGram">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="currentSlabInterestRate">Interest Rate</label>
+                                <input type="text" class="form-control" readonly id="currentSlabInterestRate">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="grossWeight">Gross Weight</label>
+                                <input type="text" class="form-control" readonly id="grossWeight">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="netWeight">Net Weight</label>
+                                <input type="text" class="form-control" readonly id="netWeight">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="pawnTicketNumber">Pawn Ticket No</label>
+                                <input type="text" class="form-control" readonly id="pawnTicketNumber">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="teeCoverNo">Tee Cover No</label>
+                                <input type="text" class="form-control" readonly id="teeCoverNo">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="excessamount">GL Excess Amount</label>
+                                <input type="text" class="form-control" readonly id="excessamount">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="totalLoanAmount">Total Loan Amount</label>
+                                <input type="text" class="form-control" readonly id="totalLoanAmount">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class="col-md-5">
+                      <form role="form" class="loanForm">
+                        <div class="box-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="type">Loan Type</label>
+                                <input type="text" class="form-control" readonly id="type">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="loanAmount">Gold Loan Amount</label>
+                                <input type="text" class="form-control" readonly id="loanAmount">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="text" class="form-control" readonly id="startDate">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="glPawnStatus">Gold Loan Status</label>
+                                <input type="text" class="form-control" readonly id="glPawnStatus">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="name">Customer Name</label>
+                            <input type="text" class="form-control" readonly id="name">
+                          </div>
+                          <div class="form-group">
+                            <label for="mobile">Contact Number</label>
+                            <input type="text" class="form-control" readonly id="mobile">
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Address</label>
+                            <textarea class="form-control" rows="4" readonly id="address"></textarea>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="goldLoanAmountRemaining">Balance Amount</label>
+                                <input type="text" class="form-control" readonly id="goldLoanAmountRemaining">
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="closeLoan">&nbsp;</label>
+                                <a class="btn btn-danger btn-block" disabled id="closeLoan"><b>Close</b></a>
+                              </div>
+                            </div>
+                          </div>
+                            
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class="col-md-2">
+                      <form role="form" class="loanForm">
+                        <div class="box-body" id="custometImageShow" style="display: none">
+                          <div class="form-group">
+                            <label for="exampleInputEmail1">Customer Image</label>
+                            <img class="img-responsive" id="glCustomerPhotoUrl"/>
+                          </div>
+                          <div class="form-group" id="goldImageShow" style="display: none">
+                            <label for="exampleInputPassword1">Gold Image</label>
+                            <img class="img-responsive" id="photoUrl"/>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+
+
+                    <div class="col-md-12">
+                      <div class="box">
+                        <div class="box-header">
+                          <h3 class="box-title">Item Details</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body table-responsive no-padding">
+                          <table class="table table-hover">
+                            <tr>
+                              <th></th>
+                              <th>Ornament</th>
+                              <th>Count</th>
+                              <th>Broken</th>
+                              <th>Carat</th>
+                              <th>Gross Wt</th>
+                              <th>Stone Wt</th>
+                              <th>Stone %</th>
+                              <th>Net Wt</th>
+                              <th>Purity Type</th>
+                            </tr>
+                            <tbody id="itemDetails">
+
+                            </tbody>
+                          </table>
+                        </div><!-- /.box-body -->
+                      </div><!-- /.box -->
+                    </div>
+
+                  </div>
+                </div>
+              </div><!-- /.nav-tabs-custom -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+              <h4 class="modal-title" id="myModalLabel">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+              We have sent an SMS with a OTP for verification purpose, please enter the code below.
+              <div class="row">
+                 <div class="col-md-4">
+
+                 </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="otp">&nbsp;</label>
+                    <input type="text" maxlength="6" class="form-control" placeholder="OTP" id="otp">
+                    <label class="text-red otp-error" style="margin-bottom: 0px; display: none;"> Invalid OTP </label>
+                    <label class="text-green otp-success" style="margin-bottom: 0px; display: none;"> Loan is verified and closed. </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-danger" id="transactionContinue">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="main-footer" style="margin-left: 0;">
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 2.3.0
+        </div>
+        <strong>Copyright &copy; 2021-2022 <a href="https://muthootenterprises.com/">Muthoot Enterprises</a>.</strong> All rights reserved.
+      </footer>
+
+    </div><!-- ./wrapper -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="../../plugins/jQuery/jQuery-3.6.0.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="../../bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="../../plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
+    <script src="../../plugins/iCheck/icheck.min.js"></script>
+    <script src="../../plugins/dateformat/format.js"></script>
+    <script src="js/loan.js"></script>
+  </body>
+</html>
