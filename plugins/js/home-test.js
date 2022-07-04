@@ -458,6 +458,7 @@ function showLoanDetails(loanNo, branchId, companyId){
                 
                 nbtotal = goldLoanAmountRemaining + goldLoanInterestDue + net_service_charge + pronoteAmountRemaining + pronoteInterestDue;
                 total = goldLoanAmountRemaining + goldLoanInterestDue + service_charge + pronoteAmountRemaining + pronoteInterestDue;
+                data['data']['fullPaymentTotal'] = total.format(2,3);
 
                 $("#vpc_Amount").val(total.toFixed(2));
                 $("#amount").val((goldLoanAmountRemaining + goldLoanInterestDue).toFixed(2));

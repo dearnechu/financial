@@ -25,9 +25,15 @@ $_SESSION['custamount']=$amount;
 
 if($_SESSION['custamount'] < $_SESSION['payment']['minimumInterestToBePaid']) {
 	$_SESSION['status'] = false;
-	header("Location: /financial/home.html");
+	header("Location: /home.html");
 	exit;
 }
+if($_SESSION['payment_type'] == "FULL" && $_SESSION['custamount'] < $_SESSION['payment']['fullPaymentTotal']) { 
+	$_SESSION['status'] = false;
+	header("Location: /home.html");
+	exit;
+}
+
 curl_post($method='POST');
 
 function curl_post($method) {
