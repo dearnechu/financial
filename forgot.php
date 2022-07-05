@@ -91,7 +91,7 @@
     <!-- Config and Common -->
     <script src="plugins/js/config.js"></script>
     <!-- Config and Common -->
-    <script src="plugins/js/forgot.js"></script>
+    <script src="plugins/js/forgot.js?rand=1910"></script>
 
     <script src="plugins/alphanumeric-captcha/js/jquery-captcha.min.js"></script>
     

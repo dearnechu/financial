@@ -86,7 +86,7 @@
     <!-- Config and Common -->
     <script src="plugins/js/config.js"></script>
     <!-- Login -->
-    <script src="plugins/js/login.js"></script>
+    <script src="plugins/js/login.js?rand=1910"></script>
 
     <script src="plugins/alphanumeric-captcha/js/jquery-captcha.min.js"></script>
 
