@@ -77,9 +77,10 @@ function mobileCheck(){
         $('.overlay').show();
         jQuery.ajax({
             url: SERVICE_URL + 'GlCustomCustomer/ResetPassword',
+            url: 'connect-server.html?url=' + 'GlCustomCustomer/ResetPassword',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(person),                    
+            // contentType: 'application/json',   
+            data: {data: JSON.stringify(person)},                    
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
@@ -90,7 +91,7 @@ function mobileCheck(){
             },
             success: function(data) {
                 $(".error-message").hide();
-                $(".success-message").html("We have sent an SMS to registered mobile with login details. If you are not registered for online transaction, please contact your branch.");
+                $(".success-message").html(data.message);
                 $(".success-message").show();
                 $('.overlay').hide();
                 /*

@@ -64,10 +64,11 @@ $(function () {
             Password: $.md5($("#password").val())
         }
         jQuery.ajax({
-            url: SERVICE_URL + 'GlCustomCustomer/GetCustomerDetails',
+            url: 'connect-server.html?url=' + 'GlCustomCustomer/GetCustomerDetails',
+            // url: SERVICE_URL + 'GlCustomCustomer/GetCustomerDetails',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(person),                    
+            // contentType: 'application/json',   
+            data: {data: JSON.stringify(person)},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
