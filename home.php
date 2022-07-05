@@ -1,4 +1,5 @@
 <?php
+  ini_set("session.cookie_httponly", 1);
   session_start();
   session_regenerate_id();
 ?>
@@ -7,7 +8,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="refresh" content="1200" />
+    <meta http-equiv="refresh" content="1205" />
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -97,7 +98,7 @@
                 <i class="fa fa-credit-card"></i> <span>Online Payment</span><i class="fa fa-angle-right pull-right"></i>
               </a>
             </li>
-            <li class="treeview">
+            <!-- <li class="treeview">
               <a href="#">
                 <i class="fa fa-table"></i> <span>Registration Form</span><i class="fa fa-angle-left pull-right"></i>
               </a>
@@ -111,7 +112,7 @@
               <a href="pawn-ticket.html">
                 <i class="fa fa-print"></i> <span>Print Pawn Ticket</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li>
+            </li> -->
             <li class="treeview">
               <a href="history.html">
                 <i class="fa fa-history"></i> <span>Payment History</span><i class="fa fa-angle-left pull-right"></i>
@@ -262,7 +263,7 @@
 
                 <div class="box-footer clearfix">
                   <div class="col-sm-12 text-red">
-                    <i class="fa fa-fw fa-hand-o-right"> </i> Please do not close the window until shows the transaction success message.
+                    
                   </div>
                 </div>
 
@@ -490,6 +491,22 @@
         </section><!-- /.content -->
       </div><!-- /.content-wrapper -->
 
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel">Note</h4>
+            </div>
+            <div class="modal-body">
+              Please do not close the window until shows the transaction success message.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="transactionContinue">Continue</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <footer class="main-footer">
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.1.0
@@ -536,7 +553,9 @@
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/home.js?rand=20201228"></script>
-
+    <script src="plugins/js/home-test.js?rand=20201228"></script>
+    <?php
+      include('session.php');
+    ?>
   </body>
 </html>
