@@ -10,8 +10,7 @@ var emiId = "";
 
 $(function() {
     var person = {
-        userId: localStorage.getItem("customerId"),
-        //userId: "9E3A0B3B-8ABB-4C64-A13A-A7AAF30472EC"
+        userId: localStorage.getItem("customerId")
     }
     $("#PartAmount").val('');
 
@@ -21,10 +20,10 @@ $(function() {
     });
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetLoansByCustomerId',
-        contentType: 'application/json',   
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetLoansByCustomerId',
+        // contentType: 'application/json',   
         method: "POST",
-        data: JSON.stringify(person),
+        data: {data: JSON.stringify(person)},
         beforeSend: function (xhr) {
            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
@@ -109,24 +108,10 @@ $(function() {
 
     });
 
+    let isFullPayment = Boolean; 
     $( "#FullPayment" ).click(function() { 
-        $(".fullpayment").show();
-        $("#vpc_MerchTxnRef").val("MGLFULL" + "-" + new Date().format("YmdHis") );
-
-        storesession("payment_type", "FULL");
-        
-        if($('.FullPType').prop('checked')) { 
-            storesession("service_charge", $("#service_charge").html());
-            $("#vpc_Amount").val(total.toFixed(2));
-            $("#vpc_mdd").val("DC");
-            
-        } else { 
-            storesession("service_charge", $("#net_service_charge").html());
-            $("#vpc_Amount").val(nbtotal.toFixed(2));
-            $("#vpc_mdd").val("NB");
-        }
-        
-        $("#PG").submit();
+        $('#myModal').modal('toggle');
+        isFullPayment = true;
     });
 
     /*  $( ".PaymentType" ).on("ifChecked", function() {
@@ -180,26 +165,16 @@ $(function() {
             $(".part-payment-error").show();
             return false;;
         }   
-        // checkBeforePartPayment();
-        // return false;
-        $(".part-payment-error").hide();
-        $(".partpayment").show();
-        $("#amount").val($("#NB_part_total").html());
-        $("#vpc_MerchTxnRef").val("MGLPART" + "-" + new Date().format("YmdHis") );
-        
-        storesession("payment_type", "PART");
-        
-        if($('.PartPType').prop('checked')) { 
-            storesession("service_charge", $("#part_service_charge").html());
-            $("#vpc_mdd").val("DC");
-            $("#vpc_Amount").val(part_total.toFixed(2));
-        } else { 
-            storesession("service_charge", $("#part_net_service_charge").html()); 
-            $("#vpc_mdd").val("NB");
-            $("#vpc_Amount").val(net_part_total.toFixed(2));
+        isFullPayment = false;
+        $('#myModal').modal('toggle');
+    });
+
+    $("#transactionContinue").click(function () {
+        if (isFullPayment) {
+            fullpayment();
+        } else {
+            partPayment();
         }
-        
-        $("#PG").submit();
     });
 
     $('.PartPType').on('ifChecked', function(event){
@@ -238,6 +213,50 @@ $(function() {
 
 
 });
+
+function fullpayment() {
+    $(".fullpayment").show();
+    $("#vpc_MerchTxnRef").val("MGLFULL" + "-" + new Date().format("YmdHis") );
+
+    storesession("payment_type", "FULL");
+    
+    if($('.FullPType').prop('checked')) { 
+        storesession("service_charge", $("#service_charge").html());
+        $("#vpc_Amount").val(total.toFixed(2));
+        $("#vpc_mdd").val("DC");
+        
+    } else { 
+        storesession("service_charge", $("#net_service_charge").html());
+        $("#vpc_Amount").val(nbtotal.toFixed(2));
+        $("#vpc_mdd").val("NB");
+    }
+    
+    $("#PG").submit();
+}
+
+function partPayment() {
+    // checkBeforePartPayment();
+    // return false;
+    $(".part-payment-error").hide();
+    $(".partpayment").show();
+    $("#amount").val($("#NB_part_total").html());
+    $("#vpc_MerchTxnRef").val("MGLPART" + "-" + new Date().format("YmdHis") );
+    
+    storesession("payment_type", "PART");
+    
+    if($('.PartPType').prop('checked')) { 
+        storesession("service_charge", $("#part_service_charge").html());
+        $("#vpc_mdd").val("DC");
+        $("#vpc_Amount").val(part_total.toFixed(2));
+    } else { 
+        storesession("service_charge", $("#part_net_service_charge").html()); 
+        $("#vpc_mdd").val("NB");
+        $("#vpc_Amount").val(net_part_total.toFixed(2));
+    }
+    
+    $("#PG").submit();
+}
+
 function showEmiDetails(loanNo){ 
     $('.spinner-search').show();
     $('.emipayment').show();
@@ -290,7 +309,6 @@ function showEmiDetails(loanNo){
 }
 
 function checkBeforePartPayment() {
-    console.log(data);
     var data = {
         // loanId: emiId,
         loanNumber: $("#loan_number").html(),
@@ -380,10 +398,11 @@ function showLoanDetails(loanNo, branchId, companyId){
         }
     
     jQuery.ajax({
-            url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
+            // url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
+            url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(data),                    
+            // contentType: 'application/json',   
+            data: {data: JSON.stringify(data)},                    
             beforeSend: function (xhr) {
                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
@@ -438,6 +457,7 @@ function showLoanDetails(loanNo, branchId, companyId){
                 
                 nbtotal = goldLoanAmountRemaining + goldLoanInterestDue + net_service_charge + pronoteAmountRemaining + pronoteInterestDue;
                 total = goldLoanAmountRemaining + goldLoanInterestDue + service_charge + pronoteAmountRemaining + pronoteInterestDue;
+                data['data']['fullPaymentTotal'] = total.format(2,3);
 
                 $("#vpc_Amount").val(total.toFixed(2));
                 $("#amount").val((goldLoanAmountRemaining + goldLoanInterestDue).toFixed(2));

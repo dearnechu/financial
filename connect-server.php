@@ -1,4 +1,6 @@
 <?php
+	ini_set("session.cookie_httponly", 1);
+	ini_set('session.cookie_secure', 1);	
 	session_start();
     header('Content-Type: application/json; charset=utf-8');
     include('config.php'); 
@@ -11,6 +13,19 @@
 		$db_conn->query($sql);
 		session_destroy();
 		exit;
+	}
+	// Authentication - logined User
+	if (substr_compare($_REQUEST['url'], 'PgCustomGoldLoan/', 0) > 0) {
+		$user_id =  json_decode($_POST['data'])->userId;
+		if(!$user_id) {
+			$user_id =  json_decode($_POST['data'])->customerId;
+		}
+		$sql = "SELECT count(*) as isValid FROM user_authentication WHERE user_id = '". $user_id ."' and token = '". $_SESSION['session_token'] ."';";
+		$result = $db_conn->query($sql);
+		$row = $result->fetch_array();
+		if ($row['isValid'] == 0) {
+			exit;
+		}
 	}
 
     $ch = curl_init();

@@ -28,10 +28,12 @@ function history(startDate, endDate) {
     }
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByCustomerId',
-        contentType: 'application/json',   
+        // url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByCustomerId',
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetPaymentHistoryByCustomerId',
+        // contentType: 'application/json',   
         method: "POST",
-        data: JSON.stringify(person),
+        // data: JSON.stringify(person),
+        data: {data: JSON.stringify(person)},
         beforeSend: function (xhr) {
            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
@@ -69,10 +71,11 @@ function history(startDate, endDate) {
             }
 
              jQuery.ajax({
-                url: SERVICE_URL + 'PgCustomGoldLoan/GetEmiPaymentHistoryByCustomerId',
-                contentType: 'application/json',   
+                // url: SERVICE_URL + 'PgCustomGoldLoan/GetEmiPaymentHistoryByCustomerId',
+                url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetEmiPaymentHistoryByCustomerId',
+                // contentType: 'application/json',   
                 method: "POST",
-                data: JSON.stringify(person),
+                data: {data: JSON.stringify(person)},
                 beforeSend: function (xhr) {
                    xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                 },

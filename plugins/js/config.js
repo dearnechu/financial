@@ -65,14 +65,15 @@ function showLoanStatements(loanId){
     $('.spinner-search').show();
     var data = {
             loanId: loanId,
-            //loanId: "3e32a621-183c-45f8-bc7c-f43f144cb181",
+            customerId: localStorage.getItem("customerId"),
         }
     
         jQuery.ajax({
-            url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
+            // url: SERVICE_URL + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
+            url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetPaymentHistoryByLoanId',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(data),                    
+            // contentType: 'application/json',   
+            data: {data: JSON.stringify(data)},                
             beforeSend: function (xhr) {
                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
