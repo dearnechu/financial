@@ -1,10 +1,6 @@
 /**
 	Configuration for Muthoot
 */
-
-var SERVICE_URL = "http://192.100.100.60/api/";
-var AUTHENTICATION_PASSWORD = "ZYHWiOqBYiHORTVkmNarVeTrYHTLfp38";
-
 var SERVICE_URL = "https://muthootdev.azure-mobile.net/api/";
 var AUTHENTICATION_PASSWORD = "JODKFspBxMyxtIrHIqVSEExBzKfGlR50";
 
@@ -312,9 +308,20 @@ function showEmiLoanStatements(loanId){
 }
 
 function logout() {
-    localStorage.removeItem("customerName");
-    localStorage.removeItem("mobile");
-    localStorage.removeItem("customerId");
+    var person = {
+        user_id: localStorage.getItem("customerId"),
+    }
+    jQuery.ajax({
+        url: 'connect-server.html?url=' + 'logout',
+        method: "POST",    
+        data: {data: JSON.stringify(person)},
+        success: function() {
+            localStorage.removeItem("customerName");
+            localStorage.removeItem("mobile");
+            localStorage.removeItem("customerId");
+        }
+    });
+
     location.href = "login.html";
 }
 
