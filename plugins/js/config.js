@@ -309,6 +309,9 @@ function showEmiLoanStatements(loanId){
 }
 
 function logout() {
+    localStorage.removeItem("customerName");
+    localStorage.removeItem("mobile");
+    localStorage.removeItem("customerId");
     var person = {
         user_id: localStorage.getItem("customerId"),
     }
@@ -317,12 +320,8 @@ function logout() {
         method: "POST",    
         data: {data: JSON.stringify(person)},
         success: function() {
-            localStorage.removeItem("customerName");
-            localStorage.removeItem("mobile");
-            localStorage.removeItem("customerId");
         }
     });
-
     location.href = "login.html";
 }
 

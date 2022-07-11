@@ -4,7 +4,7 @@
 	session_start();
     header('Content-Type: application/json; charset=utf-8');
     include('config.php'); 
-	$_SESSION['timestamp'] = date("YmdHis"); 
+	$_SESSION['timestamp'] = strtotime(date("YmdHis")); 
 	$db_conn = new mysqli($db_servername, $db_username, $db_password, $db_database);
 	$session_token = md5(Date("YmdHis"));
 

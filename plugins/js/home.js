@@ -30,7 +30,10 @@ $(function() {
         error: function(xhr, status, error) {
             return false;
         },
-        success: function(data) {         
+        success: function(data) {
+            if (!data) {
+                logout();
+            }
             var dataSet = new Array();         
             for(var index in data['data']) { 
                
