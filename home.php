@@ -1,5 +1,7 @@
 <?php
   ini_set("session.cookie_httponly", 1);
+  ini_set('session.cookie_secure', 1);
+  ini_set("session.cookie_samesite", "Lax");
   session_start();
   session_regenerate_id();
 ?>
@@ -8,7 +10,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="refresh" content="1205" />
+    <meta http-equiv="refresh" content="1200" />
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -547,13 +549,13 @@
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
     <!-- Config and Common -->
-    <script src="plugins/js/config.js?rand=20201225"></script>
+    <script src="plugins/js/config.js?rand=20220707"></script>
     <!-- Formatting Date -->
     <script src="plugins/dateformat/format.js"></script>
      <!-- iCheck 1.0.1 -->
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
-    <script src="plugins/js/home-test.js?rand=20201228"></script>
+    <script src="plugins/js/home.js?rand=2022070601"></script>
     <?php
       include('session.php');
     ?>

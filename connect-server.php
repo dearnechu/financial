@@ -1,6 +1,7 @@
 <?php
 	ini_set("session.cookie_httponly", 1);
-	ini_set('session.cookie_secure', 1);	
+	ini_set('session.cookie_secure', 1);
+	ini_set("session.cookie_samesite", "Lax");
 	session_start();
     header('Content-Type: application/json; charset=utf-8');
     include('config.php'); 
