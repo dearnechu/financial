@@ -14,8 +14,10 @@ $(function () {
 
         
     jQuery.ajax({
-        url: SERVICE_URL + 'GlCustomCustomer/GetAllBranches',
-        contentType: 'application/json',   
+        // url: SERVICE_URL + 'GlCustomCustomer/GetAllBranches',
+        url: 'connect-server.html?url=' + 'GlCustomCustomer/GetAllBranches',
+        // contentType: 'application/json',   
+        method: "POST",    
         beforeSend: function (xhr) {
            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },

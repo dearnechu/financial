@@ -38,8 +38,10 @@
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 	curl_setopt($ch, CURLOPT_USERPWD, ":$accesstoken");
-	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST['data'] ); 
+	if ($_POST['data']) {
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST['data'] ); 
+	}
 	curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json')); 
 
 	$status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
