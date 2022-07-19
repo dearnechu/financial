@@ -32,7 +32,8 @@
 
 	$captcha_check = array(
 		"GlCustomCustomer/GetCustomerDetails",
-		"GlCustomCustomer/UserRegister"
+		"GlCustomCustomer/UserRegister",
+		"GlCustomCustomer/ResetPassword"
 	);
 
 	if (in_array($_REQUEST['url'], $captcha_check)) {

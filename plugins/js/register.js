@@ -7,13 +7,6 @@ $(function () {
         radioClass: 'iradio_square-blue',
         increaseArea: '20%' // optional
     });
-
-    const captcha = new Captcha($('#canvas'),{
-        width: 200,
-        height: 40,
-        font:'bold 23px Arial',
-        length: 6
-    });
         
     jQuery.ajax({
         // url: SERVICE_URL + 'GlCustomCustomer/GetAllBranches',
@@ -63,13 +56,15 @@ $(function () {
         
         var person = {
           "userName": $.trim($("#email").val()).toLowerCase(), 
-          "customerId": customerId  
+          "customerId": customerId,
+          "captcha": $.trim($("#captcha").val()),
         }
         jQuery.ajax({
-                url: SERVICE_URL + 'GlCustomCustomer/UserRegister',
+                // url: SERVICE_URL + 'GlCustomCustomer/UserRegister',
+                url: 'connect-server.html?url=' + 'GlCustomCustomer/UserRegister',
                 method: "POST",    
-                contentType: 'application/json',   
-                data: JSON.stringify(person),                    
+                // contentType: 'application/json',   
+                data: {data: JSON.stringify(person)},                   
                 beforeSend: function (xhr) {
                   xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                 },
@@ -147,10 +142,11 @@ function mobileCheck(){
     if($("#mobile").val().length == 10){
         $('.overlay').show();
         jQuery.ajax({
-            url: SERVICE_URL + 'GlCustomCustomer/CheckUserDetails',
+            // url: SERVICE_URL + 'GlCustomCustomer/CheckUserDetails',
+            url: 'connect-server.html?url=' + 'GlCustomCustomer/CheckUserDetails',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(person),                    
+            // contentType: 'application/json',   
+            data: {data: JSON.stringify(person)},                    
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },

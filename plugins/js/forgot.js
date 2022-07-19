@@ -4,14 +4,6 @@ $(function () {
         radioClass: 'iradio_square-blue',
         increaseArea: '20%' // optional
     });
-
-    const captcha = new Captcha($('#canvas'),{
-        width: 200,
-        height: 40,
-        font:'bold 23px Arial',
-        length: 6
-    });
-
         
     jQuery.ajax({
         // url: SERVICE_URL + 'GlCustomCustomer/GetAllBranches',
@@ -37,23 +29,12 @@ $(function () {
 
  
     $( "#SignIn" ).click(function() {        
-        const ans = captcha.valid($('input[name="code"]').val());    
         if($.trim($("#mobile").val()) == ""){
             $(".mobile-group").addClass("has-error");
             $(".mobile-error").show();
             $("#mobile").focus();
             return false;;
         }     
-
-        if(!ans) {
-            $(".captcha-group").addClass("has-error");
-            $(".captcha-error").show();
-            return false;;
-        } else {
-            $(".captcha-error").hide();
-            captcha.refresh();
-        }
- 
         $('.overlay').show();
         
         mobileCheck();
@@ -70,15 +51,14 @@ $(function () {
 
 function mobileCheck(){
     var person = {
-        //branchId: "318C51A0-8F6B-454F-B727-021FC6C61279",
-        //mobileNumber: "9567481919",
         branchId: $("#branch").val(),
         mobileNumber: $.trim($("#mobile").val()),
+        captcha: $.trim($("#captcha").val()),
     }
     if($("#mobile").val().length == 10){
         $('.overlay').show();
         jQuery.ajax({
-            url: SERVICE_URL + 'GlCustomCustomer/ResetPassword',
+            // url: SERVICE_URL + 'GlCustomCustomer/ResetPassword',
             url: 'connect-server.html?url=' + 'GlCustomCustomer/ResetPassword',
             method: "POST",    
             // contentType: 'application/json',   
@@ -92,6 +72,7 @@ function mobileCheck(){
                 $('.overlay').hide();
             },
             success: function(data) {
+                $("#captcha-img").attr("src" , "captcha.php?=" + Math.random()); 
                 $(".error-message").hide();
                 $(".success-message").html(data.message);
                 $(".success-message").show();

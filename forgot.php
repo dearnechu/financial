@@ -53,13 +53,20 @@
             <span class="glyphicon glyphicon-phone form-control-feedback"></span>
             <label class="control-label mobile-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide 10 digit mobile no</label>
           </div>
-          <div class="form-group has-feedback password-group">
+
+          <!-- <div class="form-group has-feedback password-group">
             <canvas id="canvas"></canvas>
           </div>
           <div class="form-group has-feedback captcha-group">
             <input class="form-control" name="code" placeholder="captcha"/>
             <label class="control-label captcha-error" for="capthaError" style="display:none"><i class="fa fa-times-circle-o"></i> Invalid Captcha</label>
+          </div> -->
+
+          <div class="form-group has-feedback captcha-group">
+            <p><img src="captcha.php" width="220" height="40" alt="CAPTCHA" id="captcha-img"></p>
+            <p><input class="form-control" type="text" placeholder="captcha" size="6" maxlength="5" id="captcha" value=""><br>
           </div>
+
           <p class="login-box-msg text-red error-message" style="display:none">Email not exist</p>
           <p class="login-box-msg text-green success-message" style="display:none"></p>
           <div class="row">
