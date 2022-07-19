@@ -7,7 +7,7 @@
     include('config.php'); 
 	$_SESSION['timestamp'] = strtotime(date("YmdHis")); 
 	$db_conn = new mysqli($db_servername, $db_username, $db_password, $db_database);
-	$session_token = md5(Date("YmdHis"));
+	$session_token = md5($_SERVER['HTTP_USER_AGENT'] . $_SERVER['REMOTE_ADDR']);
 
 	// Logout
 	if ($_REQUEST['url'] == 'logout') { 
@@ -27,6 +27,17 @@
 		$row = $result->fetch_array();
 		if ($row['isValid'] == 0) {
 			exit;
+		}
+	}
+
+	$captcha_check = array(
+		"GlCustomCustomer/GetCustomerDetails",
+		"GlCustomCustomer/UserRegister"
+	);
+
+	if (in_array($_REQUEST['url'], $captcha_check)) {
+		if(json_decode($_POST['data'])->captcha != $_SESSION['digit']) {
+			die('{"message":"Incorrect CAPTCHA"}');
 		}
 	}
 
@@ -60,6 +71,9 @@
 		$_SESSION['session_token'] = $session_token;
 		$sql = "INSERT INTO user_authentication (user_id, token) VALUES ('". $data->data->id ."', '".$session_token."')";
 		$db_conn->query($sql);
+	}
+	else if ($_REQUEST['url'] == 'GlCustomCustomer/GetCustomerDetails' && !isset($data->data->id)) {
+		die('{"message":"Unauthorized Access"}');
 	}
 	echo $server_output;
 ?>

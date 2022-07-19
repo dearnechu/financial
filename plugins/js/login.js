@@ -16,16 +16,7 @@ $(function () {
         $("#RemeberMe").attr('checked', false);
     }
 
-    const captcha = new Captcha($('#canvas'),{
-        width: 200,
-        height: 40,
-        font:'bold 23px Arial',
-        length: 6
-    });
-
     $( "#SignIn" ).click(function() {        
-        const ans = captcha.valid($('input[name="code"]').val());
-
         if($.trim($("#email").val()) == ""){
             $(".mail-group").addClass("has-error");
             $(".email-error").show();
@@ -37,14 +28,6 @@ $(function () {
             $(".password-error").show();
             $("#password").focus();
             return false;
-        }
-        
-        if(!ans) {
-            $(".captcha-group").addClass("has-error");
-            $(".captcha-error").show();
-            return false;;
-        } else {
-            $(".captcha-error").hide();
         }
 
         $(".loader").show();
@@ -61,7 +44,8 @@ $(function () {
             
         var person = {
             UserName: $.trim($("#email").val()),
-            Password: $.md5($("#password").val())
+            Password: $.md5($("#password").val()),
+            captcha: $.trim($("#captcha").val()),
         }
         jQuery.ajax({
             url: 'connect-server.html?url=' + 'GlCustomCustomer/GetCustomerDetails',
@@ -87,6 +71,9 @@ $(function () {
                     location.href = "home.html";
                }
                else{
+                    if (data['message']) {
+                        $(".error-message").html(data['message']);
+                    }
                     $(".error-message").show();
                     $(".loader").hide();
                }

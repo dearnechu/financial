@@ -44,12 +44,18 @@
             <label class="control-label password-error" for="inputError" style="display:none"><i class="fa fa-times-circle-o"></i> please provide your password</label>
           </div>
 
+          <!-- 
           <div class="form-group has-feedback password-group">
             <canvas id="canvas"></canvas>
           </div>
           <div class="form-group has-feedback captcha-group">
             <input class="form-control" name="code" placeholder="captcha"/>
             <label class="control-label captcha-error" for="capthaError" style="display:none"><i class="fa fa-times-circle-o"></i> Invalid Captcha</label>
+          </div> -->
+          
+          <div class="form-group has-feedback captcha-group">
+            <p><img src="captcha.php?=test" width="220" height="40" alt="CAPTCHA"></p>
+            <p><input class="form-control" type="text" placeholder="captcha" size="6" maxlength="5" id="captcha" value=""><br>
           </div>
 
           <p class="login-box-msg text-red error-message" style="display:none">Unauthorized Access</p>
