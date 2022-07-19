@@ -244,17 +244,18 @@
             
             $(".loader").show();
 
-            var data = {
+            var person = {
                     customerId: localStorage.getItem("customerId"),
                     Password: $.md5($("#current_password").val()),
                     newPassword: $.md5($("#confirm_password").val())
                 }
 
             jQuery.ajax({
-                url: SERVICE_URL + 'GlCustomCustomer/ChangePassword',
+                // url: SERVICE_URL + 'GlCustomCustomer/ChangePassword',
+                url: 'connect-server.html?url=' + 'GlCustomCustomer/ChangePassword',
                 method: "POST",    
-                contentType: 'application/json',   
-                data: JSON.stringify(data),                    
+                // contentType: 'application/json',   
+                data: {data: JSON.stringify(person)},                    
                 beforeSend: function (xhr) {
                    xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                 },
