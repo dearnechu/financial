@@ -1,3 +1,8 @@
+<?php
+  ini_set("session.cookie_httponly", 1);
+  ini_set('session.cookie_secure', 1);
+  session_start();
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -68,7 +73,7 @@
               </div>
             </div><!-- /.col -->
             <div class="col-xs-4">
-              <button type="button" id="SignIn" class="btn btn-primary btn-block btn-flat">Sign In 
+              <button type="button" <?php echo (isset($_SESSION['invalid-attempt-timestamp']) && ((strtotime(date("YmdHis")) - $_SESSION['invalid-attempt-timestamp']) <= 60)) ? "disabled" : '' ?> id="SignIn" class="btn btn-primary btn-block btn-flat">Sign In 
                 <i class="fa fa-spinner fa-spin loader" style="display:none"></i>
               </button>
             </div><!-- /.col -->

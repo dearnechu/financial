@@ -1,7 +1,6 @@
 <?php
 	ini_set("session.cookie_httponly", 1);
 	ini_set('session.cookie_secure', 1);
-	ini_set("session.cookie_samesite", "Lax");
 	session_start();
     header('Content-Type: application/json; charset=utf-8');
     include('config.php'); 
@@ -74,6 +73,23 @@
 		$db_conn->query($sql);
 	}
 	else if ($_REQUEST['url'] == 'GlCustomCustomer/GetCustomerDetails' && !isset($data->data->id)) {
+
+		if(isset($_SESSION['invalid-attempt-count'])) {
+			$_SESSION['invalid-attempt-count'] += 1;
+		} else {
+			$_SESSION['invalid-attempt-count'] = 1;
+		}  
+
+		if(isset($_SESSION['invalid-attempt-timestamp']) && (strtotime(date("YmdHis")) - $_SESSION['invalid-attempt-timestamp'] >= 60)) { 
+			$_SESSION['invalid-attempt-count'] = 1;
+			$_SESSION['invalid-attempt-timestamp'] = strtotime(date("YmdHis")); 
+		}
+
+		if($_SESSION['invalid-attempt-count'] >= 3) {
+			$_SESSION['invalid-attempt-timestamp'] = strtotime(date("YmdHis")); 
+			die('{"message": "You have 3 unsuccessful attempt, Please try again later "}');
+		}
+
 		die('{"message":"Unauthorized Access"}');
 	}
 	echo $server_output;
