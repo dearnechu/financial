@@ -51,6 +51,11 @@
 	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 	curl_setopt($ch, CURLOPT_USERPWD, ":$accesstoken");
 	if ($_POST['data']) {
+		foreach (json_decode($_POST['data']) as $key => $value) {
+			if (strlen($key) > 15 || strlen($value) > 45) {
+				die('{"message":"Unauthorized Access"}');
+			}
+		}
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST['data'] ); 
 	}

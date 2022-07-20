@@ -6,15 +6,15 @@
   $image = @imagecreatetruecolor(120, 30) or die("Cannot Initialize new GD image stream");
 
   // set background to white and allocate drawing colours
-  $background = imagecolorallocate($image, 0xFF, 0xFF, 0xFF);
+  $background = imagecolorallocate($image, 0xEE, 0xEE, 0xEE);
   imagefill($image, 0, 0, $background);
   $linecolor = imagecolorallocate($image, 0xCC, 0xCC, 0xCC);
-  $textcolor = imagecolorallocate($image, 0x33, 0x33, 0x33);
+  $textcolor = imagecolorallocate($image, 0x3C, 0x8D, 0xBC);
 
   // draw random lines on canvas
   for($i=0; $i < 6; $i++) {
     imagesetthickness($image, rand(1,3));
-    imageline($image, 0, rand(0,30), 120, rand(0,30), $linecolor);
+    // imageline($image, 0, rand(0,30), 120, rand(0,30), $linecolor);
   }
 
   ini_set("session.cookie_httponly", 1);

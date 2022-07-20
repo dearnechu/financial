@@ -59,7 +59,13 @@
           </div> -->
           
           <div class="form-group has-feedback captcha-group">
-            <p><img src="captcha.php?=test" width="220" height="40" alt="CAPTCHA"></p>
+            <p>
+            <a href="#" onclick="
+                document.getElementById('captcha-img').src = 'captcha.php?' + Math.random();
+                document.getElementById('captcha').value = '';
+                return false;
+              ">
+              <img src="captcha.php" width="220" height="40" alt="CAPTCHA" id="captcha-img"></a></p>
             <p><input class="form-control" type="text" placeholder="captcha" size="6" maxlength="5" id="captcha" value=""><br>
           </div>
 
