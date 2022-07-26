@@ -17,10 +17,13 @@
 		exit;
 	}
 	// Authentication - logined User
-	if (substr_compare($_REQUEST['url'], 'PgCustomGoldLoan/', 0) > 0) {
+	if (substr_compare($_REQUEST['url'], 'PgCustomGoldLoan/', 0) > 0 || $_REQUEST['url'] == 'GlCustomCustomer/ChangePassword') {
 		$user_id =  json_decode($_POST['data'])->userId;
 		if(!$user_id) {
 			$user_id =  json_decode($_POST['data'])->customerId;
+		}
+		if($user_id != $_SESSION['user_id']) {
+			exit;
 		}
 
 		if (checkUserAuthentication($user_id, $_SESSION['session_token'], $db_servername, $db_database, $db_username, $db_password) == 0) {
@@ -72,7 +75,11 @@
     }
 	// Login with success
 	if ($_REQUEST['url'] == 'GlCustomCustomer/GetCustomerDetails' && isset($data->data->id)) { 
+		$session_token = md5($session_token . $data->data->id);
 		$_SESSION['session_token'] = $session_token;
+		$_SESSION['user_id'] = $data->data->id;
+		$sql = "DELETE FROM user_authentication WHERE user_id = '". $data->data->id ."' AND token = '".$session_token."'";
+		$db_conn->query($sql);
 		$sql = "INSERT INTO user_authentication (user_id, token) VALUES ('". $data->data->id ."', '".$session_token."')";
 		$db_conn->query($sql);
 	} // Login with Failure
