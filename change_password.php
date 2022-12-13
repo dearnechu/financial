@@ -90,7 +90,7 @@
               <a href="#">
                 <i class="fa fa-table"></i> <span>Registration Form</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li>
+            </li> -->
             <li class="treeview">
               <a href="online-gold.html">
                 <i class="fa fa-sun-o"></i> <span>Online Gold Loan</span><i class="fa fa-angle-left pull-right"></i>
@@ -100,7 +100,7 @@
               <a href="pawn-ticket.html">
                 <i class="fa fa-print"></i> <span>Print Pawn Ticket</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li> -->
+            </li>
             <li class="treeview">
               <a href="history.html">
                 <i class="fa fa-history"></i> <span>Payment History</span><i class="fa fa-angle-left pull-right"></i>
