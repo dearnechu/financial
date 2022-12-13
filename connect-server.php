@@ -20,14 +20,19 @@
 	if (substr_compare($_REQUEST['url'], 'PgCustomGoldLoan/', 0) > 0 || $_REQUEST['url'] == 'GlCustomCustomer/ChangePassword') {
 		$user_id =  json_decode($_POST['data'])->userId;
 		if(!$user_id) {
+			$user_id =  json_decode($_POST['data'])->userid;
+		}
+		if(!$user_id) {
 			$user_id =  json_decode($_POST['data'])->customerId;
 		}
 		if($user_id != $_SESSION['user_id']) {
 			exit;
+			die('{"message":"Invalid UserID"}');
 		}
 
 		if (checkUserAuthentication($user_id, $_SESSION['session_token'], $db_servername, $db_database, $db_username, $db_password) == 0) {
 			exit;
+			die('{"message":"Authentication failed"}');
 		}
 	}
 
@@ -53,11 +58,13 @@
 	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 	curl_setopt($ch, CURLOPT_USERPWD, ":$accesstoken");
 	if ($_POST['data']) {
-		foreach (json_decode($_POST['data']) as $key => $value) {
-			if (strlen($key) > 15 || strlen($value) > 45) {
-				die('{"message":"Unauthorized Access"}');
-			}
-		}
+		// foreach (json_decode($_POST['data']) as $key => $value) {
+		// 	if(is_string($key) && is_string($value)) {
+		// 		if (strlen($key) > 15 || strlen($value) > 45) {
+		// 			die('{"message":"Unauthorized Access"}');
+		// 		}
+		// 	}
+		// }
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $_POST['data'] ); 
 	}
@@ -82,9 +89,15 @@
 		$db_conn->query($sql);
 		$sql = "INSERT INTO user_authentication (user_id, token) VALUES ('". $data->data->id ."', '".$session_token."')";
 		$db_conn->query($sql);
+				
+		$sql = "INSERT INTO access_log (email, user_agent, ip_address, status) VALUES ('". json_decode($_POST['data'])->UserName. "', '".$_SERVER['HTTP_USER_AGENT'] ."', '". $_SERVER['REMOTE_ADDR']. "', 'Success')";
+		$db_conn->query($sql);
 	} // Login with Failure
 	else if ($_REQUEST['url'] == 'GlCustomCustomer/GetCustomerDetails' && !isset($data->data->id)) {
 
+		$sql = "INSERT INTO access_log (email, user_agent, ip_address, status, reason) VALUES ('". json_decode($_POST['data'])->UserName."', '".$_SERVER['HTTP_USER_AGENT']."', '". $_SERVER['REMOTE_ADDR']."', 'Failure', 'Password Mismatch')";
+		$db_conn->query($sql);
+		
 		if(isset($_SESSION['invalid-attempt-count'])) {
 			$_SESSION['invalid-attempt-count'] += 1;
 		} else {

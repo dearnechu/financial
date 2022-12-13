@@ -15,10 +15,11 @@ $(function() {
     });
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetLoansByCustomerId',
-        contentType: 'application/json',   
+        // url: SERVICE_URL + 'PgCustomGoldLoan/GetLoansByCustomerId',
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetLoansByCustomerId',
+        // contentType: 'application/json',   
         method: "POST",
-        data: JSON.stringify(person),
+        data: {data: JSON.stringify(person)},       
         beforeSend: function (xhr) {
            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
@@ -79,6 +80,7 @@ $(function() {
 function showLoanDetails(loanNo, branchId, companyId){ 
     $('.spinner-search').show();
     var data = {
+            userId: localStorage.getItem("customerId"),
             loanNumber: loanNo,
             branchId : branchId,
             companyId: companyId,
@@ -86,10 +88,12 @@ function showLoanDetails(loanNo, branchId, companyId){
         }
     
     jQuery.ajax({
-            url: SERVICE_URL + 'PgCustomGoldLoan/GetPawnTicketDetails',
+            // url: SERVICE_URL + 'PgCustomGoldLoan/GetPawnTicketDetails',
+            url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetPawnTicketDetails',
             method: "POST",    
-            contentType: 'application/json',   
-            data: JSON.stringify(data),                    
+            // contentType: 'application/json',   
+            // data: JSON.stringify(data),
+            data: {data: JSON.stringify(data)},   
             beforeSend: function (xhr) {
                xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
@@ -98,15 +102,18 @@ function showLoanDetails(loanNo, branchId, companyId){
             },
             success: function (data) {
                 var datas = {
+                    userId: localStorage.getItem("customerId"),
                     branchId : data.data.schemeId,
                     logindate : new Date().toISOString()
                 }
 
                 jQuery.ajax({
-                    url: SERVICE_URL + 'PgCustomGoldLoan/GetSlabDetailsByScheme',
+                    // url: SERVICE_URL + 'PgCustomGoldLoan/GetSlabDetailsByScheme',
+                    url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetSlabDetailsByScheme',
                     method: "POST",
-                    contentType: 'application/json',
-                    data: JSON.stringify(datas),
+                    // contentType: 'application/json',
+                    // data: JSON.stringify(datas),
+                    data: {data: JSON.stringify(datas)},     
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                     },
@@ -143,7 +150,7 @@ function showLoanDetails(loanNo, branchId, companyId){
                         $('#loanNumber').html(loanNo);
                         $('.loanAmount').html(data.data.loanAmount.format(2, 3));
                         $('.startDate').html(new Date(data.data.revisedDate).format("d-M-Y"));
-                        $('#revisedDate').html(addMonths(new Date(data.data.revisedDate), 9).format("d-M-Y"));                
+                        $('#revisedDate').html(addMonths(new Date(data.data.revisedDate), 6).format("d-M-Y"));                
 
                         $('#customerName').html(data.data.glCustomer.firstName + ' ' + data.data.glCustomer.lastName);
                         $('#address').html(data.data.glCustomer.addressOne + ' ' + data.data.glCustomer.addressTwo + ' - Ph: ' + data.data.glCustomer.mobile);
@@ -195,7 +202,7 @@ function getPrintData() {
     $('.loanAmount').html(data.loanAmount.format(2, 3));
     $('.startDate').html(new Date(data.revisedDate).format("d-M-Y"));
 
-    $('#revisedDate').html(addMonths(new Date(data.revisedDate), 9).format("d-M-Y"));
+    $('#revisedDate').html(addMonths(new Date(data.revisedDate), 6).format("d-M-Y"));
 
     $('#customerName').html(data.glCustomer.firstName + ' ' + data.glCustomer.lastName);
     $('#address').html(data.glCustomer.addressOne + ' ' + data.glCustomer.addressTwo + ' - Ph: ' + data.glCustomer.mobile);

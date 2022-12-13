@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="refresh" content="1200" />
     <title>MuthootOne | Loans</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -42,7 +43,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-red sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
@@ -300,5 +301,8 @@
     <script src="plugins/iCheck/icheck.min.js"></script>
      <!-- Home -->
     <script src="plugins/js/pawn.js?rand=2562"></script>
+    <?php
+      include('session.php');
+    ?>
   </body>
 </html>

@@ -21,10 +21,11 @@ $(function() {
     }
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetBankDetailsByCustomerId',
-        contentType: 'application/json',   
+        // url: SERVICE_URL + 'PgCustomGoldLoan/GetBankDetailsByCustomerId',
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetBankDetailsByCustomerId',
+        // contentType: 'application/json',   
         method: "POST",
-        data: JSON.stringify(v1),
+        data: {data: JSON.stringify(v1)},
         beforeSend: function (xhr) {
            xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
@@ -102,14 +103,17 @@ $(function() {
             paidAmount: GoldLoanAmount + GoldLoanInterestDue,
             goldLoanAmount: GoldLoanAmount,
             goldLoanAmountRemaining: GoldLoanAmount,
-            goldLoanInterestDue: GoldLoanInterestDue
+            goldLoanInterestDue: GoldLoanInterestDue,
+            customerId: localStorage.getItem("customerId"),
         }
 
         jQuery.ajax({
-            url: SERVICE_URL + 'PgCustomGoldLoan/CloseGoldLoanForNewGL',
-            contentType: 'application/json',
+            // url: SERVICE_URL + 'PgCustomGoldLoan/CloseGoldLoanForNewGL',
+            url: 'connect-server.html?url=' + 'PgCustomGoldLoan/CloseGoldLoanForNewGL',
+            // contentType: 'application/json',
             method: "POST",
-            data: JSON.stringify(v2),
+            // data: JSON.stringify(v2),
+            data: {data: JSON.stringify(v2)},
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
             },
@@ -119,6 +123,7 @@ $(function() {
             success: function (data) {
                 if ($("#isSwitchPlan").prop("checked")) {
                     var v2 = {
+                        customerId: localStorage.getItem("customerId"),
                         glLoanDto: {
                             id: LoanNo,
                             startDate: new Date().toISOString(),
@@ -131,6 +136,7 @@ $(function() {
                     }
                 } else {
                     var v2 = {
+                        customerId: localStorage.getItem("customerId"),
                         glLoanDto: {
                             id: LoanNo,
                             startDate: new Date().toISOString(),
@@ -144,10 +150,12 @@ $(function() {
                 
 
                 jQuery.ajax({
-                    url: SERVICE_URL + 'PgCustomGoldLoan/AddGoldLoan',
-                    contentType: 'application/json',
+                    // url: SERVICE_URL + 'PgCustomGoldLoan/AddGoldLoan',
+                    url: 'connect-server.html?url=' + 'PgCustomGoldLoan/AddGoldLoan',
+                    // contentType: 'application/json',
                     method: "POST",
-                    data: JSON.stringify(v2),
+                    // data: JSON.stringify(v2),
+                    data: {data: JSON.stringify(v2)},
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                     },
@@ -155,7 +163,7 @@ $(function() {
                         return false;
                     },
                     success: function (data) {
-
+                        /*
                         var sms_data = {
                             mobile: '8590444045,8590604553,8590036609',
                             message: "New Pledge No " + LoanNumber + " with loan amount of Rs " + loanAmount + " (TopUp Amount) created in branch " + BranchName + " Bank Amount = " + loanAmount,
@@ -172,7 +180,7 @@ $(function() {
                             success: function(data) {
                               return true;
                             }
-                        });
+                        }); */
                         
                         $(".partpayment").hide();
                         if (CompanyId === '918FCC58-499E-4757-912A-295DC19BE564') { // MSNL
@@ -202,10 +210,12 @@ function getList() {
     }
 
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailablebyCustId',
-        contentType: 'application/json',
+        // url: SERVICE_URL + 'PgCustomGoldLoan/GetAmountAvailablebyCustId',
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetAmountAvailablebyCustId',
+        // contentType: 'application/json',
         method: "POST",
-        data: JSON.stringify(v2),
+        // data: JSON.stringify(v2),
+        data: {data: JSON.stringify(v2)},
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
@@ -213,6 +223,7 @@ function getList() {
             return false;
         },
         success: function (data) {
+            console.log(data);
             var dataSet = new Array();
             for (var index in data['data']) {
 
@@ -274,10 +285,12 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId, branchN
         logindate: new Date().toISOString()
     }
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
+        // url: SERVICE_URL + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetGoldLoanDetailsWeb',
         method: "POST",
-        contentType: 'application/json',
-        data: JSON.stringify(data),
+        // contentType: 'application/json',
+        // data: JSON.stringify(data),
+        data: {data: JSON.stringify(data)},
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
@@ -294,13 +307,16 @@ function showLoanDetails(loanNo, availLoan, loanId, companyId, branchId, branchN
             var data = {
                 branchId: branchId,
                 companyId: companyId,
-                loanId: loanId
+                loanId: loanId,
+                customerId: localStorage.getItem("customerId"),
             };
             jQuery.ajax({
-                url: SERVICE_URL + 'PgCustomGoldLoan/GetActiveSchemes',
+                // url: SERVICE_URL + 'PgCustomGoldLoan/GetActiveSchemes',
+                url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetActiveSchemes',
                 method: "POST",
-                contentType: 'application/json',
-                data: JSON.stringify(data),
+                // contentType: 'application/json',
+                // data: JSON.stringify(data),
+                data: {data: JSON.stringify(data)},
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
                 },
@@ -350,13 +366,16 @@ function planUpdate() {
 
     var data = {
         loanId: LoanNo,
-        paymentDetailId: $("#TopupPlan").val()
+        paymentDetailId: $("#TopupPlan").val(),
+        customerId: localStorage.getItem("customerId"),
     }
     jQuery.ajax({
-        url: SERVICE_URL + 'PgCustomGoldLoan/GetTopAmountbySchemeid',
+        // url: SERVICE_URL + 'PgCustomGoldLoan/GetTopAmountbySchemeid',
+        url: 'connect-server.html?url=' + 'PgCustomGoldLoan/GetTopAmountbySchemeid',
         method: "POST",
-        contentType: 'application/json',
-        data: JSON.stringify(data),
+        // contentType: 'application/json',
+        // data: JSON.stringify(data),
+        data: {data: JSON.stringify(data)},
         beforeSend: function (xhr) {
             xhr.setRequestHeader('Authorization', makeBaseAuth('', AUTHENTICATION_PASSWORD));
         },
